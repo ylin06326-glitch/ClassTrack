@@ -76,6 +76,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   setupClassManagement();
   setupExitButton();
   setupBrandBadge();
+  setupDonateButton();
   setupReminder();
   setupAnalyticsControls();
   setupExamManagement();
@@ -332,6 +333,26 @@ function setupBrandBadge() {
   });
 }
 
+
+// ============================================================
+// 打赏弹窗
+// ============================================================
+function setupDonateButton() {
+  const btn = document.getElementById("btnDonate");
+  const modal = document.getElementById("donateModal");
+  const btnClose = document.getElementById("btnDonateClose");
+  if (!btn || !modal) return;
+
+  btn.addEventListener("click", () => {
+    modal.style.display = "flex";
+  });
+  btnClose.addEventListener("click", () => {
+    modal.style.display = "none";
+  });
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) modal.style.display = "none";
+  });
+}
 // ============================================================
 // 确认对话框
 // ============================================================

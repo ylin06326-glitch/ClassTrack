@@ -24,6 +24,16 @@ catch (e) {
 <script src="/static/chart.umd.min.js"></script>
 <script src="/static/js/scanner.js"></script>
 <script src="/static/qrcode.min.js"></script>
+  <!-- 打赏弹窗样式 -->
+  <style>
+    .donate-modal-card { max-width: 380px; text-align: center; }
+    .donate-modal-body { padding: 20px 24px 24px; }
+    .donate-intro { font-size: 0.95rem; color: var(--text-secondary, #666); margin: 0 0 16px; line-height: 1.6; }
+    .donate-qr-wrapper { background: #fff; border-radius: 12px; padding: 16px; margin: 0 auto 16px; width: 240px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+    .donate-qr-img { width: 100%; height: auto; display: block; border-radius: 4px; }
+    .donate-tip { font-size: 0.85rem; color: var(--text-secondary, #888); margin: 0 0 8px; }
+    .donate-author { font-size: 0.8rem; color: var(--text-light, #aaa); margin: 0; font-style: italic; }
+  </style>
 </head>
 <body>
 
@@ -67,6 +77,9 @@ catch (e) {
       </button>
       <button class="tab-btn" data-tab="settings">
         <span class="tab-icon">⚙️</span><span class="tab-label">设置</span>
+      </button>
+      <button class="tab-btn" id="btnDonate" title="支持作者">
+        <span class="tab-icon">❤️</span><span class="tab-label">打赏</span>
       </button>
     </nav>
 
@@ -169,6 +182,27 @@ catch (e) {
 </div>
 
 <!-- ============================================================ -->
+
+<!-- ============================================================ -->
+<!-- 打赏支持 Modal -->
+<!-- ============================================================ -->
+<div class="modal-overlay" id="donateModal" style="display:none;">
+  <div class="modal-card modal-sm donate-modal-card">
+    <div class="modal-header">
+      <h3>❤️ 支持作者</h3>
+      <button class="modal-close" id="btnDonateClose">✕</button>
+    </div>
+    <div class="modal-body donate-modal-body">
+      <p class="donate-intro">如果 ClassTrack 对你有帮助，欢迎请作者喝杯咖啡！</p>
+      <div class="donate-qr-wrapper">
+        <img src="/static/images/wechat-donate.png" alt="微信支付" class="donate-qr-img">
+      </div>
+      <p class="donate-tip">📱 微信扫一扫，感谢你的支持！</p>
+      <p class="donate-author">—— 杨润林 (YRL)</p>
+    </div>
+  </div>
+</div>
+
 <!-- 确认删除 Modal -->
 <!-- ============================================================ -->
 <div class="modal-overlay" id="confirmModal" style="display:none;">
