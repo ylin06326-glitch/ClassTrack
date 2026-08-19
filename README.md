@@ -17,6 +17,26 @@
 
 ---
 
+## 🖼️ 软件截图
+
+### 核心功能
+
+| 班级分组 | 作业登记 |
+|---------|---------|
+| ![班级分组](docs/images/01-grouping.png) | ![作业登记](docs/images/02-assignment.png) |
+
+| AI 智能助手 | 手机扫码登记 |
+|------------|-------------|
+| ![AI助手](docs/images/05-ai-assistant.png) | ![手机扫码](docs/images/04-mobile-qr.png) |
+
+### 更多功能
+
+| 电脑扫码 | 催交通知 | AI 评语生成 |
+|---------|---------|------------|
+| ![电脑扫码](docs/images/03-qr-scanner.png) | ![催交通知](docs/images/06-reminder.png) | ![AI评语](docs/images/07-ai-comment.png) |
+
+---
+
 ## 目录
 
 - [功能特性](#功能特性)
@@ -90,7 +110,7 @@ pip install -r requirements.txt
 python main.py
 ```
 
-启动后浏览器将自动打开 `http://127.0.0.1:5000`。
+启动后浏览器将自动打开 `https://localhost:5088`。
 
 ### 打包为 exe
 
@@ -117,6 +137,7 @@ ClassTrack/
 ├── README.en.md             # 英文说明
 ├── PROGRESS.md              # 开发进度追踪
 ├── 使用说明书.md             # 详细使用说明
+├── docs/images/             # 软件截图
 ├── backend_server/          # 后端服务模块
 ├── static/                  # 静态资源 (CSS/JS/图片)
 ├── templates/               # HTML 模板
@@ -147,7 +168,8 @@ ClassTrack/
 ## 联系方式
 
 - **作者**：杨润林 (YRL)
-- **商业授权 / 合作**：请通过 GitHub Issues 联系
+- 📧 **邮箱**：[ylin06326@gmail.com](mailto:ylin06326@gmail.com) / [yrl666hello@qq.com](mailto:yrl666hello@qq.com)
+- **商业授权 / 合作**：欢迎邮件联系或 GitHub Issues
 - **问题反馈**：欢迎提交 Issue
 
 ---

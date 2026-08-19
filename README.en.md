@@ -17,6 +17,26 @@
 
 ---
 
+## 🖼️ Screenshots
+
+### Core Features
+
+| Grouping | Assignment Grading |
+|----------|-------------------|
+| ![Grouping](docs/images/01-grouping.png) | ![Assignment](docs/images/02-assignment.png) |
+
+| AI Assistant | Mobile QR Check-in |
+|-------------|-------------------|
+| ![AI Assistant](docs/images/05-ai-assistant.png) | ![Mobile QR](docs/images/04-mobile-qr.png) |
+
+### More Features
+
+| Webcam QR Scanner | Reminder Notification | AI Comment Generation |
+|-------------------|----------------------|----------------------|
+| ![QR Scanner](docs/images/03-qr-scanner.png) | ![Reminder](docs/images/06-reminder.png) | ![AI Comment](docs/images/07-ai-comment.png) |
+
+---
+
 ## Table of Contents
 
 - [Features](#features)
@@ -90,7 +110,7 @@ pip install -r requirements.txt
 python main.py
 ```
 
-The browser will automatically open `http://127.0.0.1:5000`.
+The browser will automatically open `https://localhost:5088`.
 
 ### Package as exe
 
@@ -117,6 +137,7 @@ ClassTrack/
 ├── README.en.md             # English documentation
 ├── PROGRESS.md              # Development progress tracker
 ├── 使用说明书.md             # Detailed user manual
+├── docs/images/             # Screenshots
 ├── backend_server/          # Backend service modules
 ├── static/                  # Static assets (CSS/JS/images)
 ├── templates/               # HTML templates
@@ -147,7 +168,8 @@ See the [LICENSE](./LICENSE) file for details.
 ## Contact
 
 - **Author**: Yang Runlin (YRL)
-- **Commercial licensing / collaboration**: Please contact via GitHub Issues
+- 📧 **Email**: [ylin06326@gmail.com](mailto:ylin06326@gmail.com) / [yrl666hello@qq.com](mailto:yrl666hello@qq.com)
+- **Commercial licensing / collaboration**: Feel free to email or open a GitHub Issue
 - **Bug reports / feedback**: Issues are welcome
 
 ---
