@@ -165,6 +165,20 @@ ClassTrack/
 
 ---
 
+---
+
+## 支持作者 💖
+
+如果 ClassTrack 对你有帮助，欢迎请作者喝杯咖啡！你的支持是我持续更新的动力。
+
+| 微信支付 |
+|:---:|
+| ![微信支付](./docs/images/wechat-donate.png) |
+
+> 💡 想留下名字？欢迎在 [GitHub Issues](https://github.com/ylin06326-glitch/ClassTrack/issues) 留言，或通过邮箱告诉我！
+
+---
+
 ## 联系方式
 
 - **作者**：杨润林 (YRL)

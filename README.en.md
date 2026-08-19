@@ -165,6 +165,20 @@ See the [LICENSE](./LICENSE) file for details.
 
 ---
 
+---
+
+## Support the Author 💖
+
+If ClassTrack has helped you, consider buying the author a coffee! Your support keeps this project alive.
+
+| WeChat Pay |
+|:---:|
+| ![WeChat Pay](./docs/images/wechat-donate.png) |
+
+> 💡 Want to leave your name? Feel free to open a [GitHub Issue](https://github.com/ylin06326-glitch/ClassTrack/issues) or email me!
+
+---
+
 ## Contact
 
 - **Author**: Yang Runlin (YRL)
