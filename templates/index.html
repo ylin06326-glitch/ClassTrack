@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClassTrack - 班级作业分组管理</title>
+<link rel="stylesheet" href="/static/css/liquid-glass.css?v=1.5.0">
+<link rel="stylesheet" href="/static/css/style.css?v=1.7.0">
+<link rel="stylesheet" href="/static/css/ai.css?v=2.0.0">
+<script>
+// 老浏览器检测：本应用使用了现代 JS 语法（可选链等），
+// 学校老机器上的旧版浏览器会导致白屏/分组拖拽失效。
+try { eval("(function(){ return null?.x === undefined })()"); }
+catch (e) {
+  document.write(
+    '<div style="position:fixed;top:0;left:0;right:0;background:#ffe9e9;color:#b00020;' +
+    'padding:14px 20px;font-size:15px;z-index:99999;font-family:Microsoft YaHei,sans-serif;">' +
+    '⚠️ 您的浏览器版本过旧，ClassTrack 无法正常使用（如无法保存分组）。' +
+    '请下载安装最新版 <a href="https://www.microsoft.com/edge" target="_blank" style="color:#b00020;font-weight:bold">Edge 浏览器</a> ' +
+    '或 <a href="https://www.google.cn/chrome/" target="_blank" style="color:#b00020;font-weight:bold">Chrome 浏览器</a> 后重新打开。</div>'
+  );
+}
+</script>
+<script src="/static/chart.umd.min.js"></script>
+<script src="/static/js/scanner.js"></script>
+<script src="/static/qrcode.min.js"></script>
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!-- 顶部导航栏 -->
+<!-- ============================================================ -->
+<header class="app-header">
+  <div class="header-inner">
+    <div class="logo-area">
+      <span class="logo-icon">🎒</span>
+      <h1 class="app-title">ClassTrack</h1>
+      <span class="brand-badge" id="brandBadge" title="关于">YRL</span>
+    </div>
+
+    <!-- 班级选择器 -->
+    <div class="class-selector" id="classSelector">
+      <select class="class-select" id="classSelect" title="切换班级">
+        <option value="">我的班级</option>
+      </select>
+      <button class="btn-class-manage" id="btnClassManage" title="管理班级">⚙️</button>
+    </div>
+
+    <nav class="tab-nav" id="tabNav">
+      <button class="tab-btn active" data-tab="grouping">
+        <span class="tab-icon">👥</span><span class="tab-label">班级分组</span>
+      </button>
+      <button class="tab-btn" data-tab="homework">
+        <span class="tab-icon">📝</span><span class="tab-label">作业登记</span>
+      </button>
+      <button class="tab-btn" data-tab="exams">
+        <span class="tab-icon">📊</span><span class="tab-label">成绩管理</span>
+      </button>
+      <button class="tab-btn" data-tab="analytics">
+        <span class="tab-icon">📈</span><span class="tab-label">数据总览</span>
+      </button>
+      <button class="tab-btn" data-tab="export">
+        <span class="tab-icon">📋</span><span class="tab-label">报表导出</span>
+      </button>
+      <button class="tab-btn" data-tab="aichat">
+        <span class="tab-icon">🤖</span><span class="tab-label">AI助手</span>
+      </button>
+      <button class="tab-btn" data-tab="settings">
+        <span class="tab-icon">⚙️</span><span class="tab-label">设置</span>
+      </button>
+    </nav>
+
+    <div class="display-mode-dropdown" id="displayModeDropdown">
+      <button class="display-mode-btn" id="displayModeBtn" title="切换姓名显示模式">
+        <span id="displayModeIcon">👤</span>
+        <span id="displayModeLabel">显示姓名</span>
+        <span class="display-mode-arrow">▾</span>
+      </button>
+      <div class="display-mode-menu" id="displayModeMenu" style="display:none;">
+        <button class="display-mode-option active" data-mode="name">
+          <span>👤</span> 显示姓名
+        </button>
+        <button class="display-mode-option" data-mode="code">
+          <span>🔒</span> 仅显示学号
+        </button>
+        <button class="display-mode-option" data-mode="auto">
+          <span>🎯</span> 分区显示
+        </button>
+      </div>
+    </div>
+
+    <a class="btn-print-qr" href="/print" target="_blank" title="打印学生二维码">🖨️</a>
+    <button class="btn-exit" id="btnExit" title="退出程序">⏻</button>
+  </div>
+</header>
+
+<!-- ============================================================ -->
+<!-- 班级管理 Modal -->
+<!-- ============================================================ -->
+<div class="modal-overlay" id="classModal" style="display:none;">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3>🏫 班级管理</h3>
+      <button class="modal-close" id="btnClassModalClose">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="class-list" id="classList"></div>
+      <div class="class-add-row">
+        <input type="text" class="class-add-input" id="newClassName" placeholder="输入新班级名称" maxlength="20">
+        <button class="btn btn-sm btn-export" id="btnAddClass">+ 新建班级</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- ============================================================ -->
+<!-- 催交作业 Modal -->
+<!-- ============================================================ -->
+<div class="modal-overlay" id="reminderModal" style="display:none;">
+  <div class="modal-card modal-wide">
+    <div class="modal-header">
+      <h3>🔔 催交通知</h3>
+      <button class="modal-close" id="btnReminderClose">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="reminder-date" id="reminderDate"></div>
+      <div class="reminder-summary" id="reminderSummary"></div>
+      <div class="reminder-list" id="reminderList"></div>
+      <div class="reminder-actions">
+        <label class="privacy-toggle-label" id="privacyToggleLabel">
+          <input type="checkbox" id="privacyToggle" class="privacy-toggle-input">
+          <span class="privacy-toggle-slider"></span>
+          <span class="privacy-toggle-text">🔒 仅显示学号（隐私保护）</span>
+        </label>
+      </div>
+      <div class="reminder-actions">
+        <button class="btn btn-export" id="btnCopyReminder">📋 复制名单</button>
+        <button class="btn btn-primary" id="btnPrintReminder">🖨️ 打印通知单</button>
+        <button class="btn btn-outline" id="btnExportReminder">📥 导出催交名单</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- 品牌商标 Modal -->
+<!-- ============================================================ -->
+<div class="modal-overlay" id="brandModal" style="display:none;">
+  <div class="modal-card modal-sm brand-modal-card">
+    <div class="modal-header">
+      <h3>🏷️ 关于 ClassTrack</h3>
+      <button class="modal-close" id="btnBrandClose">✕</button>
+    </div>
+    <div class="modal-body brand-modal-body">
+      <div class="brand-info">
+        <div class="brand-logo">🎒</div>
+        <h2 class="brand-name">ClassTrack</h2>
+        <p class="brand-sub">班级作业分组管理系统</p>
+        <div class="brand-divider"></div>
+        <p class="brand-dev">由 <strong>杨润林</strong> 开发</p>
+        <p class="brand-code">代号 <strong>YRL</strong></p>
+        <div class="brand-divider"></div>
+        <p class="brand-legal">© 2024-2026 保留所有权利</p>
+        <p class="brand-legal">禁止反编译、破解、逆向工程</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- 确认删除 Modal -->
+<!-- ============================================================ -->
+<div class="modal-overlay" id="confirmModal" style="display:none;">
+  <div class="modal-card modal-sm">
+    <div class="modal-header">
+      <h3>⚠️ 确认操作</h3>
+      <button class="modal-close" id="btnConfirmClose">✕</button>
+    </div>
+    <div class="modal-body">
+      <p id="confirmMsg">确定要执行此操作吗？</p>
+      <div class="confirm-actions">
+        <button class="btn btn-outline" id="btnConfirmCancel">取消</button>
+        <button class="btn btn-primary" id="btnConfirmOk">确认</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 详情列表 Modal（已交/未交/全班名单） -->
+<div class="modal-overlay" id="detailModal" style="display:none;">
+  <div class="modal-card modal-wide">
+    <div class="modal-header">
+      <h3 id="detailModalTitle">📋 详情</h3>
+      <button class="modal-close" id="btnDetailClose">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="detail-summary" id="detailSummary"></div>
+      <div class="detail-list" id="detailList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 学生个人报表 Modal -->
+<div class="modal-overlay" id="studentReportModal" style="display:none;">
+  <div class="modal-card modal-wide">
+    <div class="modal-header">
+      <h3 id="reportModalTitle">📄 学生作业报表</h3>
+      <button class="modal-close" id="btnReportClose">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="report-stats" id="reportStats"></div>
+      <div class="report-table-wrapper">
+        <table class="report-table">
+          <thead><tr><th>日期</th><th>等级</th></tr></thead>
+          <tbody id="reportTbody"></tbody>
+        </table>
+      </div>
+      <div class="report-actions" style="margin-top:12px;display:flex;gap:8px">
+        <button class="btn btn-export btn-sm" id="btnExportStudentReport">📥 导出Excel</button>
+        <span style="font-size:.75rem;color:var(--text-light);margin-left:auto" id="reportTotal"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- 主内容区 -->
+<!-- ============================================================ -->
+<main class="app-main">
+
+  <!-- ========== Tab 1: 班级分组 ========== -->
+  <section class="tab-content active" id="tabGrouping">
+    <!-- AI 预警横幅 -->
+    <div class="alert-banner" id="alertBanner" style="display:none;"></div>
+    <!-- 导入区 -->
+    <div class="card import-card">
+      <div class="card-header">
+        <span class="card-icon">📥</span>
+        <h3>导入学生名单</h3>
+        <div class="import-mode-switch">
+          <button class="import-mode-btn active" data-mode="excel">📂 Excel导入</button>
+          <button class="import-mode-btn" data-mode="text">📝 文字导入</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <!-- Excel导入模式 -->
+        <div class="import-panel" id="importExcelPanel">
+          <label class="btn-upload" for="fileInput" id="uploadLabel">
+            <span class="btn-icon">📂</span>
+            <span>选择 Excel 文件</span>
+          </label>
+          <input type="file" id="fileInput" accept=".xls,.xlsx" hidden>
+          <span class="import-hint">支持 .xls / .xlsx 格式，或拖拽文件到此处</span>
+        </div>
+        <!-- 文字导入模式 -->
+        <div class="import-panel" id="importTextPanel" style="display:none;">
+          <textarea class="import-textarea" id="importTextarea" rows="4"
+                    placeholder="输入学生姓名，用换行、逗号、顿号或空格分隔&#10;例如：张三,李四,王五&#10;或每行一个姓名"></textarea>
+          <div class="import-text-actions">
+            <span class="import-text-count" id="importTextCount">已识别 0 个姓名</span>
+            <button class="btn btn-sm btn-export" id="btnImportText">✓ 确认导入</button>
+          </div>
+        </div>
+        <span class="import-status" id="importStatus"></span>
+      </div>
+    </div>
+
+    <!-- 分组控制栏 -->
+    <div class="card control-card">
+      <div class="card-body control-body">
+        <div class="control-left">
+          <label class="control-label">分组数量：</label>
+          <div class="group-count-picker">
+            <button class="count-btn" data-count="5">5组</button>
+            <button class="count-btn active" data-count="6">6组</button>
+            <button class="count-btn" data-count="8">8组</button>
+            <input type="number" class="count-input" id="customCount" min="2" max="20" placeholder="自定义">
+            <button class="count-btn count-btn-apply" id="btnApplyCount">✓ 应用</button>
+          </div>
+        </div>
+        <div class="control-center">
+          <span class="selection-info" id="selectionInfo" style="display:none;">
+            已选 <strong id="selCount">0</strong> 人
+            <button class="btn btn-sm btn-outline" id="btnClearSelection">取消全选</button>
+          </span>
+        </div>
+        <div class="control-right">
+          <button class="btn btn-outline" id="btnResetGroups"><span>🔄</span> 重新分组</button>
+          <button class="btn btn-export" id="btnExportGroups"><span>📥</span> 导出分组名单</button>
+          <button class="btn btn-primary btn-lock" id="btnLockGroups"><span>🔒</span> 确定锁定</button>
+          <button class="btn btn-outline btn-lock" id="btnUnlockGroups" style="display:none"><span>🔓</span> 解锁分组</button>
+          <button class="btn btn-export" id="btnSmartGroup" title="AI智能均衡分组"><span>🧠</span> AI智能分组</button>
+        </div>
+      </div>
+      <div class="lock-status" id="lockStatus">
+        <span class="lock-dot"></span>
+        <span id="lockStatusText">分组状态：未锁定</span>
+      </div>
+    </div>
+
+    <!-- 全选工具栏 -->
+    <div class="select-toolbar" id="selectToolbar" style="display:none;">
+      <button class="btn btn-sm btn-outline" id="btnSelectAll">☑ 全选所有</button>
+      <button class="btn btn-sm btn-outline" id="btnDeselectAll">☐ 取消全选</button>
+      <button class="btn btn-sm btn-danger" id="btnDeleteSelected">🗑 删除选中</button>
+    </div>
+
+    <!-- 分组展示区 -->
+    <div class="groups-container" id="groupsContainer"></div>
+
+    <!-- 未分组学生池 -->
+    <div class="card unassigned-card">
+      <div class="card-header unassigned-header">
+        <span class="card-icon">📋</span>
+        <h3>未分组学生名单池</h3>
+        <span class="pool-count" id="poolCount">0人</span>
+        <button class="btn btn-sm btn-danger" id="btnClearPool" title="一键清除未分组学生">🗑 清空名单池</button>
+      </div>
+      <div class="card-body unassigned-pool" id="unassignedPool">
+        <div class="pool-placeholder" id="poolPlaceholder">
+          <span class="placeholder-icon">📭</span>
+          <p>暂无学生，请先导入名单<br>或将学生拖回此处取消分组</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+    <!-- ========== Tab 2: 作业登记 ========== -->
+  <section class="tab-content" id="tabHomework">
+    <div class="card homework-control-card">
+      <div class="card-body homework-control-body">
+        <div class="date-picker-area">
+          <span class="control-label">📅 登记日期：</span>
+          <button class="date-nav-btn" id="btnPrevDay">◀</button>
+          <input type="date" class="date-input" id="homeworkDate">
+          <button class="date-nav-btn" id="btnNextDay">▶</button>
+          <button class="btn btn-sm btn-today" id="btnToday">📌 今天</button>
+          <span class="control-label" style="margin-left:16px">📋 作业种类：</span>
+          <select id="homeworkTypeSelect" style="padding:6px 10px;border:1px solid rgba(200,190,185,0.3);border-radius:8px;font-size:.85rem;font-family:inherit;color:var(--text);background:rgba(255,255,255,0.75);cursor:pointer;min-width:110px">
+          </select>
+          <button class="btn btn-sm btn-manage-hw-types" title="管理作业种类" style="padding:4px 8px;font-size:.75rem;margin-left:4px;border-radius:6px">⚙️</button>
+        </div>
+        <div class="batch-area">
+          <span class="batch-label">批量：</span>
+          <button class="grade-batch-btn grade-a" data-grade="A">全部 A</button>
+          <button class="grade-batch-btn grade-b" data-grade="B">全部 B</button>
+          <button class="grade-batch-btn grade-c" data-grade="C">全部 C</button>
+          <button class="grade-batch-btn grade-l" data-grade="L">全部 请假</button>
+          <button class="grade-batch-btn grade-x" data-grade="X">全部 未交</button>
+        </div>
+        <button class="btn btn-primary" id="btnReminder">🔔 催交通知</button>
+      </div>
+    </div>
+
+    <!-- 登记方式子Tab -->
+    <div class="hw-subtab-nav">
+      <button class="hw-subtab-btn active" data-hw-subtab="manual">✏️ 手动登记</button>
+      <button class="hw-subtab-btn" data-hw-subtab="pcscan">📷 电脑扫码</button>
+      <button class="hw-subtab-btn" data-hw-subtab="mobile">📱 手机扫码</button>
+    </div>
+
+    <!-- 手动登记面板 -->
+    <div class="hw-subtab-panel" id="hwManualPanel">
+      <div class="homework-groups" id="homeworkGroups">
+        <div class="empty-state" id="homeworkEmpty">
+          <span class="empty-icon">📝</span>
+          <p>请先在「班级分组」中导入学生并完成分组</p>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <!-- 电脑扫码面板 -->
+    <div class="hw-subtab-panel" id="hwPcScanPanel" style="display:none">
+      <!-- 电脑摄像头面板 -->
+    <div class="scan-panel" id="pcScanPanel">
+      <div class="card">
+        <div class="card-header"><span class="card-icon">📷</span><h3>电脑摄像头扫码</h3></div>
+        <div class="card-body">
+          <div class="scan-mode-row">
+            <span class="control-label">模式：</span>
+            <button class="scan-type-btn active" data-scan-type="batch">📦 批量分堆</button>
+            <button class="scan-type-btn" data-scan-type="single">👤 单点选择</button>
+            <span class="control-label" style="margin-left:12px">📋 种类：</span>
+            <select id="scanTypeSelect" style="padding:6px 10px;border:1px solid rgba(200,190,185,0.3);border-radius:8px;font-size:.85rem;font-family:inherit;color:var(--text);background:rgba(255,255,255,0.75);cursor:pointer;min-width:110px">
+            </select>
+            <button class="btn btn-sm btn-manage-hw-types" title="管理作业种类" style="padding:4px 8px;font-size:.75rem;margin-left:4px;border-radius:6px">⚙️</button>
+          </div>
+          <!-- 批量档位选择 -->
+          <div class="grade-buttons-row" id="batchGradeRow">
+            <span class="control-label">档位：</span>
+            <button class="grade-preset-btn grade-a active" data-grade="A">🟢 A 优秀</button>
+            <button class="grade-preset-btn grade-b" data-grade="B">🔵 B 中等</button>
+            <button class="grade-preset-btn grade-c" data-grade="C">🟡 C 待改进</button>
+            <button class="grade-preset-btn grade-l" data-grade="L">🌿 请假</button>
+            <button class="grade-preset-btn grade-x" data-grade="X">🩷 未交</button>
+          </div>
+          <!-- 取景框 -->
+          <div class="camera-box" id="cameraBox">
+            <div id="pcReader"></div>
+            <div class="camera-guide"></div>
+          </div>
+          <div style="display:flex;gap:10px;margin-top:10px">
+            <button class="btn btn-export" id="btnStartPcScan">▶ 开始扫描</button>
+            <button class="btn btn-outline" id="btnStopPcScan" style="display:none">⏹ 停止</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <!-- 手机扫码面板 -->
+    <div class="hw-subtab-panel" id="hwMobilePanel" style="display:none">
+      <!-- 手机联动面板 -->
+    <div class="scan-panel" id="mobileScanPanel">
+      <div class="card">
+        <div class="card-header"><span class="card-icon">📱</span><h3>手机联动扫码</h3></div>
+        <div class="card-body">
+          <div class="mobile-steps">
+            <div class="mobile-step"><span class="step-num">1</span> 手机与电脑连接同一 WiFi</div>
+            <div class="mobile-step"><span class="step-num">2</span> 点击下方按钮生成连接二维码</div>
+            <div class="mobile-step"><span class="step-num">3</span> 手机微信/浏览器扫码即可接入</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+            <button class="btn btn-export" id="btnGenPairQR">📱 生成连接二维码</button>
+            <span class="mobile-status" id="mobileStatus">🔴 未连接</span>
+            <span style="font-size:.8rem;color:var(--text-light)" id="mobileUrl"></span>
+          </div>
+          <div id="pairQRBox" style="margin-top:12px;display:none;text-align:center"></div>
+          <div class="batch-area" style="margin-top:12px">
+            <span class="batch-label">批量档位：</span>
+            <button class="grade-preset-btn grade-a active" data-grade="A" data-device="mobile">A</button>
+            <button class="grade-preset-btn grade-b" data-grade="B" data-device="mobile">B</button>
+            <button class="grade-preset-btn grade-c" data-grade="C" data-device="mobile">C</button>
+            <button class="grade-preset-btn grade-l" data-grade="L" data-device="mobile">请假</button>
+            <button class="grade-preset-btn grade-x" data-grade="X" data-device="mobile">未交</button>
+          </div>
+          <div style="margin-top:10px;display:flex;gap:8px">
+            <button class="btn btn-sm btn-query" id="btnRefreshMobile">🔄 刷新扫码记录</button>
+            <button class="btn btn-sm btn-outline" id="btnClearMobile">🗑 清空</button>
+            <span id="mobileScanCount" style="font-size:.8rem;color:var(--text-light)"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <!-- 待确认列表（共享） -->
+    <div class="card" id="pendingCard">
+      <div class="card-header">
+        <span class="card-icon">📋</span>
+        <h3>待确认列表</h3>
+        <span class="pool-count" id="pendingCount">0条</span>
+      </div>
+      <div class="card-body" style="padding:8px 12px">
+        <div class="pending-list" id="pendingList">
+          <div style="text-align:center;color:var(--text-lighter);padding:20px">扫码后学生将显示在这里</div>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:10px">
+          <button class="btn btn-primary" id="btnConfirmScans">✅ 确认保存</button>
+          <button class="btn btn-outline" id="btnClearPending">🗑 清空列表</button>
+          <span style="font-size:.78rem;color:var(--text-light);margin-left:auto">提示：保存后自动刷新台账和图表</span>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ========== Tab 3: 成绩管理 ========== -->
+  <section class="tab-content" id="tabExams">
+    <div class="card exam-control-card">
+      <div class="card-body homework-control-body">
+        <div class="exam-header-row" style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap">
+          <span class="control-label">📋 考试名称：</span>
+          <input type="text" class="exam-name-input" id="examNameInput" placeholder="如：第一单元测验" maxlength="30" style="min-width:180px;padding:6px 10px;border:1px solid var(--border);border-radius:8px;font-size:.85rem">
+          <span class="control-label">满分：</span>
+          <input type="number" class="exam-total-input" id="examTotalScore" value="100" min="1" max="999" style="width:70px;padding:6px 8px;border:1px solid var(--border);border-radius:8px;font-size:.85rem;text-align:center">
+          <button class="btn btn-sm btn-export" id="btnNewExam">+ 新建/切换</button>
+        </div>
+        <div class="date-picker-area">
+          <span class="control-label">📅 考试日期：</span>
+          <button class="date-nav-btn" id="btnExamPrevDay">◀</button>
+          <input type="date" class="date-input" id="examDate">
+          <button class="date-nav-btn" id="btnExamNextDay">▶</button>
+          <button class="btn btn-sm btn-today" id="btnExamToday">📌 今天</button>
+        </div>
+        <div class="batch-area">
+          <span class="batch-label">批量：</span>
+          <button class="grade-batch-btn grade-a" data-score="100">满分</button>
+          <button class="grade-batch-btn grade-b" data-score="85">85分</button>
+          <button class="grade-batch-btn grade-c" data-score="70">70分</button>
+          <button class="grade-batch-btn grade-x" data-score="60">60分</button>
+          <button class="btn btn-sm btn-outline" id="btnExamCustomBatch">自定义...</button>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-export" id="btnImportExamExcel">📂 导入考试Excel</button>
+          <button class="btn btn-outline" id="btnExportExamScores">📥 导出成绩</button>
+          <span style="font-size:.78rem;color:var(--text-light);margin-left:auto;display:flex;align-items:center" id="examCountInfo"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 考试列表选择器 -->
+    <div class="card" id="examListCard" style="display:none;">
+      <div class="card-header"><span class="card-icon">📋</span><h3>已有考试</h3></div>
+      <div class="card-body" style="padding:8px 12px">
+        <div id="examList" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+      </div>
+    </div>
+
+    <!-- 成绩录入分组视图 -->
+    <div class="exam-groups" id="examGroups">
+      <div class="empty-state" id="examEmpty">
+        <span class="empty-icon">📊</span>
+        <p>请输入考试名称和日期后开始录入成绩<br>或点击「导入考试Excel」批量导入</p>
+      </div>
+    </div>
+
+    <!-- 考试统计卡片 -->
+    <div class="stats-cards" id="examStatsCards" style="display:none;">
+      <div class="stat-card stat-card-total"><div class="stat-card-icon">👨‍🎓</div><div class="stat-card-value" id="esTotal">0</div><div class="stat-card-label">参考人数</div></div>
+      <div class="stat-card stat-card-submitted"><div class="stat-card-icon">📊</div><div class="stat-card-value" id="esAvg">0</div><div class="stat-card-label">平均分</div></div>
+      <div class="stat-card stat-card-arate"><div class="stat-card-icon">🏆</div><div class="stat-card-value" id="esMax">0</div><div class="stat-card-label">最高分</div></div>
+      <div class="stat-card"><div class="stat-card-icon">📉</div><div class="stat-card-value" id="esMin">0</div><div class="stat-card-label">最低分</div></div>
+    </div>
+
+    <!-- 隐藏的文件上传input -->
+    <input type="file" id="examFileInput" accept=".xls,.xlsx" hidden>
+  </section>
+
+  <!-- ========== Tab 4: 报表导出 ========== -->
+  <section class="tab-content" id="tabExport">
+    <div class="card export-filter-card">
+      <div class="card-header">
+        <span class="card-icon">🔍</span><h3>筛选条件</h3>
+      </div>
+      <div class="card-body export-filter-body">
+        <div class="filter-row">
+          <label class="filter-label">📅 起始：</label>
+          <input type="date" class="date-input" id="exportStartDate">
+          <label class="filter-label">结束：</label>
+          <input type="date" class="date-input" id="exportEndDate">
+          <button class="btn btn-sm btn-query" id="btnQueryRecords">🔍 查询</button>
+        </div>
+        <div class="filter-result"><span class="result-text">共 <strong id="resultCount">0</strong> 条</span></div>
+      </div>
+    </div>
+    <div class="card export-action-card">
+      <div class="card-header"><span class="card-icon">📤</span><h3>导出报表</h3></div>
+      <div class="card-body export-action-body">
+        <div class="export-option">
+          <div class="export-option-info"><h4>📄 单学生台账</h4><p>导出指定学生在日期区间内的所有记录</p></div>
+          <div class="export-option-action">
+            <select class="student-select" id="exportStudentSelect"><option value="">-- 请选择学生 --</option></select>
+            <button class="btn btn-export" id="btnExportStudent"><span>📥</span> 导出</button>
+            <button class="btn btn-primary" id="btnAIGenerateComment" style="margin-left:4px"><span>🤖</span> AI 生成评语</button>
+          </div>
+        </div>
+        <div class="export-divider"></div>
+        <div class="export-option">
+          <div class="export-option-info"><h4>📊 全班汇总</h4><p>导出全班学生在日期区间内的所有记录及统计</p></div>
+          <div class="export-option-action">
+            <button class="btn btn-export btn-export-all" id="btnExportClass"><span>📥</span> 导出全班汇总</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card preview-card" id="previewCard" style="display:none;">
+      <div class="card-header"><span class="card-icon">📋</span><h3>数据预览</h3><span class="preview-count" id="previewCount"></span></div>
+      <div class="card-body preview-body">
+        <div class="table-wrapper">
+          <table class="preview-table" id="previewTable">
+            <thead><tr><th>学生姓名</th><th>所属分组</th><th>登记日期</th><th>作业评级</th></tr></thead>
+            <tbody id="previewTbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Tab 4: 数据概览 ========== -->
+  <section class="tab-content" id="tabAnalytics">
+    <div class="card analytics-control-card">
+      <div class="card-body" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <span class="control-label">📅 统计日期：</span>
+        <button class="date-nav-btn" id="btnAnalyticsPrev">◀</button>
+        <input type="date" class="date-input" id="analyticsDate">
+        <button class="date-nav-btn" id="btnAnalyticsNext">▶</button>
+        <button class="btn btn-sm btn-today" id="btnAnalyticsToday">📌 今天</button>
+        <span class="control-label" style="margin-left:8px">📋 作业种类：</span>
+        <select id="analyticsTypeSelect" style="padding:6px 10px;border:1px solid rgba(200,190,185,0.3);border-radius:8px;font-size:.85rem;font-family:inherit;color:var(--text);background:rgba(255,255,255,0.75);cursor:pointer;min-width:110px">
+        </select>
+        <button class="btn btn-sm btn-manage-hw-types" title="管理作业种类" style="padding:4px 8px;font-size:.75rem;margin-left:4px;border-radius:6px">⚙️</button>
+        <span class="import-hint" id="analyticsClassInfo"></span>
+      </div>
+    </div>
+
+    <!-- 统计卡片（7个） -->
+    <div class="stats-cards" id="statsCards">
+      <div class="stat-card stat-card-total" data-detail="all"><div class="stat-card-icon">👨‍🎓</div><div class="stat-card-value" id="scTotal">0</div><div class="stat-card-label">班级总人数</div></div>
+      <div class="stat-card stat-card-submitted" data-detail="submitted"><div class="stat-card-icon">✅</div><div class="stat-card-value" id="scSubmitted">0</div><div class="stat-card-label">已交率</div></div>
+      <div class="stat-card stat-card-arate" data-detail="arate"><div class="stat-card-icon">⭐</div><div class="stat-card-value" id="scARate">0%</div><div class="stat-card-label">A率</div></div>
+      <div class="stat-card" data-detail="brate"><div class="stat-card-icon">🔵</div><div class="stat-card-value" id="scBRate">0%</div><div class="stat-card-label">B率</div></div>
+      <div class="stat-card" data-detail="crate"><div class="stat-card-icon">🟡</div><div class="stat-card-value" id="scCRate">0%</div><div class="stat-card-label">C率</div></div>
+      <div class="stat-card stat-card-missing" data-detail="missing"><div class="stat-card-icon">⚠️</div><div class="stat-card-value" id="scMissing">0</div><div class="stat-card-label">未交人数</div></div>
+      <div class="stat-card"><div class="stat-card-icon">📊</div><div class="stat-card-value" id="scAvgScore">0</div><div class="stat-card-label">全班平均分</div></div>
+    </div>
+
+    <!-- 图表区 -->
+    <div class="charts-grid">
+      <div class="card chart-card">
+        <div class="card-header"><span class="card-icon">🍩</span><h3>今日作业分布</h3></div>
+        <div class="card-body chart-body"><canvas id="chartPie"></canvas></div>
+      </div>
+      <div class="card chart-card">
+        <div class="card-header"><span class="card-icon">📊</span><h3>分组对比</h3></div>
+        <div class="card-body chart-body"><canvas id="chartBar"></canvas></div>
+      </div>
+    </div>
+    <div class="card chart-card">
+      <div class="card-header"><span class="card-icon">📈</span><h3>近14天提交率趋势</h3></div>
+      <div class="card-body chart-body"><canvas id="chartLine"></canvas></div>
+    </div>
+
+    <!-- 环比趋势对比 -->
+    <div class="card chart-card">
+      <div class="card-header">
+        <span class="card-icon">📉</span><h3>环比趋势对比</h3>
+        <div style="margin-left:auto;display:flex;gap:4px">
+          <button class="compare-period-btn active" data-period="week">本周vs上周</button>
+          <button class="compare-period-btn" data-period="month">本月vs上月</button>
+        </div>
+      </div>
+      <div class="card-body chart-body"><canvas id="chartCompare"></canvas></div>
+      <div style="padding:0 16px 12px;font-size:.82rem;color:var(--text-light);text-align:center" id="compareSummary"></div>
+    </div>
+
+    <!-- 小组排行榜 -->
+    <div class="card" id="rankingCard">
+      <div class="card-header"><span class="card-icon">🏆</span><h3>小组排行榜</h3><span style="font-size:.75rem;color:var(--text-light);margin-left:auto" id="rankingDate"></span></div>
+      <div class="card-body" id="rankingBody">
+        <div style="text-align:center;color:var(--text-lighter);padding:20px">加载中...</div>
+      </div>
+    </div>
+
+    <!-- 学生预警 -->
+    <div class="card" id="alertsCard">
+      <div class="card-header"><span class="card-icon">🔔</span><h3>学生预警与进步追踪</h3></div>
+      <div class="card-body" id="alertsBody">
+        <div style="text-align:center;color:var(--text-lighter);padding:20px">加载中...</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Tab 5: ⚙️ 设置 ========== -->
+  <section class="tab-content" id="tabSettings">
+    <div class="settings-container">
+      <div class="settings-card">
+        <h3>🤖 AI 服务配置</h3>
+        <div class="settings-row">
+          <label>AI 服务商</label>
+          <select id="aiProvider">
+            <option value="deepseek">DeepSeek</option>
+            <option value="openai">OpenAI</option>
+            <option value="qwen">通义千问</option>
+            <option value="custom">自定义</option>
+          </select>
+        </div>
+        <div class="settings-row">
+          <label>API Key</label>
+          <input type="password" id="aiApiKey" placeholder="请输入 API Key" autocomplete="off">
+        </div>
+        <div class="settings-row">
+          <label>Base URL</label>
+          <input type="text" id="aiBaseUrl" placeholder="https://api.deepseek.com/v1">
+        </div>
+        <div class="settings-row">
+          <label>模型名称</label>
+          <input type="text" id="aiModel" placeholder="deepseek-chat">
+        </div>
+        <div class="settings-actions">
+          <button class="btn btn-export" id="btnAITest">🔌 测试连接</button>
+          <button class="btn btn-primary" id="btnAISave">💾 保存配置</button>
+        </div>
+        <div class="settings-status" id="aiSettingsStatus"></div>
+      </div>
+
+      <div class="settings-card">
+        <h3>📋 使用说明</h3>
+        <div style="font-size:.85rem;color:var(--text-light);line-height:1.7">
+          <p><strong>DeepSeek</strong>：注册 <a href="https://platform.deepseek.com" target="_blank">platform.deepseek.com</a> 获取 API Key，推荐使用 <code>deepseek-chat</code> 模型。</p>
+          <p><strong>OpenAI</strong>：需自备 API Key，推荐 <code>gpt-3.5-turbo</code> 或 <code>gpt-4o-mini</code>。</p>
+          <p><strong>通义千问</strong>：注册阿里云百炼平台获取 Key，推荐 <code>qwen-plus</code>。</p>
+          <p><strong>自定义</strong>：兼容 OpenAI 格式的任何 API（如 Ollama、vLLM 等）。</p>
+          <p style="margin-top:8px;color:var(--text-lighter);font-size:.78rem">💡 API Key 使用 Base64 编码存储，仅保存在您的本地电脑。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Tab 6: 🤖 AI 助手 ========== -->
+  <section class="tab-content" id="tabAIChat">
+    <div class="ai-chat-container">
+      <!-- 左侧对话流 -->
+      <div class="ai-chat-left">
+        <div class="ai-chat-messages" id="aiChatMessages">
+          <div class="ai-msg ai-msg-ai">
+            <p>👋 你好！我是 ClassTrack AI 助手。<br>
+            我可以帮你分析班级作业数据、生成图表、识别趋势。<br>
+            试试下面的快捷提问，或直接输入你的问题吧！</p>
+          </div>
+        </div>
+        <div class="ai-quick-questions" id="aiQuickQuestions">
+          <button class="ai-quick-btn" data-question="今天哪个组表现最好？">🏆 今日最佳小组</button>
+          <button class="ai-quick-btn" data-question="最近一周的提交率趋势如何？">📈 提交率趋势</button>
+          <button class="ai-quick-btn" data-question="今天的作业等级分布是怎样的？">🍩 等级分布</button>
+        </div>
+        <!-- 考试数据上下文指示条 -->
+        <div class="ai-exam-bar" id="aiExamBar" style="display:none">
+          <span class="ai-exam-icon">📋</span>
+          <span class="ai-exam-info" id="aiExamInfo">已加载考试数据</span>
+          <button class="btn btn-sm btn-outline" id="btnClearExam" style="font-size:.7rem;padding:2px 8px;margin-left:auto">✕ 清除</button>
+          <button class="btn btn-sm btn-export" id="btnApplyExam" style="font-size:.7rem;padding:2px 8px">✅ 登记成绩</button>
+        </div>
+        <div class="ai-chat-input-area">
+          <label class="btn-upload-exam" id="btnUploadExam" title="上传考试 Excel">
+            <span>📎</span>
+          </label>
+          <input type="file" id="examFileInput" accept=".xls,.xlsx" hidden>
+          <select id="aiHomeworkTypeSelect" style="max-width:130px;padding:6px 8px;border:1px solid rgba(255,255,255,0.3);border-radius:16px;font-size:.78rem;font-family:inherit;color:var(--text);background:rgba(255,255,255,0.75);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);outline:none;cursor:pointer">
+            <option value="0">全部种类</option>
+          </select>
+          <input type="text" id="aiChatInput" placeholder="输入你的问题，也可以先 📎 上传考试 Excel" autocomplete="off">
+          <button id="btnAISend">发送 ✈</button>
+        </div>
+      </div>
+      <!-- 右侧图表画布 -->
+      <div class="ai-chat-right">
+        <div class="ai-chart-header">📊 数据可视化</div>
+        <div class="ai-chart-body" id="aiChartBody">
+          <iframe id="aiVizFrame" style="width:100%;height:100%;border:none;background:#f8f6f5;display:none;"
+                  title="可视化面板"></iframe>
+          <div class="ai-chart-placeholder" id="aiChartPlaceholder">
+            <span class="placeholder-icon">📊</span>
+            <p>在这里查看可视化结果</p>
+            <p style="font-size:.75rem;color:var(--text-lighter)">AI 会根据你的问题自动生成可视化面板</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Toast -->
+<div class="toast-container" id="toastContainer"></div>
+<div class="drag-ghost" id="dragGhost" style="display:none;"></div>
+
+<script src="/static/js/app.js?v=1.7.1"></script>
+<script src="/static/js/ai.js?v=2.0.0"></script>
+<script src="/static/echarts.min.js"></script>
+</body>
+</html>

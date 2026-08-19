@@ -1,0 +1,12 @@
+{
+  "appId": "com.classtrack.merchant",
+  "appName": "ClassTrack商家工具",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": true
+  }
+}

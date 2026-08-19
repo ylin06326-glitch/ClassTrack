@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="ClassTrack 商家工具">
+    <meta name="theme-color" content="#F5F1ED">
+    <title>ClassTrack YRL — 商家激活工具</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="favicon.ico">
+    <link rel="apple-touch-icon" href="icon-192.png">
+
+    <style>
+        :root {
+            --bg: #F5F1ED;
+            --card: #FFFFFF;
+            --blue: #7EB5D6;
+            --pink: #E8A0BF;
+            --green: #A8D5BA;
+            --text: #5D5A5A;
+            --text-light: #999595;
+            --border: #E0DCD8;
+            --danger: #7A2D3A;
+            --success: #2D6A3F;
+            --radius: 16px;
+            --radius-sm: 10px;
+            --shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            --safe-bottom: env(safe-area-inset-bottom, 16px);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Microsoft YaHei", "PingFang SC", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+            -webkit-font-smoothing: antialiased;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 16px;
+            padding-bottom: var(--safe-bottom);
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 480px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        /* ---- Header ---- */
+        .header {
+            text-align: center;
+            padding: 20px 0 8px;
+        }
+
+        .header .icon {
+            font-size: 38px;
+            margin-bottom: 6px;
+        }
+
+        .header h1 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: -0.3px;
+        }
+
+        .header .subtitle {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-top: 2px;
+        }
+
+        /* ---- Cards ---- */
+        .card {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 18px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .card-header .label {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .card-header .hint {
+            font-size: 11px;
+            color: var(--text-light);
+        }
+
+        /* ---- Status Badge ---- */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-badge.loaded {
+            background: #e8f5e9;
+            color: var(--success);
+        }
+
+        .status-badge.missing {
+            background: #fce4ec;
+            color: var(--danger);
+        }
+
+        /* ---- Textareas ---- */
+        textarea {
+            width: 100%;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 12px;
+            font-size: 13px;
+            font-family: "SF Mono", "Consolas", "Courier New", monospace;
+            color: var(--text);
+            background: #FAF8F5;
+            resize: vertical;
+            transition: border-color 0.2s;
+            -webkit-appearance: none;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--blue);
+            background: #fff;
+        }
+
+        textarea.input-area { min-height: 80px; }
+        textarea.output-area {
+            min-height: 100px;
+            background: #F0F4E8;
+            color: var(--text);
+        }
+
+        textarea.key-area {
+            min-height: 140px;
+            font-size: 11px;
+            background: #FFFBF5;
+        }
+
+        /* ---- Buttons ---- */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            border: none;
+            border-radius: 24px;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            white-space: nowrap;
+        }
+
+        .btn:active {
+            transform: scale(0.96);
+            opacity: 0.85;
+        }
+
+        .btn:disabled {
+            opacity: 0.45;
+            pointer-events: none;
+        }
+
+        .btn-primary {
+            background: var(--pink);
+            color: #6D3A4A;
+            width: 100%;
+            font-size: 16px;
+            padding: 14px;
+        }
+
+        .btn-blue {
+            background: var(--blue);
+            color: #fff;
+            flex: 1;
+        }
+
+        .btn-green {
+            background: var(--green);
+            color: var(--success);
+            flex: 1;
+        }
+
+        .btn-outline {
+            background: var(--card);
+            color: var(--text-light);
+            border: 1.5px solid var(--border);
+            flex: 1;
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 12px;
+            border-radius: 20px;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-row.equal > .btn { flex: 1; }
+
+        /* ---- Alert / Toast ---- */
+        .toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 24px;
+            font-size: 13px;
+            font-weight: 600;
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .toast.success { background: var(--success); }
+        .toast.error { background: var(--danger); }
+
+        /* ---- Modal ---- */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 998;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeIn 0.2s;
+        }
+
+        .modal {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 24px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+        }
+
+        .modal h3 {
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .modal .warning {
+            font-size: 12px;
+            color: var(--danger);
+            margin-bottom: 12px;
+        }
+
+        .modal .btn-row { margin-top: 14px; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* ---- Loading spinner ---- */
+        .spinner {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(0,0,0,.1);
+            border-top-color: var(--pink);
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            vertical-align: middle;
+            margin-right: 6px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ---- Collapsible ---- */
+        .advanced-toggle {
+            font-size: 12px;
+            color: var(--text-light);
+            cursor: pointer;
+            text-align: center;
+            padding: 6px;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .advanced-section {
+            display: none;
+        }
+
+        .advanced-section.open {
+            display: block;
+        }
+
+        /* ---- Responsive ---- */
+        @media (max-width: 380px) {
+            .header h1 { font-size: 16px; }
+            .btn { font-size: 13px; padding: 10px 16px; }
+            .btn-primary { font-size: 15px; }
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #1a1a1a;
+                --card: #2a2a2a;
+                --text: #d4d4d4;
+                --text-light: #999;
+                --border: #3a3a3a;
+            }
+            textarea {
+                background: #333;
+                color: #d4d4d4;
+            }
+            textarea.output-area { background: #2a332a; }
+            textarea.key-area { background: #333025; }
+            .status-badge.loaded { background: #1a3a1a; }
+            .status-badge.missing { background: #3a1a1a; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+
+        <!-- ======== Header ======== -->
+        <div class="header">
+            <div class="icon">🔑</div>
+            <h1>ClassTrack YRL 激活工具</h1>
+            <div class="subtitle">商家端 · 指纹 → 密钥 → 发送</div>
+        </div>
+
+        <!-- ======== Key Status Card ======== -->
+        <div class="card" id="keyStatusCard">
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <span id="keyStatusIcon">🔒</span>
+                    <span id="keyStatusText" style="font-size:13px;font-weight:600;">私钥未加载</span>
+                </div>
+                <button class="btn btn-sm btn-outline" id="btnManageKey" onclick="showKeyModal()">
+                    ⚙️ 管理
+                </button>
+            </div>
+        </div>
+
+        <!-- ======== Input Card ======== -->
+        <div class="card">
+            <div class="card-header">
+                <span class="label">📥 粘贴用户机器指纹</span>
+                <span class="hint">（用户从激活页复制）</span>
+            </div>
+            <textarea
+                class="input-area"
+                id="inputFingerprint"
+                placeholder="在此粘贴用户发送的机器指纹..."
+                autocomplete="off"
+                autocorrect="off"
+                autocapitalize="off"
+                spellcheck="false"
+            ></textarea>
+            <div style="margin-top:12px;">
+                <button class="btn btn-primary" id="btnGenerate" onclick="onGenerate()" disabled>
+                    🔐 生成激活密钥
+                </button>
+            </div>
+        </div>
+
+        <!-- ======== Output Card ======== -->
+        <div class="card" id="outputCard" style="opacity:0.5;">
+            <div class="card-header">
+                <span class="label">🔑 生成的激活密钥</span>
+                <span class="hint">（用户粘贴即可激活）</span>
+            </div>
+            <textarea
+                class="output-area"
+                id="outputKey"
+                readonly
+                placeholder="生成后的密钥将显示在此处..."
+            ></textarea>
+            <div class="btn-row equal" style="margin-top:12px;">
+                <button class="btn btn-blue" id="btnCopy" onclick="onCopy()" disabled>
+                    📋 复制密钥
+                </button>
+                <button class="btn btn-green" id="btnShare" onclick="onShare()" disabled>
+                    📤 分享发送
+                </button>
+            </div>
+        </div>
+
+        <!-- ======== Actions ======== -->
+        <div class="btn-row equal" style="margin-top:4px;">
+            <button class="btn btn-outline" id="btnClear" onclick="onClear()">
+                🗑 清空全部
+            </button>
+        </div>
+
+        <!-- ======== Footer ======== -->
+        <div class="advanced-toggle" onclick="toggleAdvanced()" id="advancedToggle">
+            ⚠️ 私钥管理（高级） ▼
+        </div>
+        <div class="advanced-section" id="advancedSection">
+            <div class="card">
+                <div class="card-header">
+                    <span class="label">📄 导入私钥 (PEM)</span>
+                    <span class="hint" style="color:var(--danger);">绝密，勿外泄</span>
+                </div>
+                <textarea
+                    class="key-area"
+                    id="inputPem"
+                    placeholder="粘贴 private_key.pem 的完整内容到这里…&#10;（含 -----BEGIN PRIVATE KEY----- 头尾）"
+                    autocomplete="off"
+                    autocorrect="off"
+                    autocapitalize="off"
+                    spellcheck="false"
+                ></textarea>
+                <div class="btn-row equal" style="margin-top:12px;">
+                    <button class="btn btn-green btn-sm" onclick="onLoadKey()">
+                        💾 加载并保存
+                    </button>
+                    <button class="btn btn-outline btn-sm" id="btnLoadFile" onclick="onLoadFile()">
+                        📂 选择文件
+                    </button>
+                    <button class="btn btn-outline btn-sm" onclick="onClearKey()" style="color:var(--danger);">
+                        🗑 清除密钥
+                    </button>
+                </div>
+                <input type="file" id="fileInput" accept=".pem,.key,.txt" style="display:none;" onchange="onFileSelected(event)">
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Key Setup Modal (shown on first use) -->
+    <div class="modal-overlay" id="keyModal" style="display:none;" onclick="onModalOverlayClick(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <h3>🔑 配置私钥</h3>
+            <div class="warning">⚠️ 私钥是绝密文件，仅商家持有。请勿分享给任何人！</div>
+            <textarea
+                class="key-area"
+                id="modalPemInput"
+                placeholder="粘贴 private_key.pem 的全部内容..."
+            ></textarea>
+            <div class="btn-row equal" style="margin-top:12px;">
+                <button class="btn btn-green btn-sm" onclick="onModalLoadKey()">
+                    💾 加载私钥
+                </button>
+                <button class="btn btn-outline btn-sm" onclick="onLoadFile()">
+                    📂 选择文件
+                </button>
+            </div>
+            <div class="btn-row" style="margin-top:10px;">
+                <button class="btn btn-outline btn-sm" onclick="closeKeyModal()" style="width:100%;">
+                    稍后设置
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // ============================================================
+    // 全局状态
+    // ============================================================
+    const STATE = {
+        privateKeyPem: null,   // PEM string
+        cryptoKey: null,       // Web Crypto CryptoKey object
+        outputContent: null,   // Generated activation key
+    };
+
+    // ============================================================
+    // DOM 引用缓存
+    // ============================================================
+    const $ = id => document.getElementById(id);
+
+    const DOM = {
+        get inputFingerprint() { return $('inputFingerprint'); },
+        get outputKey() { return $('outputKey'); },
+        get outputCard() { return $('outputCard'); },
+        get btnGenerate() { return $('btnGenerate'); },
+        get btnCopy() { return $('btnCopy'); },
+        get btnShare() { return $('btnShare'); },
+        get btnClear() { return $('btnClear'); },
+        get keyStatusIcon() { return $('keyStatusIcon'); },
+        get keyStatusText() { return $('keyStatusText'); },
+        get inputPem() { return $('inputPem'); },
+        get modalPemInput() { return $('modalPemInput'); },
+        get toast() { return $('toast'); },
+        get keyModal() { return $('keyModal'); },
+        get fileInput() { return $('fileInput'); },
+    };
+
+    // ============================================================
+    // Toast
+    // ============================================================
+    let toastTimer = null;
+
+    function showToast(msg, type = '') {
+        const t = DOM.toast;
+        t.textContent = msg;
+        t.className = 'toast ' + type + ' show';
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => { t.className = 'toast'; }, 2500);
+    }
+
+    // ============================================================
+    // Base64 URL-safe 编解码 (Web Crypto 兼容)
+    // ============================================================
+    function base64UrlEncode(buffer) {
+        // buffer: ArrayBuffer → Base64 URL-safe string
+        const bytes = new Uint8Array(buffer);
+        let binary = '';
+        for (let i = 0; i < bytes.length; i++) {
+            binary += String.fromCharCode(bytes[i]);
+        }
+        const b64 = btoa(binary);
+        return b64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    }
+
+    function base64UrlDecode(str) {
+        // Base64 URL-safe string → Uint8Array
+        str = str.replace(/-/g, '+').replace(/_/g, '/');
+        // Add padding
+        while (str.length % 4) str += '=';
+        const binary = atob(str);
+        const bytes = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) {
+            bytes[i] = binary.charCodeAt(i);
+        }
+        return bytes;
+    }
+
+    function base64UrlDecodeToString(str) {
+        const bytes = base64UrlDecode(str);
+        return new TextDecoder('utf-8').decode(bytes);
+    }
+
+    // ============================================================
+    // PEM 解析: 提取 PKCS8 DER 字节
+    // ============================================================
+    function pemToDer(pemStr) {
+        // Remove header, footer, and all whitespace
+        const lines = pemStr.trim().split(/\r?\n/);
+        const body = lines
+            .filter(line => !line.startsWith('-----'))
+            .join('');
+        return base64UrlDecode(body);  // standard base64 in PEM
+    }
+
+    // ============================================================
+    // Web Crypto: 导入私钥
+    // ============================================================
+    async function importPrivateKey(pemStr) {
+        try {
+            const der = pemToDer(pemStr);
+            const key = await crypto.subtle.importKey(
+                'pkcs8',
+                der,
+                {
+                    name: 'RSASSA-PKCS1-v1_5',
+                    hash: { name: 'SHA-256' },
+                },
+                false,  // not extractable
+                ['sign']
+            );
+            return key;
+        } catch (e) {
+            console.error('Key import error:', e);
+            throw new Error('私钥格式无效，请确认粘贴的是完整的 PEM 私钥文件内容。\n\n' + e.message);
+        }
+    }
+
+    // ============================================================
+    // Web Crypto: 签名
+    // ============================================================
+    async function rsaSign(cryptoKey, dataBytes) {
+        const signature = await crypto.subtle.sign(
+            'RSASSA-PKCS1-v1_5',
+            cryptoKey,
+            dataBytes
+        );
+        return new Uint8Array(signature);
+    }
+
+    // ============================================================
+    // Web Crypto: SHA-256 Hash
+    // ============================================================
+    async function sha256Hex(dataStr) {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(dataStr);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    // ============================================================
+    // 激活文件生成 (复刻 Python generate_activation)
+    // ============================================================
+    async function generateActivation(cryptoKey, hardwareIdRaw) {
+        // 1. Create activation payload
+        const hwHashFull = await sha256Hex(hardwareIdRaw);
+        const payload = {
+            h: hwHashFull.substring(0, 16),
+            t: Math.floor(Date.now() / 1000),
+        };
+
+        // 2. Serialize payload (sorted keys, compact JSON — 等价于 Python json.dumps sort_keys=True)
+        const payloadJson = JSON.stringify(payload, Object.keys(payload).sort());
+
+        // 3. Sign with RSA PKCS1v15 + SHA-256
+        const encoder = new TextEncoder();
+        const dataBytes = encoder.encode(payloadJson);
+        const signature = await rsaSign(cryptoKey, dataBytes);
+
+        // 4. Encode: <payload_b64>.<sig_b64>
+        const payloadB64 = base64UrlEncode(encoder.encode(payloadJson));
+        const sigB64 = base64UrlEncode(signature);
+        return `${payloadB64}.${sigB64}`;
+    }
+
+    // ============================================================
+    // 指纹解码 (复刻 Python decode_fingerprint)
+    // ============================================================
+    function decodeFingerprint(exportStr) {
+        try {
+            return base64UrlDecodeToString(exportStr.trim());
+        } catch (e) {
+            return null;
+        }
+    }
+
+    // ============================================================
+    // 密钥管理
+    // ============================================================
+    function saveKeyToStorage(pemStr) {
+        try {
+            localStorage.setItem('classtrack_private_key_pem', pemStr);
+            return true;
+        } catch (e) {
+            showToast('存储空间不足，无法保存密钥', 'error');
+            return false;
+        }
+    }
+
+    function loadKeyFromStorage() {
+        return localStorage.getItem('classtrack_private_key_pem');
+    }
+
+    function clearKeyFromStorage() {
+        localStorage.removeItem('classtrack_private_key_pem');
+    }
+
+    async function applyPrivateKey(pemStr) {
+        // Validate by importing
+        const cryptoKey = await importPrivateKey(pemStr);
+        STATE.privateKeyPem = pemStr;
+        STATE.cryptoKey = cryptoKey;
+        updateKeyStatusUI();
+        updateGenerateButton();
+    }
+
+    function updateKeyStatusUI() {
+        if (STATE.privateKeyPem) {
+            DOM.keyStatusIcon.textContent = '🔒';
+            DOM.keyStatusText.textContent = '私钥已加载';
+            DOM.keyStatusText.style.color = 'var(--success)';
+        } else {
+            DOM.keyStatusIcon.textContent = '⚠️';
+            DOM.keyStatusText.textContent = '私钥未加载，请先配置';
+            DOM.keyStatusText.style.color = 'var(--danger)';
+        }
+    }
+
+    function updateGenerateButton() {
+        DOM.btnGenerate.disabled = !STATE.privateKeyPem;
+    }
+
+    // ============================================================
+    // 事件: 加载密钥
+    // ============================================================
+    async function onLoadKey() {
+        const pem = DOM.inputPem.value.trim();
+        if (!pem) {
+            showToast('请先粘贴私钥内容', 'error');
+            return;
+        }
+        if (!pem.includes('BEGIN') || !pem.includes('PRIVATE KEY')) {
+            showToast('密钥格式不正确，需要 PEM 格式的私钥', 'error');
+            return;
+        }
+        try {
+            await applyPrivateKey(pem);
+            saveKeyToStorage(pem);
+            showToast('✅ 私钥已加载并保存', 'success');
+            DOM.inputPem.value = '';
+        } catch (e) {
+            showToast('私钥加载失败: ' + e.message, 'error');
+        }
+    }
+
+    async function onModalLoadKey() {
+        const pem = DOM.modalPemInput.value.trim();
+        if (!pem) {
+            showToast('请先粘贴私钥内容', 'error');
+            return;
+        }
+        if (!pem.includes('BEGIN') || !pem.includes('PRIVATE KEY')) {
+            showToast('密钥格式不正确，需要 PEM 格式的私钥', 'error');
+            return;
+        }
+        try {
+            await applyPrivateKey(pem);
+            saveKeyToStorage(pem);
+            showToast('✅ 私钥已加载并保存', 'success');
+            closeKeyModal();
+        } catch (e) {
+            showToast('私钥加载失败: ' + e.message, 'error');
+        }
+    }
+
+    function onClearKey() {
+        if (!confirm('确定要清除已保存的私钥吗？\n\n清除后需要重新导入才能生成激活密钥。')) return;
+        STATE.privateKeyPem = null;
+        STATE.cryptoKey = null;
+        clearKeyFromStorage();
+        updateKeyStatusUI();
+        updateGenerateButton();
+        DOM.inputPem.value = '';
+        showToast('私钥已清除', '');
+    }
+
+    // ============================================================
+    // 文件加载
+    // ============================================================
+    function onLoadFile() {
+        DOM.fileInput.click();
+    }
+
+    function onFileSelected(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = async function(e) {
+            const pem = e.target.result;
+            // Put into both inputs
+            DOM.inputPem.value = pem;
+            DOM.modalPemInput.value = pem;
+            showToast('📄 文件已读取，点击"加载并保存"', 'success');
+        };
+        reader.onerror = function() {
+            showToast('文件读取失败', 'error');
+        };
+        reader.readAsText(file);
+        // Reset so the same file can be re-selected
+        event.target.value = '';
+    }
+
+    // ============================================================
+    // 密钥设置弹窗
+    // ============================================================
+    function showKeyModal() {
+        DOM.keyModal.style.display = 'flex';
+        // Pre-fill from existing
+        if (STATE.privateKeyPem) {
+            DOM.modalPemInput.value = STATE.privateKeyPem;
+        }
+    }
+
+    function closeKeyModal() {
+        DOM.keyModal.style.display = 'none';
+    }
+
+    function onModalOverlayClick(event) {
+        if (event.target === DOM.keyModal) {
+            closeKeyModal();
+        }
+    }
+
+    // ============================================================
+    // 高级区域切换
+    // ============================================================
+    function toggleAdvanced() {
+        const section = $('advancedSection');
+        const toggle = $('advancedToggle');
+        section.classList.toggle('open');
+        if (section.classList.contains('open')) {
+            toggle.textContent = '⚠️ 私钥管理（高级） ▲';
+        } else {
+            toggle.textContent = '⚠️ 私钥管理（高级） ▼';
+        }
+    }
+
+    // ============================================================
+    // 核心: 生成激活密钥
+    // ============================================================
+    async function onGenerate() {
+        const fingerprint = DOM.inputFingerprint.value.trim();
+        if (!fingerprint) {
+            showToast('请先粘贴用户提供的机器指纹', 'error');
+            return;
+        }
+
+        // ---- 输入校验：防止用户误发机器码 ----
+        // 机器码格式: XXXX-XXXX-... (含短横线)
+        // 机器指纹格式: Base64 (无短横线)
+        if (fingerprint.includes('-') && fingerprint.length < 80) {
+            showToast('这是「机器码」不是「机器指纹」，请让用户点击"复制机器指纹"按钮', 'error');
+            return;
+        }
+
+        // 尝试解码指纹
+        let hardwareId = decodeFingerprint(fingerprint);
+        if (!hardwareId) {
+            if (fingerprint.length < 10) {
+                showToast('无法识别此内容，请确认用户复制的是「机器指纹」而非「机器码」', 'error');
+                return;
+            }
+            // 可能用户直接发了原始硬件ID
+            hardwareId = fingerprint;
+        }
+
+        if (!hardwareId) {
+            showToast('无法解析机器指纹，请确认用户复制的内容完整', 'error');
+            return;
+        }
+
+        // Show loading state
+        DOM.btnGenerate.disabled = true;
+        const origText = DOM.btnGenerate.textContent;
+        DOM.btnGenerate.innerHTML = '<span class="spinner"></span>正在生成…';
+
+        try {
+            const result = await generateActivation(STATE.cryptoKey, hardwareId);
+            if (!result) {
+                showToast('生成失败，请检查私钥配置', 'error');
+                return;
+            }
+
+            STATE.outputContent = result;
+
+            // Show in output
+            DOM.outputKey.value = result;
+            DOM.outputCard.style.opacity = '1';
+            DOM.btnCopy.disabled = false;
+            DOM.btnShare.disabled = false;
+
+            showToast('✅ 激活密钥生成成功！', 'success');
+        } catch (e) {
+            console.error('Generate error:', e);
+            showToast('生成失败: ' + e.message, 'error');
+        } finally {
+            DOM.btnGenerate.disabled = !STATE.privateKeyPem;
+            DOM.btnGenerate.textContent = origText;
+        }
+    }
+
+    // ============================================================
+    // 复制
+    // ============================================================
+    async function onCopy() {
+        if (!STATE.outputContent) return;
+
+        try {
+            await navigator.clipboard.writeText(STATE.outputContent);
+            const btn = DOM.btnCopy;
+            const origText = btn.textContent;
+            btn.textContent = '✅ 已复制！';
+            btn.style.background = 'var(--green)';
+            showToast('✅ 已复制到剪贴板，发送给用户即可', 'success');
+            setTimeout(() => {
+                btn.textContent = origText;
+                btn.style.background = '';
+            }, 2500);
+        } catch (e) {
+            // Fallback: select text for manual copy
+            DOM.outputKey.select();
+            showToast('请长按文本框手动复制', '');
+        }
+    }
+
+    // ============================================================
+    // 分享 (使用 Web Share API)
+    // ============================================================
+    async function onShare() {
+        if (!STATE.outputContent) return;
+
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: 'ClassTrack 激活密钥',
+                    text: STATE.outputContent,
+                });
+            } catch (e) {
+                // User cancelled, ignore
+                if (e.name !== 'AbortError') {
+                    showToast('分享失败，请使用复制功能', 'error');
+                }
+            }
+        } else {
+            // Fallback to copy
+            showToast('设备不支持分享，请使用复制功能', '');
+            await onCopy();
+        }
+    }
+
+    // ============================================================
+    // 清空
+    // ============================================================
+    function onClear() {
+        DOM.inputFingerprint.value = '';
+        DOM.outputKey.value = '';
+        STATE.outputContent = null;
+        DOM.outputCard.style.opacity = '0.5';
+        DOM.btnCopy.disabled = true;
+        DOM.btnShare.disabled = true;
+        showToast('已清空', '');
+    }
+
+    // ============================================================
+    // 初始化
+    // ============================================================
+    async function init() {
+        // Try to load key from storage
+        const savedPem = loadKeyFromStorage();
+        if (savedPem) {
+            try {
+                await applyPrivateKey(savedPem);
+                console.log('Private key loaded from storage');
+            } catch (e) {
+                console.warn('Stored key invalid:', e);
+                clearKeyFromStorage();
+                updateKeyStatusUI();
+                updateGenerateButton();
+                // Show setup modal since stored key is unusable
+                setTimeout(() => {
+                    if (!STATE.privateKeyPem) showKeyModal();
+                }, 600);
+            }
+        } else {
+            updateKeyStatusUI();
+            updateGenerateButton();
+            // Show setup modal on first use (after a short delay)
+            setTimeout(() => {
+                if (!STATE.privateKeyPem) {
+                    showKeyModal();
+                }
+            }, 600);
+        }
+    }
+
+    // Start
+    init().catch(console.error);
+
+    // ============================================================
+    // PWA: Register Service Worker
+    // ============================================================
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js').catch(() => {
+            // Silent fail — app works offline without SW too
+        });
+    }
+    </script>
+</body>
+</html>

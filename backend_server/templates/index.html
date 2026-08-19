@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClassTrack — 班级作业分组管理系统</title>
+<link rel="stylesheet" href="/static/liquid-glass.css">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!-- 导航栏 -->
+<!-- ============================================================ -->
+<header class="app-header nav-transparent" id="mainNav">
+  <div class="header-inner">
+    <div class="logo-area">
+      <span class="logo-icon">🎒</span>
+      <h1 class="app-title nav-title-white" id="navTitle">ClassTrack</h1>
+    </div>
+    <nav class="header-nav">
+      <a href="#hero" class="active nav-link">首页</a>
+      <a href="#demo" class="nav-link">预览</a>
+      <a href="#features" class="nav-link">功能</a>
+      <a href="#purchase" class="nav-link">购买</a>
+      <a href="#activate" class="nav-link">激活</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============================================================ -->
+<!-- Section 1: 全屏视频 Hero -->
+<!-- ============================================================ -->
+<section class="hero-video-section" id="hero">
+  <video class="hero-video" id="heroVideo" autoplay loop muted playsinline>
+    <source src="" type="video/mp4">
+  </video>
+  <div class="hero-video-overlay"></div>
+  <div class="hero-particles" id="heroParticles"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">🚀 专为中小学教师打造</div>
+    <h1 class="hero-headline">班级管理，<br>从未如此简单</h1>
+    <p class="hero-desc">智能分组 · 作业追踪 · 数据分析 · 扫码录入 — 一站式班级作业管理解决方案</p>
+    <div class="hero-cta-row">
+      <button class="btn-cta" onclick="scrollToSection('purchase')">
+        💳 立即购买
+        <span class="btn-cta-shine"></span>
+      </button>
+      <button class="btn-cta-outline" onclick="scrollToSection('demo')">
+        👁️ 在线预览
+      </button>
+    </div>
+  </div>
+
+  <div class="hero-stats-strip">
+    <div class="hero-stat-item">
+      <span class="hero-stat-num">8+</span>
+      <span class="hero-stat-label">核心功能</span>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat-item">
+      <span class="hero-stat-num">100%</span>
+      <span class="hero-stat-label">数据本地存储</span>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat-item">
+      <span class="hero-stat-num">∞</span>
+      <span class="hero-stat-label">无限班级 & 学生</span>
+    </div>
+  </div>
+
+  <div class="hero-scroll-indicator" onclick="scrollToSection('demo')">
+    <span>向下滚动查看演示</span>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 13l5 5 5-5M7 6l5 5 5-5"/></svg>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- Section 2: 产品演示（客户端 UI 预览） -->
+<!-- ============================================================ -->
+<section class="content-section" id="demo">
+  <div class="section-label">👁️ 在线预览</div>
+  <h2 class="section-title">看看 ClassTrack 长什么样</h2>
+  <p class="section-desc">下面是软件的真实界面预览，点击标签页切换不同功能模块</p>
+
+  <div class="demo-wrapper reveal-on-scroll">
+    <!-- 伪浏览器标题栏 -->
+    <div class="demo-browser-chrome">
+      <div class="demo-dots">
+        <span class="demo-dot dot-red"></span>
+        <span class="demo-dot dot-yellow"></span>
+        <span class="demo-dot dot-green"></span>
+      </div>
+      <div class="demo-title">ClassTrack — 班级作业分组管理系统</div>
+    </div>
+
+    <!-- Demo 内部：模拟客户端 app-header -->
+    <div class="demo-app-header">
+      <div class="demo-logo">
+        <span>🎒</span>
+        <strong>ClassTrack</strong>
+        <span class="demo-brand-badge">YRL</span>
+      </div>
+      <div class="demo-class-selector">
+        <select class="demo-select"><option>三年级(2)班</option></select>
+        <button class="demo-btn-icon">⚙️</button>
+      </div>
+    </div>
+
+    <!-- Demo 标签栏 -->
+    <div class="demo-tab-bar" id="demoTabBar">
+      <button class="demo-tab active" data-demo-tab="grouping">
+        <span>👥</span> 班级分组
+      </button>
+      <button class="demo-tab" data-demo-tab="homework">
+        <span>📝</span> 作业登记
+      </button>
+      <button class="demo-tab" data-demo-tab="analytics">
+        <span>📈</span> 数据概览
+      </button>
+    </div>
+
+    <!-- Demo 内容区 -->
+    <div class="demo-body">
+
+      <!-- ====== Tab: 班级分组 ====== -->
+      <div class="demo-tab-content active" id="demoGrouping">
+        <!-- 导入区域 -->
+        <div class="glass-card demo-card-sm">
+          <div class="demo-card-hd">
+            <span>📥</span><strong>导入学生名单</strong>
+            <span class="demo-mode-switch">
+              <button class="demo-switch-btn active">📂 Excel导入</button>
+              <button class="demo-switch-btn">📝 文字导入</button>
+            </span>
+          </div>
+          <div class="demo-card-bd">
+            <div class="demo-upload-zone">
+              <span style="font-size:28px;">📂</span>
+              <span>选择 Excel 文件</span>
+              <span style="font-size:.7rem;color:var(--text-lighter);">支持 .xls / .xlsx 格式</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 分组控制栏 -->
+        <div class="glass-card demo-card-sm">
+          <div class="demo-card-bd demo-control-row">
+            <span style="font-size:.82rem;">分组数量：</span>
+            <button class="demo-count-btn active">6组</button>
+            <button class="demo-count-btn">8组</button>
+            <button class="demo-btn-outline-sm">🔄 重新分组</button>
+            <button class="demo-btn-export-sm">📥 导出分组名单</button>
+            <button class="demo-btn-primary-sm">🔒 确定锁定</button>
+          </div>
+        </div>
+
+        <!-- 6 个分组 -->
+        <div class="demo-groups-grid">
+          <div class="demo-group-col">
+            <div class="demo-group-card" style="border-top:3px solid #7EB5D6;">
+              <div class="demo-group-title">第1组 <span>5人</span></div>
+              <div class="demo-student-pills">
+                <span class="demo-pill">张明轩</span><span class="demo-pill">李雨桐</span>
+                <span class="demo-pill">王子涵</span><span class="demo-pill">陈思远</span>
+                <span class="demo-pill">刘梓涵</span>
+              </div>
+            </div>
+          </div>
+          <div class="demo-group-col">
+            <div class="demo-group-card" style="border-top:3px solid #E8A0BF;">
+              <div class="demo-group-title">第2组 <span>5人</span></div>
+              <div class="demo-student-pills">
+                <span class="demo-pill">赵文博</span><span class="demo-pill">孙悦然</span>
+                <span class="demo-pill">周子轩</span><span class="demo-pill">吴雨霏</span>
+                <span class="demo-pill">郑皓天</span>
+              </div>
+            </div>
+          </div>
+          <div class="demo-group-col">
+            <div class="demo-group-card" style="border-top:3px solid #A8D5BA;">
+              <div class="demo-group-title">第3组 <span>5人</span></div>
+              <div class="demo-student-pills">
+                <span class="demo-pill">钱一鸣</span><span class="demo-pill">杨思琪</span>
+                <span class="demo-pill">黄俊杰</span><span class="demo-pill">许瑞阳</span>
+                <span class="demo-pill">何雨萱</span>
+              </div>
+            </div>
+          </div>
+          <div class="demo-group-col">
+            <div class="demo-group-card" style="border-top:3px solid #F4C97E;">
+              <div class="demo-group-title">第4组 <span>5人</span></div>
+              <div class="demo-student-pills">
+                <span class="demo-pill">吕浩宇</span><span class="demo-pill">林诗涵</span>
+                <span class="demo-pill">高铭远</span><span class="demo-pill">唐婉清</span>
+                <span class="demo-pill">宋志豪</span>
+              </div>
+            </div>
+          </div>
+          <div class="demo-group-col">
+            <div class="demo-group-card" style="border-top:3px solid #C4B5D6;">
+              <div class="demo-group-title">第5组 <span>5人</span></div>
+              <div class="demo-student-pills">
+                <span class="demo-pill">冯雨辰</span><span class="demo-pill">蒋思源</span>
+                <span class="demo-pill">沈佳怡</span><span class="demo-pill">韩明哲</span>
+                <span class="demo-pill">曹晓雯</span>
+              </div>
+            </div>
+          </div>
+          <div class="demo-group-col">
+            <div class="demo-group-card" style="border-top:3px solid #F0B8A0;">
+              <div class="demo-group-title">第6组 <span>5人</span></div>
+              <div class="demo-student-pills">
+                <span class="demo-pill">邓浩然</span><span class="demo-pill">彭欣怡</span>
+                <span class="demo-pill">肖瑞霖</span><span class="demo-pill">田雅琪</span>
+                <span class="demo-pill">袁子豪</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====== Tab: 作业登记 ====== -->
+      <div class="demo-tab-content" id="demoHomework">
+        <div class="glass-card demo-card-sm">
+          <div class="demo-card-bd demo-control-row">
+            <span style="font-size:.82rem;">📋 作业种类：</span>
+            <select class="demo-select"><option>课后作业</option><option>课堂练习</option></select>
+            <span style="font-size:.82rem;margin-left:8px;">📅 日期：</span>
+            <button class="demo-btn-icon-sm">◀</button>
+            <input type="date" class="demo-date-input" value="2026-07-23">
+            <button class="demo-btn-icon-sm">▶</button>
+            <span style="margin-left:8px;font-size:.8rem;">批量：</span>
+            <button class="demo-grade-btn grade-a">全部 A</button>
+            <button class="demo-grade-btn grade-b">全部 B</button>
+            <button class="demo-grade-btn grade-c">全部 C</button>
+            <button class="demo-grade-btn grade-x">全部 未交</button>
+            <button class="demo-btn-primary-sm" style="margin-left:auto;">🔔 催交通知</button>
+          </div>
+        </div>
+
+        <!-- 学生作业列表（模拟一个组） -->
+        <div class="demo-group-card" style="border-top:3px solid #7EB5D6;">
+          <div class="demo-group-title">第1组 <span>5人</span></div>
+          <div class="demo-hw-table">
+            <div class="demo-hw-row">
+              <span class="demo-hw-name">张明轩</span>
+              <div class="demo-grade-toggle">
+                <button class="demo-g active">A</button><button class="demo-g">B</button><button class="demo-g">C</button><button class="demo-g g-x">未交</button>
+              </div>
+            </div>
+            <div class="demo-hw-row">
+              <span class="demo-hw-name">李雨桐</span>
+              <div class="demo-grade-toggle">
+                <button class="demo-g">A</button><button class="demo-g active">B</button><button class="demo-g">C</button><button class="demo-g g-x">未交</button>
+              </div>
+            </div>
+            <div class="demo-hw-row">
+              <span class="demo-hw-name">王子涵</span>
+              <div class="demo-grade-toggle">
+                <button class="demo-g active">A</button><button class="demo-g">B</button><button class="demo-g">C</button><button class="demo-g g-x">未交</button>
+              </div>
+            </div>
+            <div class="demo-hw-row">
+              <span class="demo-hw-name">陈思远</span>
+              <div class="demo-grade-toggle">
+                <button class="demo-g">A</button><button class="demo-g">B</button><button class="demo-g active">C</button><button class="demo-g g-x">未交</button>
+              </div>
+            </div>
+            <div class="demo-hw-row">
+              <span class="demo-hw-name">刘梓涵</span>
+              <div class="demo-grade-toggle">
+                <button class="demo-g">A</button><button class="demo-g">B</button><button class="demo-g">C</button><button class="demo-g g-x active">未交</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="demo-group-card" style="border-top:3px solid #E8A0BF;">
+          <div class="demo-group-title">第2组 <span>5人</span></div>
+          <div class="demo-hw-table">
+            <div class="demo-hw-row">
+              <span class="demo-hw-name">赵文博</span>
+              <div class="demo-grade-toggle">
+                <button class="demo-g">A</button><button class="demo-g active">B</button><button class="demo-g">C</button><button class="demo-g g-x">未交</button>
+              </div>
+            </div>
+            <div class="demo-hw-row">
+              <span class="demo-hw-name">孙悦然</span>
+              <div class="demo-grade-toggle">
+                <button class="demo-g active">A</button><button class="demo-g">B</button><button class="demo-g">C</button><button class="demo-g g-x">未交</button>
+              </div>
+            </div>
+            <div class="demo-hw-row">
+              <span class="demo-hw-name">周子轩</span>
+              <div class="demo-grade-toggle">
+                <button class="demo-g">A</button><button class="demo-g active">B</button><button class="demo-g">C</button><button class="demo-g g-x">未交</button>
+              </div>
+            </div>
+            <div class="demo-hw-row">
+              <span class="demo-hw-name">吴雨霏</span>
+              <div class="demo-grade-toggle">
+                <button class="demo-g">A</button><button class="demo-g">B</button><button class="demo-g">C</button><button class="demo-g g-x active">未交</button>
+              </div>
+            </div>
+            <div class="demo-hw-row">
+              <span class="demo-hw-name">郑皓天</span>
+              <div class="demo-grade-toggle">
+                <button class="demo-g active">A</button><button class="demo-g">B</button><button class="demo-g">C</button><button class="demo-g g-x">未交</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====== Tab: 数据概览 ====== -->
+      <div class="demo-tab-content" id="demoAnalytics">
+        <div class="glass-card demo-card-sm">
+          <div class="demo-card-bd demo-control-row">
+            <span style="font-size:.82rem;">📅 日期：</span>
+            <input type="date" class="demo-date-input" value="2026-07-23">
+            <span style="font-size:.82rem;margin-left:8px;">📋 种类：</span>
+            <select class="demo-select"><option>课后作业</option></select>
+          </div>
+        </div>
+        <!-- 统计卡片 -->
+        <div class="demo-stats-row">
+          <div class="glass-card demo-stat-card"><span>👨‍🎓</span><strong>30</strong><small>班级总人数</small></div>
+          <div class="glass-card demo-stat-card"><span>✅</span><strong>83%</strong><small>已交率</small></div>
+          <div class="glass-card demo-stat-card"><span>⭐</span><strong>37%</strong><small>A率</small></div>
+          <div class="glass-card demo-stat-card"><span>⚠️</span><strong>5</strong><small>未交人数</small></div>
+          <div class="glass-card demo-stat-card"><span>📊</span><strong>2.1</strong><small>全班平均分</small></div>
+        </div>
+        <!-- 图表占位 -->
+        <div class="demo-charts-row">
+          <div class="glass-card demo-chart-box">
+            <div class="demo-card-hd"><span>🍩</span><strong>今日作业分布</strong></div>
+            <div class="demo-chart-placeholder">
+              <svg width="120" height="120" viewBox="0 0 120 120">
+                <circle cx="60" cy="60" r="45" fill="none" stroke="#E4F0F6" stroke-width="20"/>
+                <circle cx="60" cy="60" r="45" fill="none" stroke="#7EB5D6" stroke-width="20"
+                        stroke-dasharray="110 170" stroke-dashoffset="70" transform="rotate(-90 60 60)"/>
+                <circle cx="60" cy="60" r="45" fill="none" stroke="#A8D5BA" stroke-width="20"
+                        stroke-dasharray="65 215" stroke-dashoffset="-40" transform="rotate(-90 60 60)"/>
+                <circle cx="60" cy="60" r="45" fill="none" stroke="#F4C97E" stroke-width="20"
+                        stroke-dasharray="40 240" stroke-dashoffset="-105" transform="rotate(-90 60 60)"/>
+              </svg>
+              <div class="demo-chart-legend">
+                <span><i style="background:#7EB5D6"></i>A - 11人</span>
+                <span><i style="background:#A8D5BA"></i>B - 8人</span>
+                <span><i style="background:#F4C97E"></i>C - 6人</span>
+                <span><i style="background:#E0DCD8"></i>未交 - 5人</span>
+              </div>
+            </div>
+          </div>
+          <div class="glass-card demo-chart-box">
+            <div class="demo-card-hd"><span>📊</span><strong>分组对比</strong></div>
+            <div class="demo-chart-placeholder" style="flex-direction:column;align-items:stretch;gap:8px;">
+              <div class="demo-bar-row"><span>第1组</span><div class="demo-bar-fill" style="width:80%;background:var(--primary);"></div><small>80%</small></div>
+              <div class="demo-bar-row"><span>第2组</span><div class="demo-bar-fill" style="width:67%;background:var(--accent);"></div><small>67%</small></div>
+              <div class="demo-bar-row"><span>第3组</span><div class="demo-bar-fill" style="width:93%;background:var(--success);"></div><small>93%</small></div>
+              <div class="demo-bar-row"><span>第4组</span><div class="demo-bar-fill" style="width:73%;background:var(--warning);"></div><small>73%</small></div>
+              <div class="demo-bar-row"><span>第5组</span><div class="demo-bar-fill" style="width:60%;background:var(--purple);"></div><small>60%</small></div>
+              <div class="demo-bar-row"><span>第6组</span><div class="demo-bar-fill" style="width:87%;background:var(--orange);"></div><small>87%</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- Section 3: 功能特性（展开） -->
+<!-- ============================================================ -->
+<section class="content-section" id="features">
+  <div class="section-label">✨ 功能介绍</div>
+  <h2 class="section-title">八大核心功能，覆盖教学全场景</h2>
+  <p class="section-desc">专为中小学教师打造，从分组到分析一站式解决</p>
+
+  <div class="features-grid">
+    <div class="feature-card reveal-on-scroll">
+      <div class="feature-icon-box" style="background:linear-gradient(135deg,#E4F0F6,#D4E8F4);">
+        <span>🧩</span>
+      </div>
+      <h3>智能随机分组</h3>
+      <p>一键将学生随机分配到指定数量的小组，支持拖拽微调成员、锁定分组防止误改。告别手工排座位的繁琐，让每次分组都公平高效。</p>
+    </div>
+
+    <div class="feature-card reveal-on-scroll">
+      <div class="feature-icon-box" style="background:linear-gradient(135deg,#FAEBF0,#F5DFE8);">
+        <span>📝</span>
+      </div>
+      <h3>多维度作业登记</h3>
+      <p>支持课后作业、课堂练习、单元测验、期中/期末等多种作业类型。A/B/C/X 四级评价体系，每日一键登记，批量操作省时省力。</p>
+    </div>
+
+    <div class="feature-card reveal-on-scroll">
+      <div class="feature-icon-box" style="background:linear-gradient(135deg,#E8F4EB,#D8ECD8);">
+        <span>📊</span>
+      </div>
+      <h3>可视化数据分析</h3>
+      <p>饼图展示作业分布、柱状图对比各组表现、折线图追踪提交率趋势。环比分析本周vs上周变化，数据驱动教学决策，一目了然。</p>
+    </div>
+
+    <div class="feature-card reveal-on-scroll">
+      <div class="feature-icon-box" style="background:linear-gradient(135deg,#FEF6E5,#FCF0D8);">
+        <span>🔔</span>
+      </div>
+      <h3>智能催交提醒</h3>
+      <p>自动识别连续3次以上未交作业的学生，一键生成催交通知单（含隐私保护模式）。支持复制名单、打印通知、导出催交名单。</p>
+    </div>
+
+    <div class="feature-card reveal-on-scroll">
+      <div class="feature-icon-box" style="background:linear-gradient(135deg,#F0EAF6,#E8DCF0);">
+        <span>📱</span>
+      </div>
+      <h3>扫码快速录入</h3>
+      <p>为每位学生生成专属二维码，支持批量打印。手机或电脑摄像头扫码即可即时登记作业等级，支持批量分堆模式，课堂效率翻倍。</p>
+    </div>
+
+    <div class="feature-card reveal-on-scroll">
+      <div class="feature-icon-box" style="background:linear-gradient(135deg,#FAEEE8,#F8E0D8);">
+        <span>📥</span>
+      </div>
+      <h3>一键报表导出</h3>
+      <p>支持导出学生个人作业台账（含统计汇总）、全班作业汇总表。Excel 格式，自动计算 A/B/C 次数和提交率，方便与家长沟通。</p>
+    </div>
+
+    <div class="feature-card reveal-on-scroll">
+      <div class="feature-icon-box" style="background:linear-gradient(135deg,#E4F0F6,#D0E8F2);">
+        <span>🏫</span>
+      </div>
+      <h3>多班级管理</h3>
+      <p>支持创建无限个班级，每个班级独立管理学生名单、分组数据、作业记录。一键切换班级，数据互不干扰，适合教多个班的老师。</p>
+    </div>
+
+    <div class="feature-card reveal-on-scroll">
+      <div class="feature-icon-box" style="background:linear-gradient(135deg,#E8F4EB,#D4ECD8);">
+        <span>🔒</span>
+      </div>
+      <h3>数据本地存储</h3>
+      <p>所有学生数据和作业记录仅存储在您的电脑上，不上传任何云端服务器。纯离线运行，保护学生隐私，符合校园数据安全要求。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- Section 4: 购买（QR → 支付 → 确认） -->
+<!-- ============================================================ -->
+<section class="content-section purchase-section" id="purchase">
+  <div class="section-label">💳 购买激活</div>
+  <h2 class="section-title">获取 ClassTrack 完整版</h2>
+  <p class="section-desc">一次购买，永久使用。扫码付款后，输入交易号确认即可解锁下载</p>
+
+  <!-- 步骤指示器 -->
+  <div class="steps-indicator">
+    <div class="step-item active" data-step="1">
+      <div class="step-circle">1</div>
+      <div class="step-text">
+        <div class="step-title">扫码付款</div>
+        <div class="step-desc">微信/支付宝扫码支付</div>
+      </div>
+    </div>
+    <div class="step-line"></div>
+    <div class="step-item" data-step="2">
+      <div class="step-circle">2</div>
+      <div class="step-text">
+        <div class="step-title">确认支付</div>
+        <div class="step-desc">输入交易号验证</div>
+      </div>
+    </div>
+    <div class="step-line"></div>
+    <div class="step-item" data-step="3">
+      <div class="step-circle">3</div>
+      <div class="step-text">
+        <div class="step-title">下载软件</div>
+        <div class="step-desc">验证通过后下载</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="purchase-layout">
+    <!-- 步骤 1：付款二维码 -->
+    <div class="card purchase-card reveal-on-scroll">
+      <div class="card-body" style="text-align:center;">
+        <div class="step-badge">步骤 1</div>
+        <h3 style="margin-bottom:6px;">📷 扫码付款</h3>
+        <p style="font-size:.85rem;color:var(--text-light);margin-bottom:20px;">
+          使用微信或支付宝扫描下方二维码完成付款<br>付款金额：<strong style="font-size:1.2rem;color:var(--accent-dark);">¥XX.00</strong>
+        </p>
+        <img id="qrImage" class="purchase-qr" src="" alt="付款二维码"
+             onerror="this.style.display='none';document.getElementById('qrPlaceholder').style.display='flex';">
+        <div id="qrPlaceholder" class="qr-placeholder">
+          <span style="font-size:48px;">📷</span>
+          <span>暂未设置付款二维码</span>
+          <span style="font-size:.78rem;">请联系管理员配置</span>
+        </div>
+        <p id="paymentInstructions" class="payment-instructions"></p>
+      </div>
+    </div>
+
+    <!-- 步骤 2：确认支付 -->
+    <div class="card purchase-card reveal-on-scroll" id="confirmCard">
+      <div class="card-body">
+        <div class="step-badge">步骤 2</div>
+        <h3 style="margin-bottom:6px;">✅ 确认支付</h3>
+        <p style="font-size:.85rem;color:var(--text-light);margin-bottom:16px;">
+          付款完成后，请输入微信/支付宝的交易号进行验证
+        </p>
+
+        <div class="form-group">
+          <label>🧾 付款交易号</label>
+          <input class="input input-lg" id="purchaseTxnId"
+                 placeholder="微信/支付宝交易号（如：4200001234567890123456789）"
+                 style="font-family:monospace;text-align:center;">
+          <span class="form-hint">付款成功后可在微信/支付宝的支付记录中找到</span>
+        </div>
+
+        <div class="form-group">
+          <label>💻 硬件指纹 <small style="color:var(--text-lighter);">（可选，也可稍后在激活步骤填写）</small></label>
+          <textarea class="input" id="purchaseFingerprint" placeholder="从 ClassTrack 客户端激活页点击「复制机器指纹」粘贴到这里..." rows="2" style="font-family:monospace;font-size:.82rem;"></textarea>
+        </div>
+
+        <button class="btn btn-accent btn-lg" id="btnVerifyPayment" style="width:100%;justify-content:center;">
+          🔍 验证支付
+        </button>
+
+        <div style="text-align:center;margin-top:12px;">
+          <span style="font-size:.78rem;color:var(--text-lighter);">或</span>
+          <button class="btn btn-sm" id="btnSimulatePayment" style="margin-left:8px;font-size:.78rem;">
+            🧪 模拟支付成功（测试用）
+          </button>
+        </div>
+
+        <div id="paymentVerifyResult" style="display:none;margin-top:20px;"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- Section 5: 下载（支付确认后解锁） -->
+<!-- ============================================================ -->
+<section class="content-section" id="download-section">
+  <div class="section-label">📥 下载软件</div>
+  <h2 class="section-title">下载 ClassTrack 客户端</h2>
+  <p class="section-desc" id="downloadStatusDesc">请先完成付款验证以解锁下载</p>
+
+  <!-- 下载列表（初始隐藏） -->
+  <div id="downloadListContainer" style="display:none;">
+    <div class="card reveal-on-scroll" style="max-width:640px;margin:0 auto 12px;">
+      <div class="card-body" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;">
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div class="download-icon-wrap">📦</div>
+          <div>
+            <div style="font-weight:700;font-size:1.05rem;" id="downloadFilename">ClassTrack_Setup.exe</div>
+            <div style="font-size:.82rem;color:var(--text-light);margin-top:2px;">
+              版本 <span id="downloadVersion">1.5.0</span> · <span id="downloadSize">未知</span> · 已下载 <span id="downloadCount">0</span> 次
+            </div>
+          </div>
+        </div>
+        <a href="#" class="btn btn-primary btn-lg" id="btnDownload">⬇ 立即下载</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 未解锁状态 -->
+  <div id="downloadLocked" style="max-width:500px;margin:0 auto;">
+    <div class="card">
+      <div class="card-body" style="text-align:center;padding:40px 28px;">
+        <span style="font-size:56px;">🔒</span>
+        <p style="margin-top:12px;font-size:1rem;color:var(--text-light);">
+          请先在上方完成付款验证<br>验证通过后即可解锁下载
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- Section 6: 激活软件 -->
+<!-- ============================================================ -->
+<section class="content-section" id="activate">
+  <div class="section-label">🔑 激活软件</div>
+  <h2 class="section-title">激活您的 ClassTrack</h2>
+  <p class="section-desc">下载安装后，打开软件 → 点击激活页「复制机器指纹」→ 粘贴到下方 → 获取激活码 → 回到软件粘贴激活码完成激活</p>
+
+  <div class="card reveal-on-scroll" style="max-width:620px;margin:0 auto;">
+    <div class="card-body">
+      <div class="activation-flow-visual">
+        <div class="af-step"><span>1</span> 打开软件</div>
+        <div class="af-arrow">→</div>
+        <div class="af-step"><span>2</span> 复制指纹</div>
+        <div class="af-arrow">→</div>
+        <div class="af-step"><span>3</span> 粘贴到下方</div>
+        <div class="af-arrow">→</div>
+        <div class="af-step"><span>4</span> 获取激活码</div>
+      </div>
+
+      <div class="form-group">
+        <label>💻 粘贴机器指纹</label>
+        <textarea class="input" id="activateFingerprint"
+                  placeholder="从 ClassTrack 客户端激活页点击「📤 复制机器指纹（发送给商家）」按钮，然后粘贴到这里..."
+                  rows="3" style="font-family:monospace;font-size:.82rem;"></textarea>
+        <span class="form-hint">⚠️ 注意：请复制「机器指纹」而不是「机器码」（机器码带短横线，仅供查看）</span>
+      </div>
+
+      <button class="btn btn-primary btn-lg" id="btnGetActivation" style="width:100%;justify-content:center;">
+        ✨ 获取激活码
+      </button>
+
+      <div id="activationResult" style="display:none;margin-top:20px;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- 页脚 -->
+<!-- ============================================================ -->
+<footer class="app-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span style="font-size:24px;">🎒</span>
+      <span style="font-weight:700;font-size:1.1rem;">ClassTrack</span>
+    </div>
+    <div class="footer-links">
+      <a href="#hero">首页</a>
+      <a href="#demo">预览</a>
+      <a href="#features">功能</a>
+      <a href="#purchase">购买</a>
+      <a href="#activate">激活</a>
+    </div>
+    <div class="footer-copy">
+      <p>© 2026 ClassTrack — 班级作业分组管理系统</p>
+      <p style="font-size:.75rem;">数据本地存储 · 安全可靠 · 离线可用</p>
+    </div>
+  </div>
+</footer>
+
+<!-- 返回顶部 -->
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="返回顶部">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
+
+<!-- Toast 容器 -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+// ============================================================
+// 工具函数
+// ============================================================
+function $(id) { return document.getElementById(id); }
+
+function showToast(msg, type) {
+  type = type || 'info';
+  var c = $('toastContainer');
+  var el = document.createElement('div');
+  el.className = 'toast ' + type;
+  el.textContent = msg;
+  c.appendChild(el);
+  setTimeout(function() {
+    el.classList.add('fade-out');
+    setTimeout(function() { if (el.parentNode) el.parentNode.removeChild(el); }, 350);
+  }, 4000);
+}
+
+function scrollToSection(id) {
+  var el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function copyText(text) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    return navigator.clipboard.writeText(text).then(function() { return true; });
+  }
+  var ta = document.createElement('textarea');
+  ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand('copy'); return Promise.resolve(true); } catch(e) { return Promise.reject(e); }
+  finally { document.body.removeChild(ta); }
+}
+
+// ============================================================
+// 导航栏滚动效果
+// ============================================================
+var nav = $('mainNav'), navTitle = $('navTitle'), navLinks = document.querySelectorAll('.nav-link');
+window.addEventListener('scroll', function() {
+  var s = window.scrollY > 80;
+  nav.classList.toggle('nav-transparent', !s);
+  navTitle.classList.toggle('nav-title-white', !s);
+
+  var sections = ['hero','demo','features','purchase','activate'];
+  var cur = '';
+  sections.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el && el.getBoundingClientRect().top <= 250) cur = id;
+  });
+  navLinks.forEach(function(l) { l.classList.toggle('active', l.getAttribute('href')==='#'+cur); });
+
+  var btt = $('backToTop');
+  if (btt) btt.classList.toggle('visible', window.scrollY > 600);
+});
+
+// ============================================================
+// Demo 标签切换
+// ============================================================
+document.querySelectorAll('.demo-tab').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var tab = this.getAttribute('data-demo-tab');
+    document.querySelectorAll('.demo-tab').forEach(function(b) { b.classList.remove('active'); });
+    this.classList.add('active');
+    document.querySelectorAll('.demo-tab-content').forEach(function(p) { p.classList.remove('active'); });
+    var target = document.getElementById('demo' + tab.charAt(0).toUpperCase() + tab.slice(1));
+    if (target) target.classList.add('active');
+  });
+});
+
+// ============================================================
+// 滚动揭示动画
+// ============================================================
+(function() {
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('revealed'); obs.unobserve(e.target); } });
+  }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+  document.querySelectorAll('.reveal-on-scroll').forEach(function(el) { obs.observe(el); });
+})();
+
+// ============================================================
+// Hero 粒子
+// ============================================================
+(function() {
+  var c = $('heroParticles'), frag = document.createDocumentFragment();
+  for (var i = 0; i < 20; i++) {
+    var d = document.createElement('div');
+    d.className = 'particle';
+    d.style.cssText = 'left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;animation-delay:'+Math.random()*6+'s;animation-duration:'+(Math.random()*4+4)+'s;width:'+(Math.random()*4+2)+'px;height:'+(Math.random()*4+2)+'px';
+    frag.appendChild(d);
+  }
+  c.appendChild(frag);
+})();
+
+// ============================================================
+// 初始化媒体
+// ============================================================
+function initMedia() {
+  fetch('/api/media-info').then(function(r){return r.json()}).then(function(res) {
+    if (res.code!==0) return;
+    if (res.data.hero_video) {
+      $('heroVideo').querySelector('source').src = '/api/media/'+res.data.hero_video;
+      $('heroVideo').load(); $('heroVideo').style.display='block';
+    } else {
+      $('heroVideo').style.display='none';
+      document.querySelector('.hero-video-section').classList.add('no-video');
+    }
+    if (res.data.payment_qr) {
+      $('qrImage').src='/api/media/'+res.data.payment_qr;
+      $('qrImage').style.display='block';
+      $('qrPlaceholder').style.display='none';
+    }
+  }).catch(function(){ document.querySelector('.hero-video-section').classList.add('no-video'); });
+
+  fetch('/api/payment/info').then(function(r){return r.json()}).then(function(res) {
+    if (res.code===0) {
+      $('paymentInstructions').textContent = res.data.instructions || '';
+      if (res.data.has_qr) {
+        $('qrImage').src = res.data.qr_url;
+        $('qrImage').style.display='block';
+        $('qrPlaceholder').style.display='none';
+      }
+    }
+  });
+}
+
+// ============================================================
+// 加载下载列表
+// ============================================================
+function loadDownloadList() {
+  fetch('/api/download-info').then(function(r){return r.json()}).then(function(res) {
+    if (res.code===0 && res.data.length>0) {
+      var p = res.data[0];
+      $('downloadFilename').textContent = p.filename;
+      $('downloadVersion').textContent = p.version;
+      $('downloadSize').textContent = p.file_size_mb;
+      $('downloadCount').textContent = p.download_count;
+      $('btnDownload').href = p.download_url;
+    }
+  });
+}
+
+// 检查下载授权状态
+function checkDownloadAuth() {
+  fetch('/api/download-status').then(function(r){return r.json()}).then(function(res) {
+    if (res.code===0 && res.data.authorized) {
+      unlockDownload();
+    }
+  });
+}
+
+function unlockDownload() {
+  $('downloadListContainer').style.display = 'block';
+  $('downloadLocked').style.display = 'none';
+  $('downloadStatusDesc').textContent = '✅ 支付已验证，请下载软件';
+  updateSteps(3);
+  loadDownloadList();
+  // 触发动画
+  setTimeout(function() {
+    var el = $('downloadListContainer').querySelector('.reveal-on-scroll');
+    if (el) el.classList.add('revealed');
+  }, 100);
+}
+
+// ============================================================
+// 步骤指示器
+// ============================================================
+function updateSteps(activeStep) {
+  document.querySelectorAll('.step-item').forEach(function(item) {
+    var s = parseInt(item.getAttribute('data-step'));
+    item.classList.remove('active','done');
+    if (s < activeStep) item.classList.add('done');
+    if (s === activeStep) item.classList.add('active');
+  });
+}
+
+// ============================================================
+// 支付验证
+// ============================================================
+$('btnVerifyPayment').addEventListener('click', function() {
+  var txn = $('purchaseTxnId').value.trim();
+  var fp = $('purchaseFingerprint').value.trim();
+
+  if (!txn) { showToast('请输入付款交易号','warn'); return; }
+
+  var btn = $('btnVerifyPayment');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> 验证中...';
+
+  fetch('/api/payment/verify', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({txn_id: txn, fingerprint: fp})
+  })
+    .then(function(r){return r.json()})
+    .then(function(res) {
+      btn.disabled = false; btn.innerHTML = '🔍 验证支付';
+      var result = $('paymentVerifyResult');
+      result.style.display = 'block';
+
+      if (res.code===0 && res.data && res.data.verified) {
+        updateSteps(3);
+        var orderInfo = res.data.order_no ? '<div style="font-family:monospace;font-size:.82rem;color:var(--primary);margin:8px 0;">订单号: ' + res.data.order_no + '</div>' : '';
+        result.innerHTML =
+          '<div class="activation-result-card">' +
+          '<div class="activation-result-icon">✅</div>' +
+          '<div style="font-weight:700;color:#3A7D5A;margin-bottom:4px;">支付验证成功！</div>' +
+          '<p style="font-size:.85rem;color:var(--text-light);">现在您可以下载软件了</p>' +
+          orderInfo +
+          '<button class="btn btn-primary" style="margin-top:12px;" onclick="scrollToSection(\'download-section\');unlockDownload();">📥 前往下载</button>' +
+          (fp ? '<p style="font-size:.8rem;color:var(--text-light);margin-top:8px;">激活码将稍后在激活步骤生成</p>' : '') +
+          '</div>';
+        unlockDownload();
+      } else {
+        result.innerHTML = '<div class="result-error" style="text-align:center;">' +
+          '❌ ' + (res.msg || '支付验证失败，请检查交易号是否正确') +
+          '<br><small style="color:var(--text-lighter);">如果已付款但验证失败，请尝试「模拟支付」或联系客服</small>' +
+          '</div>';
+      }
+    })
+    .catch(function() {
+      btn.disabled = false; btn.innerHTML = '🔍 验证支付';
+      showToast('网络错误，请重试','error');
+    });
+});
+
+// 模拟支付
+$('btnSimulatePayment').addEventListener('click', function() {
+  var fp = $('purchaseFingerprint').value.trim();
+
+  var btn = $('btnSimulatePayment');
+  btn.disabled = true; btn.textContent = '⏳ 模拟中...';
+
+  fetch('/api/payment/simulate', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({fingerprint: fp})
+  })
+    .then(function(r){return r.json()})
+    .then(function(res) {
+      btn.disabled = false; btn.textContent = '🧪 模拟支付成功（测试用）';
+      var result = $('paymentVerifyResult');
+      result.style.display = 'block';
+
+      if (res.code===0) {
+        updateSteps(3);
+        result.innerHTML =
+          '<div class="activation-result-card">' +
+          '<div class="activation-result-icon">🧪</div>' +
+          '<div style="font-weight:700;color:#3A7D5A;margin-bottom:4px;">模拟支付成功！</div>' +
+          '<p style="font-size:.85rem;color:var(--text-light);">（测试模式）现在可以下载软件了</p>' +
+          (res.data && res.data.order_no ?
+            '<div style="font-family:monospace;font-size:.82rem;color:var(--primary);margin:8px 0;">订单号: ' + res.data.order_no + '</div>' : '') +
+          '<button class="btn btn-primary" style="margin-top:12px;" onclick="scrollToSection(\'download-section\');unlockDownload();">📥 前往下载</button>' +
+          (res.data && res.data.reg_code ?
+            '<div style="margin-top:16px;padding:16px;background:rgba(255,255,255,0.5);border-radius:14px;">' +
+            '<div style="font-size:.78rem;color:var(--text-light);">已预生成激活码（可跳过激活步骤）：</div>' +
+            '<div style="font-family:monospace;font-weight:700;word-break:break-all;margin-top:4px;">'+res.data.reg_code+'</div>' +
+            '<button class="btn btn-sm" style="margin-top:8px;" onclick="copyText(\''+res.data.reg_code+'\').then(function(){showToast(\'已复制激活码\',\'success\')})">📋 复制激活码</button>' +
+            '</div>' : '') +
+          '</div>';
+        unlockDownload();
+      } else {
+        result.innerHTML = '<div class="result-error" style="text-align:center;">❌ ' + (res.msg || '模拟失败') + '</div>';
+      }
+    })
+    .catch(function() {
+      btn.disabled = false; btn.textContent = '🧪 模拟支付成功（测试用）';
+      showToast('网络错误','error');
+    });
+});
+
+// ============================================================
+// 激活码生成
+// ============================================================
+$('btnGetActivation').addEventListener('click', function() {
+  var fp = $('activateFingerprint').value.trim();
+  if (!fp || fp.length < 6) { showToast('请粘贴有效的机器指纹（从客户端复制）','warn'); return; }
+
+  var btn = $('btnGetActivation');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> 生成中...';
+
+  fetch('/api/exchange-code', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({fingerprint: fp})
+  })
+    .then(function(r){return r.json()})
+    .then(function(res) {
+      btn.disabled = false; btn.innerHTML = '✨ 获取激活码';
+      var result = $('activationResult');
+      result.style.display = 'block';
+
+      if (res.code===0) {
+        result.innerHTML =
+          '<div class="activation-result-card">' +
+          '<div class="activation-result-icon">🎉</div>' +
+          '<div style="font-size:.82rem;color:var(--text-light);margin-bottom:6px;">您的激活码（请复制到软件激活页）</div>' +
+          '<div class="activation-result-code">' + res.data.reg_code + '</div>' +
+          '<div style="margin-top:12px;">' + (res.data.is_paid ? '<span class="badge badge-paid">✅ 已付款</span>' : '<span class="badge badge-pending">⏳ 待付款</span>') + '</div>' +
+          '<div style="margin-top:14px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">' +
+          '<button class="btn btn-primary btn-sm" id="btnCopyActivation">📋 复制激活码</button>' +
+          '</div>' +
+          '<p style="font-size:.8rem;color:var(--text-light);margin-top:10px;">复制激活码后，回到 ClassTrack 软件激活页粘贴即可完成激活</p>' +
+          '</div>';
+        document.getElementById('btnCopyActivation').addEventListener('click', function() {
+          copyText(res.data.reg_code).then(function() { showToast('已复制激活码，请粘贴到软件中','success'); });
+        });
+      } else {
+        result.innerHTML = '<div class="result-error" style="text-align:center;">❌ ' + res.msg + '</div>';
+      }
+    })
+    .catch(function() {
+      btn.disabled = false; btn.innerHTML = '✨ 获取激活码';
+      showToast('网络错误','error');
+    });
+});
+
+// ============================================================
+// 初始化
+// ============================================================
+initMedia();
+checkDownloadAuth();
+$('download-section').style.display = '';
+</script>
+
+</body>
+</html>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClassTrack.com — 系统设置</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!-- 导航栏 -->
+<!-- ============================================================ -->
+<header class="app-header">
+  <div class="header-inner">
+    <div class="logo-area">
+      <span class="logo-icon">🎒</span>
+      <h1 class="app-title">ClassTrack.com</h1>
+    </div>
+    <nav class="header-nav">
+      <a href="/">🏠 首页</a>
+      <a href="/admin">📊 管理看板</a>
+      <a href="/admin/settings" class="active">⚙️ 系统设置</a>
+      <a href="/admin/logout" style="color:var(--danger);">🚪 退出</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+
+<!-- ============================================================ -->
+<!-- 标题 -->
+<!-- ============================================================ -->
+<div style="margin-bottom:24px;">
+  <h2 style="font-size:1.4rem;font-weight:700;color:var(--text);">⚙️ 系统设置</h2>
+  <p style="font-size:.88rem;color:var(--text-light);">ClassTrack.com · 配置后台 · 管理接口与路径</p>
+</div>
+
+<!-- ============================================================ -->
+<!-- 配置表单 -->
+<!-- ============================================================ -->
+<div class="card" style="max-width:720px;">
+  <div class="card-header">
+    <span class="card-icon">🔧</span>
+    <h3>服务配置</h3>
+  </div>
+  <div class="card-body">
+
+    <!-- 配置项 1: 支付接口 -->
+    <div class="form-group">
+      <label for="paymentApiUrl">💳 支付接口地址</label>
+      <input type="url" class="input" id="paymentApiUrl" placeholder="https://api.example.com/payment/callback" value="{{ config.get('payment_api_url', '') }}">
+      <div style="font-size:.76rem;color:var(--text-lighter);margin-top:4px;">用户付款成功后的回调接口地址</div>
+    </div>
+
+    <!-- 配置项 2: 视频上传 -->
+    <div class="form-group">
+      <label for="videoUploadUrl">📹 视频上传地址</label>
+      <input type="url" class="input" id="videoUploadUrl" placeholder="https://upload.example.com/video" value="{{ config.get('video_upload_url', '') }}">
+      <div style="font-size:.76rem;color:var(--text-lighter);margin-top:4px;">教学视频上传的目标接口地址</div>
+    </div>
+
+    <!-- 配置项 3: 软件包路径 -->
+    <div class="form-group">
+      <label for="softwarePackagePath">📁 软件包存储路径</label>
+      <input type="text" class="input" id="softwarePackagePath" placeholder="D:\ClassTrack\backend_server\data\files" value="{{ config.get('software_package_path', '') }}">
+      <div style="font-size:.76rem;color:var(--text-lighter);margin-top:4px;">客户端软件安装包的本地存储目录路径</div>
+    </div>
+
+    <div style="border-top:1px solid rgba(0,0,0,0.06);padding-top:18px;margin-top:6px;">
+      <button class="btn btn-primary btn-lg" id="btnSave" style="width:100%;justify-content:center;">💾 保存配置</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- 订单设置 -->
+<!-- ============================================================ -->
+<div class="card mt-3" style="max-width:720px;">
+  <div class="card-header">
+    <span class="card-icon">📋</span>
+    <h3>订单设置</h3>
+  </div>
+  <div class="card-body">
+    <div class="form-group">
+      <label for="defaultAmount">💰 默认金额 (元)</label>
+      <input type="text" class="input" id="defaultAmount" placeholder="0.00" value="{{ config.get('default_amount', '0.00') }}">
+    </div>
+    <div class="form-group">
+      <label for="orderExpiry">⏰ 未付订单过期时间 (分钟)</label>
+      <input type="number" class="input" id="orderExpiry" placeholder="30" value="{{ config.get('order_expiry_minutes', '30') }}">
+      <div style="font-size:.76rem;color:var(--text-lighter);margin-top:4px;">超过此时间的待付款订单将自动标记为已过期</div>
+    </div>
+    <button class="btn btn-primary" id="btnSaveOrder" style="width:100%;justify-content:center;">💾 保存订单设置</button>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- 隧道设置 -->
+<!-- ============================================================ -->
+<div class="card mt-3" style="max-width:720px;">
+  <div class="card-header">
+    <span class="card-icon">🌐</span>
+    <h3>内网穿透设置</h3>
+  </div>
+  <div class="card-body">
+    <div style="font-size:.82rem;color:var(--text-light);margin-bottom:16px;">启用后自动获取公网URL，外网用户也能访问。<strong>推荐使用 serveo.net — 完全免费，无需注册！</strong>Windows 10+ 自带SSH，零依赖即可使用。</div>
+
+    <div class="form-group">
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+        <input type="checkbox" id="tunnelEnabled" {% if config.get('tunnel_enabled', '1') == '1' %}checked{% endif %} style="width:18px;height:18px;">
+        <span style="font-weight:600;">启用内网穿透</span>
+      </label>
+    </div>
+
+    <div class="form-group">
+      <label for="tunnelBackend">隧道后端</label>
+      <select class="input" id="tunnelBackend">
+        <option value="serveo" {% if config.get('tunnel_backend', 'serveo') == 'serveo' %}selected{% endif %}>serveo.net — SSH免费免注册 ✅推荐</option>
+        <option value="localhost_run" {% if config.get('tunnel_backend', '') == 'localhost_run' %}selected{% endif %}>localhost.run — SSH备选</option>
+        <option value="pyngrok" {% if config.get('tunnel_backend', '') == 'pyngrok' %}selected{% endif %}>pyngrok — 需注册ngrok账号</option>
+        <option value="disabled" {% if config.get('tunnel_backend', '') == 'disabled' %}selected{% endif %}>禁用隧道</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="tunnelAuthToken">🔑 Ngrok Auth Token</label>
+      <input type="password" class="input" id="tunnelAuthToken" placeholder="在 ngrok.com 注册后获取" value="{{ config.get('tunnel_ngrok_auth_token', '') }}">
+    </div>
+
+    <div class="form-group">
+      <label>📡 公网URL状态</label>
+      <div id="tunnelUrlDisplay" style="padding:8px 12px;border-radius:10px;font-family:monospace;font-size:.85rem;
+        {% if config.get('tunnel_public_url', '') %}background:var(--success-pale);color:var(--success);{% else %}background:var(--warning-pale);color:var(--text-light);{% endif %}">
+        {% if config.get('tunnel_public_url', '') %}🟢 {{ config.get('tunnel_public_url', '') }}{% else %}🔴 未连接{% endif %}
+      </div>
+    </div>
+
+    <div style="display:flex;gap:8px;">
+      <button class="btn btn-primary" id="btnSaveTunnel" style="flex:1;justify-content:center;">💾 保存隧道配置</button>
+      <button class="btn btn-accent" id="btnRestartTunnel" style="flex:1;justify-content:center;">🔄 重启隧道</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- 当前配置摘要 -->
+<!-- ============================================================ -->
+<div class="card mt-3" style="max-width:720px;">
+  <div class="card-header">
+    <span class="card-icon">📋</span>
+    <h3>当前配置摘要</h3>
+  </div>
+  <div class="card-body">
+    <table style="width:100%;">
+      <tbody>
+        <tr><td style="font-weight:600;width:140px;">💳 支付接口</td><td style="font-family:monospace;font-size:.82rem;word-break:break-all;" id="summaryPayment">{{ config.get('payment_api_url', '未设置') }}</td></tr>
+        <tr><td style="font-weight:600;">📹 视频上传</td><td style="font-family:monospace;font-size:.82rem;word-break:break-all;" id="summaryVideo">{{ config.get('video_upload_url', '未设置') }}</td></tr>
+        <tr><td style="font-weight:600;">📁 软件包路径</td><td style="font-family:monospace;font-size:.82rem;word-break:break-all;" id="summaryPath">{{ config.get('software_package_path', '未设置') }}</td></tr>
+        <tr><td style="font-weight:600;">💰 默认金额</td><td style="font-family:monospace;font-size:.82rem;" id="summaryAmount">{{ config.get('default_amount', '0.00') }}</td></tr>
+        <tr><td style="font-weight:600;">⏰ 订单过期</td><td style="font-family:monospace;font-size:.82rem;" id="summaryExpiry">{{ config.get('order_expiry_minutes', '30') }}分钟</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+</div><!-- /.container -->
+
+<!-- ============================================================ -->
+<!-- 页脚 -->
+<!-- ============================================================ -->
+<footer class="app-footer">
+  <p>© 2026 ClassTrack.com — 班级作业分组管理系统</p>
+</footer>
+
+<!-- Toast -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+function showToast(msg, type) {
+  type = type || 'info';
+  var c = document.getElementById('toastContainer');
+  var el = document.createElement('div');
+  el.className = 'toast ' + type;
+  el.textContent = msg;
+  c.appendChild(el);
+  setTimeout(function() {
+    el.classList.add('fade-out');
+    setTimeout(function() { if (el.parentNode) el.parentNode.removeChild(el); }, 350);
+  }, 3500);
+}
+
+// === 保存基本配置 ===
+document.getElementById('btnSave').addEventListener('click', function() {
+  var btn = document.getElementById('btnSave');
+  btn.disabled = true; btn.textContent = '⏳ 保存中...';
+  fetch('/api/admin/settings', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      payment_api_url: document.getElementById('paymentApiUrl').value.trim(),
+      video_upload_url: document.getElementById('videoUploadUrl').value.trim(),
+      software_package_path: document.getElementById('softwarePackagePath').value.trim(),
+    })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(res) {
+    btn.disabled = false; btn.textContent = '💾 保存配置';
+    if (res.code === 0) {
+      showToast('配置已保存成功', 'success');
+      document.getElementById('summaryPayment').textContent = document.getElementById('paymentApiUrl').value.trim() || '未设置';
+      document.getElementById('summaryVideo').textContent = document.getElementById('videoUploadUrl').value.trim() || '未设置';
+      document.getElementById('summaryPath').textContent = document.getElementById('softwarePackagePath').value.trim() || '未设置';
+    } else showToast(res.msg || '保存失败', 'error');
+  })
+  .catch(function() { btn.disabled = false; btn.textContent = '💾 保存配置'; showToast('网络错误', 'error'); });
+});
+
+// === 保存订单设置 ===
+document.getElementById('btnSaveOrder').addEventListener('click', function() {
+  var btn = document.getElementById('btnSaveOrder');
+  btn.disabled = true; btn.textContent = '⏳ 保存中...';
+  fetch('/api/admin/settings', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      default_amount: document.getElementById('defaultAmount').value.trim(),
+      order_expiry_minutes: document.getElementById('orderExpiry').value.trim(),
+    })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(res) {
+    btn.disabled = false; btn.textContent = '💾 保存订单设置';
+    if (res.code === 0) {
+      showToast('订单设置已保存', 'success');
+      document.getElementById('summaryAmount').textContent = document.getElementById('defaultAmount').value.trim();
+      document.getElementById('summaryExpiry').textContent = document.getElementById('orderExpiry').value.trim() + '分钟';
+    } else showToast(res.msg || '保存失败', 'error');
+  })
+  .catch(function() { btn.disabled = false; btn.textContent = '💾 保存订单设置'; showToast('网络错误', 'error'); });
+});
+
+// === 保存隧道配置 ===
+document.getElementById('btnSaveTunnel').addEventListener('click', function() {
+  var btn = document.getElementById('btnSaveTunnel');
+  btn.disabled = true; btn.textContent = '⏳ 保存中...';
+  fetch('/api/admin/tunnel/config', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      backend: document.getElementById('tunnelBackend').value,
+      auth_token: document.getElementById('tunnelAuthToken').value.trim(),
+    })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(res) {
+    btn.disabled = false; btn.textContent = '💾 保存隧道配置';
+    showToast(res.msg || '已保存', res.code === 0 ? 'success' : 'error');
+    // 同时保存 enabled 状态
+    var en = document.getElementById('tunnelEnabled').checked ? '1' : '0';
+    fetch('/api/admin/settings', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({tunnel_enabled: en})
+    });
+  })
+  .catch(function() { btn.disabled = false; btn.textContent = '💾 保存隧道配置'; showToast('网络错误', 'error'); });
+});
+
+// === 重启隧道 ===
+document.getElementById('btnRestartTunnel').addEventListener('click', function() {
+  var btn = document.getElementById('btnRestartTunnel');
+  btn.disabled = true; btn.textContent = '⏳ 重启中...';
+  fetch('/api/admin/tunnel/restart', {method: 'POST'})
+  .then(function(r) { return r.json(); })
+  .then(function(res) {
+    btn.disabled = false; btn.textContent = '🔄 重启隧道';
+    if (res.code === 0 && res.data && res.data.public_url) {
+      document.getElementById('tunnelUrlDisplay').innerHTML = '🟢 ' + res.data.public_url;
+      document.getElementById('tunnelUrlDisplay').style.background = 'var(--success-pale)';
+      document.getElementById('tunnelUrlDisplay').style.color = 'var(--success)';
+      showToast('隧道已连接: ' + res.data.public_url, 'success');
+    } else {
+      document.getElementById('tunnelUrlDisplay').innerHTML = '🔴 未连接';
+      document.getElementById('tunnelUrlDisplay').style.background = 'var(--warning-pale)';
+      document.getElementById('tunnelUrlDisplay').style.color = 'var(--text-light)';
+      showToast(res.msg || '隧道重启失败', 'error');
+    }
+  })
+  .catch(function() { btn.disabled = false; btn.textContent = '🔄 重启隧道'; showToast('网络错误', 'error'); });
+});
+</script>
+
+</body>
+</html>

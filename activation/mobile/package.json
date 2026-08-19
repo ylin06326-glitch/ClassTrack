@@ -1,0 +1,18 @@
+{
+  "name": "mobile",
+  "version": "1.0.0",
+  "description": "移动版 PWA（Progressive Web App），替代原 PC 版的 `merchant_tool.py`（Tkinter GUI）。",
+  "main": "sw.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@capacitor/android": "^8.4.2",
+    "@capacitor/cli": "^8.4.2",
+    "@capacitor/core": "^8.4.2"
+  }
+}

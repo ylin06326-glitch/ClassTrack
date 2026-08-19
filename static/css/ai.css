@@ -1,0 +1,524 @@
+/* ============================================================
+   ClassTrack v2.0 — AI 助手模块样式
+   马卡龙色系 · 液态玻璃 · 简洁友好
+   ============================================================ */
+
+/* ---- AI 设置页 ---- */
+.settings-container {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 8px 0;
+}
+.settings-card {
+  background: rgba(255,255,255,0.55);
+  backdrop-filter: blur(12px) saturate(1.4);
+  -webkit-backdrop-filter: blur(12px) saturate(1.4);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: var(--radius);
+  padding: 24px 28px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 20px rgba(80,60,50,0.04);
+}
+.settings-card h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 18px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.settings-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.settings-row label {
+  flex: 0 0 100px;
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--text-light);
+  text-align: right;
+  white-space: nowrap;
+}
+.settings-row input,
+.settings-row select {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: var(--radius-sm);
+  font-size: .88rem;
+  font-family: var(--font);
+  color: var(--text);
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: border-color var(--transition-fast);
+}
+.settings-row input:focus,
+.settings-row select:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(126,181,214,0.15);
+}
+.settings-row input[type="password"] {
+  letter-spacing: 2px;
+}
+.settings-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(200,190,185,0.12);
+}
+.settings-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: .82rem;
+  font-weight: 600;
+  margin-top: 8px;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+}
+.settings-status.success {
+  color: #2d8a56;
+  background: rgba(168,213,186,0.2);
+}
+.settings-status.error {
+  color: #c0392b;
+  background: rgba(232,160,191,0.2);
+}
+
+/* ---- AI 对话页 ---- */
+.ai-chat-container {
+  display: flex;
+  gap: 16px;
+  height: calc(100vh - 200px);
+  min-height: 500px;
+}
+.ai-chat-left {
+  flex: 1;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  background: rgba(255,255,255,0.45);
+  backdrop-filter: blur(10px) saturate(1.3);
+  -webkit-backdrop-filter: blur(10px) saturate(1.3);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.ai-chat-right {
+  flex: 1;
+  min-width: 300px;
+  background: rgba(255,255,255,0.45);
+  backdrop-filter: blur(10px) saturate(1.3);
+  -webkit-backdrop-filter: blur(10px) saturate(1.3);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.ai-chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.ai-chat-input-area {
+  padding: 12px 16px;
+  border-top: 1px solid rgba(200,190,185,0.12);
+  display: flex;
+  gap: 8px;
+  background: rgba(255,255,255,0.3);
+}
+.ai-chat-input-area input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 20px;
+  font-size: .88rem;
+  font-family: var(--font);
+  color: var(--text);
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+.ai-chat-input-area input:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(126,181,214,0.12);
+}
+.ai-chat-input-area button {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 20px;
+  background: var(--blue);
+  color: #fff;
+  font-size: .88rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font);
+  transition: transform var(--transition-fast), opacity var(--transition-fast), background var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+  white-space: nowrap;
+}
+.ai-chat-input-area button:hover {
+  background: #6ba5c4;
+  transform: translateY(-1px);
+}
+.ai-chat-input-area button:active {
+  transform: scale(0.97);
+}
+.ai-chat-input-area button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* 聊天气泡 */
+.ai-msg {
+  max-width: 90%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-size: .85rem;
+  line-height: 1.55;
+  animation: aiMsgIn 0.3s ease-out;
+}
+@keyframes aiMsgIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.ai-msg-user {
+  align-self: flex-end;
+  background: var(--blue);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+.ai-msg-ai {
+  align-self: flex-start;
+  background: rgba(255,255,255,0.75);
+  color: var(--text);
+  border-bottom-left-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.ai-msg-ai p { margin: 0 0 6px 0; }
+.ai-msg-ai p:last-child { margin-bottom: 0; }
+.ai-msg-ai strong { color: var(--text); }
+.ai-msg-ai em { color: var(--text-light); }
+.ai-msg-loading {
+  align-self: flex-start;
+  display: flex;
+  gap: 4px;
+  padding: 12px 16px;
+}
+.ai-msg-loading span {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--text-lighter);
+  animation: aiDot 1.4s ease-in-out infinite;
+}
+.ai-msg-loading span:nth-child(2) { animation-delay: 0.2s; }
+.ai-msg-loading span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes aiDot {
+  0%,80%,100% { transform: scale(0.6); opacity: 0.4; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+/* 快捷提问按钮 */
+.ai-quick-questions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 10px 16px;
+  border-top: 1px solid rgba(200,190,185,0.08);
+}
+.ai-quick-btn {
+  padding: 5px 12px;
+  border: 1px solid rgba(126,181,214,0.3);
+  border-radius: 14px;
+  background: rgba(126,181,214,0.08);
+  color: var(--blue);
+  font-size: .78rem;
+  cursor: pointer;
+  font-family: var(--font);
+  transition: transform var(--transition-fast), opacity var(--transition-fast), background var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+  white-space: nowrap;
+}
+.ai-quick-btn:hover {
+  background: rgba(126,181,214,0.18);
+  border-color: var(--blue);
+}
+
+/* 图表区域头部 */
+.ai-chart-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(200,190,185,0.12);
+  font-size: .9rem;
+  font-weight: 600;
+  color: var(--text);
+}
+.ai-chart-body {
+  flex: 1;
+  min-height: 0;
+}
+.ai-chart-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text-lighter);
+  font-size: .9rem;
+  gap: 8px;
+}
+.ai-chart-placeholder .placeholder-icon {
+  font-size: 3rem;
+  opacity: 0.5;
+}
+
+/* ---- 预警横幅 ---- */
+.alert-banner {
+  margin: 0 0 12px 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  animation: alertSlideIn 0.4s ease-out;
+}
+@keyframes alertSlideIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.alert-banner-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+.alert-banner-item:hover {
+  filter: brightness(0.96);
+}
+.alert-banner-item + .alert-banner-item {
+  border-top: 1px solid rgba(255,255,255,0.3);
+}
+.alert-banner-danger {
+  background: linear-gradient(135deg, rgba(231,76,60,0.12), rgba(232,160,191,0.18));
+  border: 1px solid rgba(231,76,60,0.2);
+}
+.alert-banner-warning {
+  background: linear-gradient(135deg, rgba(243,156,18,0.1), rgba(244,201,126,0.15));
+  border: 1px solid rgba(243,156,18,0.2);
+}
+.alert-icon {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+.alert-content {
+  flex: 1;
+  min-width: 0;
+}
+.alert-title {
+  font-size: .85rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.alert-detail {
+  font-size: .78rem;
+  color: var(--text-light);
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.alert-action {
+  flex-shrink: 0;
+  font-size: .75rem;
+  color: var(--blue);
+  font-weight: 600;
+}
+
+/* ---- AI 评语弹窗 ---- */
+.comment-modal .modal-card {
+  max-width: 520px;
+}
+.comment-content {
+  padding: 16px 20px;
+  font-size: .9rem;
+  line-height: 1.7;
+  color: var(--text);
+  background: rgba(255,255,255,0.6);
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255,255,255,0.25);
+  min-height: 80px;
+  white-space: pre-wrap;
+}
+.comment-stats {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.comment-stat {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: .8rem;
+  color: var(--text-light);
+  background: rgba(255,255,255,0.5);
+  padding: 4px 10px;
+  border-radius: 10px;
+}
+.comment-stat strong {
+  color: var(--text);
+}
+
+/* ---- 智能分组弹窗 ---- */
+.smart-group-preview {
+  max-height: 400px;
+  overflow-y: auto;
+}
+.smart-group-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 8px;
+  background: rgba(255,255,255,0.5);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+.smart-group-color {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.smart-group-name {
+  font-weight: 700;
+  font-size: .85rem;
+  min-width: 50px;
+}
+.smart-group-info {
+  font-size: .78rem;
+  color: var(--text-light);
+  flex: 1;
+}
+.smart-group-students {
+  font-size: .75rem;
+  color: var(--text-lighter);
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---- 考试上传条 ---- */
+.ai-exam-bar {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 12px;
+  background: rgba(168,213,186,0.15);
+  border-bottom: 1px solid rgba(168,213,186,0.25);
+  font-size: .78rem; color: var(--text);
+}
+.ai-exam-icon { font-size: 1rem; }
+.btn-upload-exam {
+  width: 34px; height: 34px;
+  border: 1px dashed rgba(126,181,214,0.4);
+  border-radius: 50%;
+  background: rgba(126,181,214,0.06);
+  cursor: pointer; font-size: 1rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform var(--transition-fast), opacity var(--transition-fast), background var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast); flex-shrink: 0;
+}
+.btn-upload-exam:hover {
+  background: rgba(126,181,214,0.15);
+  border-color: var(--blue);
+  transform: scale(1.05);
+}
+
+/* ---- 考试预览弹窗 ---- */
+.exam-preview-class {
+  margin-bottom: 12px;
+  border: 1px solid rgba(200,190,185,0.15);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+.exam-preview-class-header {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 14px;
+  background: rgba(126,181,214,0.08);
+  font-weight: 600; font-size: .88rem;
+  cursor: pointer;
+}
+.exam-preview-class-body {
+  padding: 8px 14px;
+  max-height: 240px; overflow-y: auto;
+}
+.exam-preview-stats {
+  display: flex; gap: 12px; flex-wrap: wrap;
+  padding: 6px 0; font-size: .78rem; color: var(--text-light);
+}
+
+/* ---- 追问区 ---- */
+.ai-follow-ups {
+  animation: aiMsgIn 0.35s ease-out;
+}
+
+/* ---- 导出按钮条 ---- */
+.ai-export-bar {
+  animation: aiMsgIn 0.3s ease-out;
+}
+
+/* ---- 响应式 ---- */
+@media (max-width: 768px) {
+  .ai-chat-container {
+    flex-direction: column;
+    height: auto;
+  }
+  .ai-chat-left,
+  .ai-chat-right {
+    min-width: auto;
+    min-height: 300px;
+  }
+  .settings-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+  }
+  .settings-row label {
+    text-align: left;
+    flex: none;
+  }
+}
+
+/* ============================================================
+   prefers-reduced-motion — respect user preference
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================================
+   hover gate — only apply hover-effects on devices with true hover
+   ============================================================ */
+@media (hover: none) {
+  .ai-chat-input-area button:hover,
+  .ai-quick-btn:hover,
+  .btn-upload-exam:hover {
+    transform: none;
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "fernet_key": "M2nuPPGc1jrw6J62gWseQLWOeISOPlSlbO-fOujB1d4=",
+  "xor_keys": [
+    "145861f62deaebcf50bb70ba81640f6e",
+    "202b59fab72b75a13613fdd578023f05",
+    "76ee78630ddd85e82c3ef092c8bdd6cb"
+  ],
+  "build_time": "2026-07-28T17:40:31.017317",
+  "resource_count": 12
+}

@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClassTrack.com — 管理看板</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!-- 导航栏 -->
+<!-- ============================================================ -->
+<header class="app-header">
+  <div class="header-inner">
+    <div class="logo-area">
+      <span class="logo-icon">🎒</span>
+      <h1 class="app-title">ClassTrack.com</h1>
+    </div>
+    <nav class="header-nav">
+      <a href="/">🏠 首页</a>
+      <a href="/admin" class="active">📊 管理看板</a>
+      <a href="/admin/settings">⚙️ 系统设置</a>
+      <a href="/admin/logout" style="color:var(--danger);">🚪 退出</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+
+<!-- ============================================================ -->
+<!-- 标题 -->
+<!-- ============================================================ -->
+<div style="margin-bottom:24px;">
+  <h2 style="font-size:1.4rem;font-weight:700;color:var(--text);">📊 管理看板</h2>
+  <p style="font-size:.88rem;color:var(--text-light);">ClassTrack.com · 注册码管理 · 付款状态追踪</p>
+</div>
+
+<!-- ============================================================ -->
+<!-- 统计卡片 -->
+<!-- ============================================================ -->
+<div class="stats-grid" id="statsGrid">
+  <div class="stat-card blue">
+    <div class="stat-card-icon">🔑</div>
+    <div class="stat-card-value" id="statTotal">-</div>
+    <div class="stat-card-label">注册码总数</div>
+  </div>
+  <div class="stat-card green">
+    <div class="stat-card-icon">✅</div>
+    <div class="stat-card-value" id="statPaid">-</div>
+    <div class="stat-card-label">已付款</div>
+  </div>
+  <div class="stat-card orange">
+    <div class="stat-card-icon">⏳</div>
+    <div class="stat-card-value" id="statUnpaid">-</div>
+    <div class="stat-card-label">待付款</div>
+  </div>
+  <div class="stat-card teal">
+    <div class="stat-card-icon">📋</div>
+    <div class="stat-card-value" id="statOrders">-</div>
+    <div class="stat-card-label">总订单数</div>
+  </div>
+  <div class="stat-card orange">
+    <div class="stat-card-icon">⏳</div>
+    <div class="stat-card-value" id="statPendingOrders">-</div>
+    <div class="stat-card-label">待处理订单</div>
+  </div>
+  <div class="stat-card green">
+    <div class="stat-card-icon">💰</div>
+    <div class="stat-card-value" id="statRevenue">¥-</div>
+    <div class="stat-card-label">总收入</div>
+  </div>
+  <div class="stat-card pink">
+    <div class="stat-card-icon">📥</div>
+    <div class="stat-card-value" id="statDownloads">-</div>
+    <div class="stat-card-label">总下载次数</div>
+  </div>
+  <div class="stat-card blue">
+    <div class="stat-card-icon">🆕</div>
+    <div class="stat-card-value" id="statToday">-</div>
+    <div class="stat-card-label">今日新增</div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- 隧道状态条 -->
+<!-- ============================================================ -->
+<div class="card mt-3" id="tunnelStatusBar" style="display:none;">
+  <div class="card-body" style="padding:10px 20px;">
+    <span id="tunnelStatusIcon">🔴</span>
+    <span id="tunnelStatusText" style="font-size:.88rem;margin-left:8px;">公网未连接</span>
+    <span id="tunnelUrl" style="font-size:.82rem;color:var(--text-lighter);margin-left:12px;font-family:monospace;"></span>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- Tab 切换 -->
+<!-- ============================================================ -->
+<div class="flex-between mt-3" style="gap:8px;">
+  <div style="display:flex;gap:8px;">
+    <button class="btn btn-sm tab-switch active" data-tab="records">📋 注册码管理</button>
+    <button class="btn btn-sm tab-switch" data-tab="orders">📦 订单管理</button>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- Tab: 注册码筛选 + 搜索 -->
+<!-- ============================================================ -->
+<div id="tabRecords">
+<div class="card mt-2">
+  <div class="card-body">
+    <div class="flex-between">
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+        <span style="font-weight:600;font-size:.88rem;">筛选:</span>
+        <button class="btn btn-sm status-filter active" data-status="all">全部</button>
+        <button class="btn btn-sm status-filter" data-status="paid">✅ 已付款</button>
+        <button class="btn btn-sm status-filter" data-status="unpaid">⏳ 待付款</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+        <input class="input" id="searchInput" placeholder="搜索指纹/注册码/备注..." style="width:240px;">
+        <button class="btn btn-sm" id="btnSearch">🔍 搜索</button>
+        <button class="btn btn-sm btn-accent" id="btnUpload">📤 上传软件包</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 记录表格 -->
+<div class="card mt-2">
+  <div class="card-body" style="padding:0;">
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>订单号</th>
+            <th>指纹</th>
+            <th>注册码</th>
+            <th>备注</th>
+            <th>状态</th>
+            <th>创建时间</th>
+            <th>付款时间</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody id="recordsTableBody">
+          <tr><td colspan="9" style="text-align:center;padding:40px;color:var(--text-lighter);">加载中...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- 分页 -->
+<div class="flex-between mt-2" id="paginationBar" style="justify-content:center;gap:8px;"></div>
+</div><!-- /tabRecords -->
+
+<!-- ============================================================ -->
+<!-- Tab: 订单管理 -->
+<!-- ============================================================ -->
+<div id="tabOrders" style="display:none;">
+<div class="card mt-2">
+  <div class="card-body">
+    <div class="flex-between">
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+        <span style="font-weight:600;font-size:.88rem;">筛选:</span>
+        <button class="btn btn-sm order-filter active" data-status="all">全部</button>
+        <button class="btn btn-sm order-filter" data-status="pending">⏳ 待付款</button>
+        <button class="btn btn-sm order-filter" data-status="paid">✅ 已付款</button>
+        <button class="btn btn-sm order-filter" data-status="expired">⏰ 已过期</button>
+        <button class="btn btn-sm order-filter" data-status="refunded">↩️ 已退款</button>
+        <button class="btn btn-sm order-filter" data-status="cancelled">❌ 已取消</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+        <input class="input" id="orderSearchInput" placeholder="搜索订单号/指纹..." style="width:240px;">
+        <button class="btn btn-sm" id="btnOrderSearch">🔍 搜索</button>
+        <button class="btn btn-sm btn-accent" id="btnExpireStale">⏰ 过期处理</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card mt-2">
+  <div class="card-body" style="padding:0;">
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>订单号</th>
+            <th>金额</th>
+            <th>付款方式</th>
+            <th>状态</th>
+            <th>指纹</th>
+            <th>注册码</th>
+            <th>创建时间</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody id="ordersTableBody">
+          <tr><td colspan="9" style="text-align:center;padding:40px;color:var(--text-lighter);">加载中...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="flex-between mt-2" id="orderPaginationBar" style="justify-content:center;gap:8px;"></div>
+</div><!-- /tabOrders -->
+
+<!-- ============================================================ -->
+<!-- 操作日志 -->
+<!-- ============================================================ -->
+<div class="card mt-3">
+  <div class="card-header"><span class="card-icon">📋</span><h3>最近操作日志</h3></div>
+  <div class="card-body" style="padding:0;">
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr><th>时间</th><th>操作</th><th>详情</th></tr>
+        </thead>
+        <tbody id="logsTableBody">
+          <tr><td colspan="3" style="text-align:center;padding:20px;color:var(--text-lighter);">加载中...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+</div><!-- /.container -->
+
+<!-- ============================================================ -->
+<!-- 上传软件包弹窗 -->
+<!-- ============================================================ -->
+<div class="modal-overlay" id="uploadModal">
+  <div class="modal-card">
+    <button class="modal-close" id="btnUploadModalClose">✕</button>
+    <div class="modal-header"><h2>📤 上传软件包</h2></div>
+    <div>
+      <div class="form-group">
+        <label>版本号</label>
+        <input class="input" id="uploadVersion" placeholder="例如 1.5.0" value="1.0.0">
+      </div>
+      <div class="form-group">
+        <label>选择文件</label>
+        <input type="file" id="uploadFileInput" style="display:block;margin-top:4px;">
+      </div>
+      <button class="btn btn-primary" id="btnUploadConfirm" style="width:100%;justify-content:center;">📤 确认上传</button>
+    </div>
+    <!-- 已有软件包列表 -->
+    <div style="margin-top:20px;border-top:1px solid rgba(0,0,0,0.06);padding-top:16px;">
+      <h4 style="font-size:.92rem;margin-bottom:10px;">📦 已有软件包</h4>
+      <div id="packageList" style="font-size:.82rem;color:var(--text-light);">加载中...</div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+var currentPage = 1;
+var currentStatus = 'all';
+var currentSearch = '';
+
+function showToast(msg, type) {
+  type = type || 'info';
+  var c = document.getElementById('toastContainer');
+  var el = document.createElement('div');
+  el.className = 'toast ' + type;
+  el.textContent = msg;
+  c.appendChild(el);
+  setTimeout(function() {
+    el.classList.add('fade-out');
+    setTimeout(function() { if (el.parentNode) el.parentNode.removeChild(el); }, 350);
+  }, 3000);
+}
+
+// === 加载统计 ===
+function loadStats() {
+  fetch('/api/admin/stats')
+    .then(function(r) { return r.json(); })
+    .then(function(res) {
+      if (res.code === 0) {
+        document.getElementById('statTotal').textContent = res.data.total_codes;
+        document.getElementById('statPaid').textContent = res.data.paid_codes;
+        document.getElementById('statUnpaid').textContent = res.data.unpaid_codes;
+        document.getElementById('statDownloads').textContent = res.data.total_downloads;
+        document.getElementById('statToday').textContent = res.data.today_new;
+        // v2.0 订单统计
+        if (res.data.total_orders !== undefined) {
+          document.getElementById('statOrders').textContent = res.data.total_orders;
+          document.getElementById('statPendingOrders').textContent = res.data.pending_orders;
+          document.getElementById('statRevenue').textContent = '¥' + (res.data.total_revenue || 0).toFixed(2);
+        }
+      }
+    });
+}
+
+// === 隧道状态 ===
+function loadTunnelStatus() {
+  fetch('/api/admin/tunnel/status')
+    .then(function(r) { return r.json(); })
+    .then(function(res) {
+      if (res.code === 0) {
+        var bar = document.getElementById('tunnelStatusBar');
+        if (res.data.enabled) {
+          bar.style.display = 'block';
+          if (res.data.connected) {
+            document.getElementById('tunnelStatusIcon').textContent = '🟢';
+            document.getElementById('tunnelStatusText').textContent = '公网已连接';
+            document.getElementById('tunnelStatusText').style.color = 'var(--success)';
+            document.getElementById('tunnelUrl').textContent = res.data.public_url || '';
+          } else {
+            document.getElementById('tunnelStatusIcon').textContent = '🔴';
+            document.getElementById('tunnelStatusText').textContent = '公网未连接';
+            document.getElementById('tunnelStatusText').style.color = 'var(--danger)';
+            document.getElementById('tunnelUrl').textContent = '';
+          }
+        }
+      }
+    });
+}
+
+// === Tab 切换 ===
+document.querySelectorAll('.tab-switch').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.tab-switch').forEach(function(b) { b.classList.remove('active'); });
+    this.classList.add('active');
+    var tab = this.dataset.tab;
+    document.getElementById('tabRecords').style.display = tab === 'records' ? 'block' : 'none';
+    document.getElementById('tabOrders').style.display = tab === 'orders' ? 'block' : 'none';
+    if (tab === 'orders') loadOrders();
+  });
+});
+
+// === 订单管理 ===
+var orderPage = 1, orderStatus = 'all', orderSearch = '';
+
+function loadOrders() {
+  var params = '?page=' + orderPage + '&per_page=20&status=' + orderStatus;
+  if (orderSearch) params += '&search=' + encodeURIComponent(orderSearch);
+  fetch('/api/admin/orders' + params)
+    .then(function(r) { return r.json(); })
+    .then(function(res) {
+      if (res.code !== 0) return;
+      var data = res.data;
+      var tbody = document.getElementById('ordersTableBody');
+      if (!data.orders || data.orders.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:40px;color:var(--text-lighter);">暂无订单</td></tr>';
+      } else {
+        var html = '';
+        data.orders.forEach(function(o) {
+          html += '<tr>';
+          html += '<td style="font-family:monospace;font-weight:600;">' + esc(o.order_no) + '</td>';
+          html += '<td>¥' + (o.amount || 0).toFixed(2) + '</td>';
+          html += '<td>' + esc(o.payment_method || '-') + '</td>';
+          html += '<td><span class="badge" style="background:' + getOrderStatusBg(o.status) + ';color:white;">' + esc(o.status_label) + '</span></td>';
+          html += '<td style="font-size:.82rem;">' + esc(o.fingerprint || '-') + '</td>';
+          html += '<td style="font-family:monospace;font-size:.8rem;">' + esc(o.reg_code ? o.reg_code.substring(0,12)+'...' : '-') + '</td>';
+          html += '<td style="font-size:.82rem;">' + esc(o.created_at || '') + '</td>';
+          html += '<td style="white-space:nowrap;">' + renderOrderActions(o) + '</td>';
+          html += '</tr>';
+        });
+        tbody.innerHTML = html;
+        bindOrderActionEvents();
+      }
+      renderOrderPagination(data.total, data.page, data.total_pages);
+    });
+}
+
+function getOrderStatusBg(s) {
+  return {pending:'#C08050',paid:'#3A7D5A',expired:'#999595',refunded:'#C4728E',cancelled:'#999595'}[s]||'#999';
+}
+
+function renderOrderActions(o) {
+  var btns = '';
+  if (o.status === 'pending') {
+    btns += '<button class="btn btn-xs btn-success mark-paid-btn" data-ono="' + o.order_no + '">标记已付</button> ';
+    btns += '<button class="btn btn-xs btn-danger cancel-order-btn" data-ono="' + o.order_no + '">取消</button>';
+  } else if (o.status === 'paid') {
+    btns += '<button class="btn btn-xs refund-order-btn" data-ono="' + o.order_no + '" style="color:var(--danger);">退款</button>';
+  } else {
+    btns += '<span style="color:var(--text-lighter);font-size:.8rem;">--</span>';
+  }
+  return btns;
+}
+
+function bindOrderActionEvents() {
+  document.querySelectorAll('.mark-paid-btn').forEach(function(b) {
+    b.onclick = function() { updateOrderStatus(this.dataset.ono, 'paid'); };
+  });
+  document.querySelectorAll('.cancel-order-btn').forEach(function(b) {
+    b.onclick = function() { updateOrderStatus(this.dataset.ono, 'cancelled'); };
+  });
+  document.querySelectorAll('.refund-order-btn').forEach(function(b) {
+    b.onclick = function() { updateOrderStatus(this.dataset.ono, 'refunded'); };
+  });
+}
+
+function updateOrderStatus(orderNo, target) {
+  if (!confirm('确认更新订单 ' + orderNo + ' 的状态？')) return;
+  fetch('/api/admin/orders/' + orderNo + '/status', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({status: target})
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(res) {
+    if (res.code === 0) { loadOrders(); loadStats(); loadLogs(); }
+    else alert(res.msg);
+  });
+}
+
+document.getElementById('btnOrderSearch').addEventListener('click', function() {
+  orderSearch = document.getElementById('orderSearchInput').value.trim();
+  orderPage = 1;
+  loadOrders();
+});
+
+document.querySelectorAll('.order-filter').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.order-filter').forEach(function(b) { b.classList.remove('active'); });
+    this.classList.add('active');
+    orderStatus = this.dataset.status;
+    orderPage = 1;
+    loadOrders();
+  });
+});
+
+document.getElementById('btnExpireStale').addEventListener('click', function() {
+  if (!confirm('确认对超时未付订单执行过期处理？')) return;
+  fetch('/api/admin/orders/expire-stale', {method:'POST'})
+    .then(function(r) { return r.json(); })
+    .then(function(res) {
+      alert(res.msg);
+      loadOrders();
+      loadStats();
+      loadLogs();
+    });
+});
+
+function renderOrderPagination(total, page, pages) {
+  var bar = document.getElementById('orderPaginationBar');
+  if (pages <= 1) { bar.innerHTML = ''; return; }
+  var html = '<span style="font-size:.82rem;color:var(--text-light);margin-right:12px;">共 ' + total + ' 条 第 ' + page + '/' + pages + ' 页</span>';
+  if (page > 1) html += '<button class="btn btn-xs" onclick="orderPage='+(page-1)+';loadOrders();">◀ 上一页</button>';
+  if (page < pages) html += '<button class="btn btn-xs" onclick="orderPage='+(page+1)+';loadOrders();">下一页 ▶</button>';
+  bar.innerHTML = html;
+}
+
+// === 加载记录 ===
+function loadRecords() {
+  var params = '?page=' + currentPage + '&per_page=20&status=' + currentStatus;
+  if (currentSearch) params += '&search=' + encodeURIComponent(currentSearch);
+
+  fetch('/api/admin/records' + params)
+    .then(function(r) { return r.json(); })
+    .then(function(res) {
+      if (res.code !== 0) return;
+      var data = res.data;
+      var tbody = document.getElementById('recordsTableBody');
+
+      if (data.records.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:40px;color:var(--text-lighter);">暂无记录</td></tr>';
+      } else {
+        var html = '';
+        data.records.forEach(function(r) {
+          var statusHtml = r.is_paid
+            ? '<span class="badge badge-paid">✅ 已付款</span>'
+            : '<span class="badge badge-pending">⏳ 待付款</span>';
+          var paidAt = r.paid_at || '-';
+          var actions = '';
+          if (r.is_paid) {
+            actions += '<button class="btn btn-sm" onclick="togglePaid(' + r.id + ', false)" style="color:var(--danger);">取消付款</button> ';
+          } else {
+            actions += '<button class="btn btn-sm btn-success" onclick="togglePaid(' + r.id + ', true)">标记已付</button> ';
+          }
+          actions += '<button class="btn btn-sm btn-danger" onclick="deleteRecord(' + r.id + ')">删除</button>';
+
+          html += '<tr>';
+          html += '<td>' + r.id + '</td>';
+          html += '<td style="font-family:monospace;font-size:.78rem;">' + (r.order_no ? '<a href="#" onclick="goToOrder(\''+escHtml(r.order_no)+'\');return false;">'+escHtml(r.order_no)+'</a>' : '-') + '</td>';
+          html += '<td style="font-family:monospace;font-size:.78rem;">' + escHtml(r.fingerprint) + '</td>';
+          html += '<td style="font-family:monospace;font-weight:600;">' + escHtml(r.reg_code) + '</td>';
+          html += '<td>' + escHtml(r.user_note || '-') + '</td>';
+          html += '<td>' + statusHtml + '</td>';
+          html += '<td style="font-size:.8rem;">' + r.created_at + '</td>';
+          html += '<td style="font-size:.8rem;">' + paidAt + '</td>';
+          html += '<td style="white-space:nowrap;">' + actions + '</td>';
+          html += '</tr>';
+        });
+        tbody.innerHTML = html;
+      }
+
+      // 分页
+      renderPagination(data);
+    });
+}
+
+function escHtml(s) {
+  var div = document.createElement('div');
+  div.textContent = s;
+  return div.innerHTML;
+}
+
+function renderPagination(data) {
+  var bar = document.getElementById('paginationBar');
+  if (data.total_pages <= 1) { bar.innerHTML = ''; return; }
+  var html = '<span style="font-size:.82rem;color:var(--text-light);">共 ' + data.total + ' 条</span>';
+  for (var i = 1; i <= data.total_pages; i++) {
+    if (i === data.page) {
+      html += '<button class="btn btn-sm btn-primary" disabled>' + i + '</button>';
+    } else {
+      html += '<button class="btn btn-sm" onclick="goPage(' + i + ')">' + i + '</button>';
+    }
+  }
+  bar.innerHTML = html;
+}
+
+function goPage(p) { currentPage = p; loadRecords(); }
+
+// === 标记已付款 ===
+function togglePaid(id, paid) {
+  var msg = paid ? '确认标记为已付款？' : '确认取消已付款标记？';
+  if (!confirm(msg)) return;
+  fetch('/api/admin/mark-paid', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id: id, is_paid: paid })
+  })
+    .then(function(r) { return r.json(); })
+    .then(function(res) {
+      showToast(res.msg, res.code === 0 ? 'success' : 'error');
+      if (res.code === 0) { loadStats(); loadRecords(); loadLogs(); loadTunnelStatus(); }
+    });
+}
+
+// === 删除记录 ===
+function deleteRecord(id) {
+  if (!confirm('确认删除该注册码记录？此操作不可撤销。')) return;
+  fetch('/api/admin/delete-record', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id: id })
+  })
+    .then(function(r) { return r.json(); })
+    .then(function(res) {
+      showToast(res.msg, res.code === 0 ? 'success' : 'error');
+      if (res.code === 0) { loadStats(); loadRecords(); loadLogs(); loadTunnelStatus(); }
+    });
+}
+
+// === 筛选按钮 ===
+document.querySelectorAll('.status-filter').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.status-filter').forEach(function(b) { b.classList.remove('active'); });
+    this.classList.add('active');
+    currentStatus = this.getAttribute('data-status');
+    currentPage = 1;
+    loadRecords();
+  });
+});
+
+// === 搜索 ===
+document.getElementById('btnSearch').addEventListener('click', function() {
+  currentSearch = document.getElementById('searchInput').value.trim();
+  currentPage = 1;
+  loadRecords();
+});
+document.getElementById('searchInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') { document.getElementById('btnSearch').click(); }
+});
+
+// === 上传弹窗 ===
+document.getElementById('btnUpload').addEventListener('click', function() {
+  document.getElementById('uploadModal').classList.add('open');
+  loadPackages();
+});
+document.getElementById('btnUploadModalClose').addEventListener('click', function() {
+  document.getElementById('uploadModal').classList.remove('open');
+});
+document.getElementById('uploadModal').addEventListener('click', function(e) {
+  if (e.target === this) this.classList.remove('open');
+});
+
+function loadPackages() {
+  fetch('/api/admin/packages')
+    .then(function(r) { return r.json(); })
+    .then(function(res) {
+      if (res.code !== 0) return;
+      var list = document.getElementById('packageList');
+      if (res.data.length === 0) {
+        list.innerHTML = '<span>暂无软件包</span>';
+        return;
+      }
+      var html = '';
+      res.data.forEach(function(p) {
+        var status = p.is_active ? '🟢' : '🔴';
+        html += '<div style="display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(0,0,0,0.04);">';
+        html += '<span>' + status + ' ' + p.filename + ' v' + p.version + ' (' + p.file_size_mb + ') ↓' + p.download_count + '</span>';
+        html += '<span>';
+        html += '<button class="btn btn-sm" onclick="togglePackage(' + p.id + ')" style="font-size:.7rem;">' + (p.is_active ? '下架' : '上架') + '</button> ';
+        html += '<button class="btn btn-sm btn-danger" onclick="deletePackage(' + p.id + ')" style="font-size:.7rem;">删除</button>';
+        html += '</span></div>';
+      });
+      list.innerHTML = html;
+    });
+}
+
+document.getElementById('btnUploadConfirm').addEventListener('click', function() {
+  var fileInput = document.getElementById('uploadFileInput');
+  var version = document.getElementById('uploadVersion').value.trim() || '1.0.0';
+  if (!fileInput.files || !fileInput.files[0]) { showToast('请选择文件', 'warn'); return; }
+
+  var formData = new FormData();
+  formData.append('file', fileInput.files[0]);
+  formData.append('version', version);
+
+  var btn = document.getElementById('btnUploadConfirm');
+  btn.disabled = true; btn.textContent = '⏳ 上传中...';
+
+  fetch('/api/admin/packages/upload', { method: 'POST', body: formData })
+    .then(function(r) { return r.json(); })
+    .then(function(res) {
+      btn.disabled = false; btn.textContent = '📤 确认上传';
+      showToast(res.msg, res.code === 0 ? 'success' : 'error');
+      if (res.code === 0) {
+        loadPackages();
+        loadStats();
+        document.getElementById('uploadFileInput').value = '';
+      }
+    })
+    .catch(function() {
+      btn.disabled = false; btn.textContent = '📤 确认上传';
+      showToast('上传失败', 'error');
+    });
+});
+
+function togglePackage(id) {
+  fetch('/api/admin/packages/' + id + '/toggle', { method: 'POST' })
+    .then(function(r) { return r.json(); })
+    .then(function(res) {
+      showToast(res.msg, res.code === 0 ? 'success' : 'error');
+      if (res.code === 0) { loadPackages(); loadStats(); }
+    });
+}
+
+function deletePackage(id) {
+  if (!confirm('确认删除此软件包？')) return;
+  fetch('/api/admin/packages/' + id, { method: 'DELETE' })
+    .then(function(r) { return r.json(); })
+    .then(function(res) {
+      showToast(res.msg, res.code === 0 ? 'success' : 'error');
+      if (res.code === 0) { loadPackages(); loadStats(); }
+    });
+}
+
+// === 操作日志 ===
+function loadLogs() {
+  fetch('/api/admin/logs?limit=30')
+    .then(function(r) { return r.json(); })
+    .then(function(res) {
+      if (res.code !== 0) return;
+      var tbody = document.getElementById('logsTableBody');
+      if (res.data.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;padding:20px;color:var(--text-lighter);">暂无记录</td></tr>';
+        return;
+      }
+      var html = '';
+      res.data.forEach(function(l) {
+        var actionLabel = l.action;
+        if (l.action === 'mark_paid') actionLabel = '✅ 标记已付';
+        else if (l.action === 'unmark_paid') actionLabel = '↩️ 取消已付';
+        else if (l.action === 'delete_record') actionLabel = '🗑️ 删除记录';
+        else if (l.action === 'new_registration') actionLabel = '🆕 新注册';
+        else if (l.action === 'upload_package') actionLabel = '📤 上传软件包';
+        else if (l.action === 'admin_login') actionLabel = '🔐 管理员登录';
+        html += '<tr><td style="font-size:.78rem;">' + l.created_at + '</td><td>' + actionLabel + '</td><td style="font-size:.82rem;">' + escHtml(l.detail || '') + '</td></tr>';
+      });
+      tbody.innerHTML = html;
+    });
+}
+
+// === 初始化 ===
+loadStats();
+loadRecords();
+loadLogs();
+loadTunnelStatus();
+
+function goToOrder(orderNo) {
+  document.querySelectorAll('.tab-switch').forEach(function(b) { b.classList.remove('active'); });
+  document.querySelector('.tab-switch[data-tab="orders"]').classList.add('active');
+  document.getElementById('tabRecords').style.display = 'none';
+  document.getElementById('tabOrders').style.display = 'block';
+  document.getElementById('orderSearchInput').value = orderNo;
+  orderSearch = orderNo;
+  orderPage = 1;
+  orderStatus = 'all';
+  loadOrders();
+}
+</script>
+
+</body>
+</html>

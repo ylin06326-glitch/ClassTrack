@@ -1,0 +1,97 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+*.egg
+dist/
+build/
+*.spec.bak
+
+# 虚拟环境
+.venv/
+venv/
+env/
+ENV/
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 数据库（含学生隐私数据，绝对不能上传）
+data/*.db
+data/*.db-journal
+data/*.db-wal
+data/*.db-shm
+data/*.db.backup*
+data/*.backup*
+data/activation.dat*
+data/cert.pem
+data/key.pem
+data/temp/
+data/test_students.xlsx
+
+# 后端服务数据库和媒体
+backend_server/data/
+
+# 安卓构建产物
+activation/mobile/android/build/
+activation/mobile/android/app/build/
+activation/mobile/android/.gradle/
+activation/mobile/android/local.properties
+*.apk
+*.aab
+
+# IDE / 编辑器
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# AI 工具配置和技能（本地开发用，不需要上传）
+.agents/
+.claude/
+skills-lock.json
+
+# 系统文件
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 日志
+*.log
+logs/
+
+# 临时文件
+*.tmp
+*.temp
+*.bak
+*.old
+
+# 环境变量
+.env
+.env.local
+.env.*.local
+
+# PyInstaller 产物
+*.manifest
+*.exe
+
+# 视频和媒体（大文件，不传仓库）
+video/
+video_promo/
+media/videos/
+media/*.mp4
+media/*.avi
+media/*.mov
+media/*.wav
+
+# 文档临时文件
+~*.docx
+~*.xlsx
+~*.pptx

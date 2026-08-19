@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClassTrack YRL — 激活登录</title>
+<link rel="stylesheet" href="/static/css/liquid-glass.css">
+<link rel="stylesheet" href="/static/css/activation.css">
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!-- 全屏激活登录覆盖层 -->
+<!-- ============================================================ -->
+<div class="activation-overlay" id="activationOverlay">
+
+  <!-- 激活卡片 -->
+  <div class="activation-card" id="activationCard">
+
+    <!-- Logo 区域 -->
+    <div class="activation-logo">
+      <span class="activation-logo-icon">🎒</span>
+      <h1 class="activation-logo-title">ClassTrack YRL</h1>
+      <p class="activation-logo-subtitle">班级作业分组管理系统</p>
+    </div>
+
+    <!-- 状态提示区 -->
+    <div class="activation-status">
+      <span class="activation-status-msg locked" id="activationStatusMsg">
+        🔒 请粘贴商家提供的激活密钥
+      </span>
+    </div>
+
+    <!-- 步骤①：发送指纹给商家 -->
+    <div class="activation-step">
+      <div class="activation-step-num">①</div>
+      <div class="activation-step-content">
+        <span class="activation-step-label">发送机器指纹给商家</span>
+        <span class="activation-step-hint">商家凭此生成专属激活密钥</span>
+      </div>
+    </div>
+    <button class="activation-btn-export" id="btnExportFingerprint">
+      <span>📤</span>
+      <span>复制机器指纹（发送给商家）</span>
+    </button>
+
+    <!-- 步骤②：粘贴密钥验证 -->
+    <div class="activation-step">
+      <div class="activation-step-num">②</div>
+      <div class="activation-step-content">
+        <span class="activation-step-label">粘贴激活密钥</span>
+        <span class="activation-step-hint">将商家回复的密钥粘贴到下方</span>
+      </div>
+    </div>
+    <div class="activation-key-section">
+      <textarea
+        class="activation-key-input"
+        id="activationKeyInput"
+        placeholder="在此粘贴商家提供的激活密钥..."
+        rows="3"
+        spellcheck="false"
+      ></textarea>
+    </div>
+
+    <!-- 验证按钮 -->
+    <div class="activation-actions">
+      <button class="activation-btn-verify" id="btnVerify" title="验证激活密钥">
+        <span>✅</span>
+        <span>验证激活</span>
+      </button>
+    </div>
+
+    <!-- 机器码展示（仅供参考，不用于激活） -->
+    <div class="activation-machine-section">
+      <label class="activation-machine-label">
+        <span>💻 本机机器码</span>
+        <span style="font-size:0.7rem;color:var(--text-tertiary)">（仅供参考，激活请用上方「复制机器指纹」）</span>
+      </label>
+      <div class="activation-machine-box">
+        <code class="activation-machine-code" id="machineCode">正在采集...</code>
+        <button class="activation-btn-copy" id="btnCopyCode" title="复制机器码">
+          📋 <span id="btnCopyLabel">复制</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 底部：导入文件备选 -->
+    <div class="activation-footer">
+      <span>未激活前，软件全部功能禁用 · 全程离线无网络</span>
+      <label class="activation-file-alt" for="activationFileInput" id="fileImportLabel">
+        📂 或选择激活文件导入
+      </label>
+      <input type="file" id="activationFileInput" accept=".dat,.txt,.key" hidden>
+    </div>
+
+  </div>
+
+<script src="/static/js/activation.js"></script>
+</body>
+</html>
