@@ -23,21 +23,18 @@
           <button class="btn-class-manage" title="管理班级" @click="classVisible = true">⚙️</button>
         </div>
 
-        <!-- Tab 导航 -->
-        <nav class="tab-nav">
-          <button
-            v-for="tab in TABS"
-            :key="tab.id"
-            class="tab-btn"
-            :class="{ active: activeTab === tab.id }"
-            @click="activeTab = tab.id"
-          >
-            <span class="tab-icon">{{ tab.icon }}</span><span class="tab-label">{{ tab.label }}</span>
-          </button>
-          <button class="tab-btn" title="支持作者" @click="donateVisible = true">
-            <span class="tab-icon">❤️</span><span class="tab-label">打赏</span>
-          </button>
-        </nav>
+        <!-- Tab 导航（液态玻璃） -->
+        <div class="tab-nav-wrapper">
+          <LiquidGlassBottomNavBar
+            v-model="activeTab"
+            :items="tabItems"
+            size="medium"
+            active-color="#6ba3c7"
+          />
+        </div>
+        <button class="tab-btn-donate" title="支持作者" @click="donateVisible = true">
+          <span>❤️</span><span>打赏</span>
+        </button>
 
         <!-- 姓名显示模式 -->
         <el-dropdown trigger="click" @command="onDisplayMode">
@@ -187,6 +184,7 @@ import AnalyticsTab from './tabs/AnalyticsTab.vue'
 import ExportTab from './tabs/ExportTab.vue'
 import AIChatTab from './tabs/AIChatTab.vue'
 import SettingsTab from './tabs/SettingsTab.vue'
+import { LiquidGlassBottomNavBar } from '@sapryniukt/vue-liquid-glass'
 
 const store = useAppStore()
 
@@ -199,6 +197,9 @@ const TABS = [
   { id: 'aichat', icon: '🤖', label: 'AI助手' },
   { id: 'settings', icon: '⚙️', label: '设置' },
 ] as const
+
+// 液态玻璃导航栏的 items（icon 用 emoji）
+const tabItems = TABS.map(t => ({ id: t.id, label: t.label, icon: t.icon }))
 
 
 
@@ -396,20 +397,29 @@ function exportStudentReport(): void {
   border-radius: 8px; padding: 4px 8px; cursor: pointer; font-size: 13px;
 }
 .btn-class-manage:hover { background: #f0f6fa; }
-.tab-nav { display: flex; gap: 4px; flex-wrap: wrap; }
-.tab-btn {
+.tab-nav-wrapper {
+  display: flex;
+  align-items: center;
+}
+.tab-nav-wrapper :deep(.lg-bottom-nav) {
+  position: relative !important;
+  bottom: auto !important;
+  left: auto !important;
+  right: auto !important;
+  width: auto !important;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+.tab-btn-donate {
   display: flex; align-items: center; gap: 5px;
-  border: none; background: transparent; cursor: pointer;
-  padding: 7px 12px; border-radius: 10px;
-  font-size: 14px; color: #5a6775; font-family: inherit;
-  transition: all 0.18s;
+  border: 1px solid rgba(150, 160, 175, 0.3); background: #fff;
+  border-radius: 10px; padding: 6px 10px; cursor: pointer;
+  font-size: 13px; color: #4a5a68; font-family: inherit;
 }
-.tab-btn:hover { background: rgba(107, 163, 199, 0.12); }
-.tab-btn.active {
-  background: linear-gradient(135deg, #6ba3c7, #7fb5d6);
-  color: #fff; font-weight: 600;
-  box-shadow: 0 3px 10px rgba(107, 163, 199, 0.35);
-}
+.tab-btn-donate:hover { background: #fff5f5; }
 .tab-btn {
   display: flex; align-items: center; gap: 5px;
   border: none; background: transparent; cursor: pointer;

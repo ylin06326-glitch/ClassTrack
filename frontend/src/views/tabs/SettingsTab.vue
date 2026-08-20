@@ -1,46 +1,5 @@
 <template>
   <div class="settings-container">
-    <!-- ========== 界面设置 ========== -->
-    <div class="settings-card">
-      <h3>🎨 界面设置</h3>
-      <div class="settings-row">
-        <label>液态玻璃模糊程度</label>
-        <div class="glass-blur-control">
-          <el-slider
-            v-model="glassBlur"
-            :min="4"
-            :max="48"
-            :step="2"
-            :show-tooltip="true"
-            :format-tooltip="(val: number) => `${val}px`"
-            @input="onGlassBlurChange"
-          />
-          <div class="glass-blur-presets">
-            <button class="preset-btn" @click="setGlassBlur(8)">轻</button>
-            <button class="preset-btn" @click="setGlassBlur(24)">中</button>
-            <button class="preset-btn" @click="setGlassBlur(40)">重</button>
-          </div>
-        </div>
-      </div>
-      <div class="settings-row">
-        <label>玻璃不透明度</label>
-        <div class="glass-blur-control">
-          <el-slider
-            v-model="glassOpacity"
-            :min="0.2"
-            :max="0.8"
-            :step="0.05"
-            :show-tooltip="true"
-            :format-tooltip="(val: number) => `${Math.round(val * 100)}%`"
-            @input="onGlassOpacityChange"
-          />
-        </div>
-      </div>
-      <div class="settings-actions">
-        <el-button @click="resetGlassSettings">🔄 恢复默认</el-button>
-      </div>
-    </div>
-
     <!-- ========== AI 服务配置 ========== -->
     <div class="settings-card">
       <h3>🤖 AI 服务配置</h3>
@@ -102,58 +61,6 @@
  * 行为契约与旧版 static/js/ai.js setupSettingsTab/loadAIConfig 一致
  */
 import { ref, reactive, onMounted } from 'vue'
-
-// 液态玻璃设置
-const glassBlur = ref(24)
-const glassOpacity = ref(0.5)
-
-function applyGlassSettings() {
-  const root = document.documentElement
-  root.style.setProperty('--glass-blur', `${glassBlur.value}px`)
-  root.style.setProperty('--glass-blur-light', `${Math.round(glassBlur.value * 0.5)}px`)
-  root.style.setProperty('--glass-blur-heavy', `${Math.round(glassBlur.value * 1.17)}px`)
-  root.style.setProperty('--glass-opacity', String(glassOpacity.value))
-}
-
-function onGlassBlurChange() {
-  applyGlassSettings()
-  saveGlassSettings()
-}
-
-function onGlassOpacityChange() {
-  applyGlassSettings()
-  saveGlassSettings()
-}
-
-function setGlassBlur(val: number) {
-  glassBlur.value = val
-  applyGlassSettings()
-  saveGlassSettings()
-}
-
-function resetGlassSettings() {
-  glassBlur.value = 24
-  glassOpacity.value = 0.5
-  applyGlassSettings()
-  saveGlassSettings()
-}
-
-function saveGlassSettings() {
-  try {
-    localStorage.setItem('classtrack-glass-blur', String(glassBlur.value))
-    localStorage.setItem('classtrack-glass-opacity', String(glassOpacity.value))
-  } catch (e) { /* ignore */ }
-}
-
-function loadGlassSettings() {
-  try {
-    const blur = localStorage.getItem('classtrack-glass-blur')
-    const opacity = localStorage.getItem('classtrack-glass-opacity')
-    if (blur) glassBlur.value = parseInt(blur)
-    if (opacity) glassOpacity.value = parseFloat(opacity)
-    applyGlassSettings()
-  } catch (e) { /* ignore */ }
-}
 import { ElMessage } from 'element-plus'
 import axios from 'axios'
 import { loadAIConfig, saveAIConfig, testAIConfig } from '@/api'
@@ -286,7 +193,8 @@ async function onSave(): Promise<void> {
   saving.value = false
 }
 
-onMounted(() => { loadGlassSettings(); initConfig(); })
+onMounted(initConfig)
+
 </script>
 
 <style scoped>
@@ -406,14 +314,4 @@ onMounted(() => { loadGlassSettings(); initConfig(); })
     flex: none;
   }
 }
-
-/* 液态玻璃设置 */
-.glass-blur-control { flex: 1; max-width: 400px; }
-.glass-blur-presets { display: flex; gap: 6px; margin-top: 8px; }
-.preset-btn {
-  padding: 4px 12px; border: 1px solid rgba(150,160,175,0.3);
-  background: rgba(255,255,255,0.6); border-radius: 8px; cursor: pointer;
-  font-size: 12px; color: #5a6775; font-family: inherit; transition: all 0.15s;
-}
-.preset-btn:hover { background: rgba(107,163,199,0.15); border-color: rgba(107,163,199,0.4); }
 </style>
