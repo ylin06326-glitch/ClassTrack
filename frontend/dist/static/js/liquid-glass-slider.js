@@ -1,20 +1,18 @@
 /**
- * 液态玻璃滑块效果 — 修复动态元素初始化
+ * 液态玻璃滑块效果 — 修复版
  * 仅作用于：顶部 Tab 栏滑块 + 作业登记等级选择滑块
  */
 
 (function() {
   'use strict';
 
-  // 已初始化的容器集合（避免重复初始化）
   const initializedContainers = new WeakSet();
-  const initializedQuickSelects = new WeakSet();
 
   // ============================================================
   // 通用：使元素可拖拽
   // ============================================================
   function makeDraggable(indicator, items, onSelect, getActiveIndex) {
-    if (!indicator || !items || !items.length) return;
+    if (!indicator || !items || !items.length) return null;
 
     let isDragging = false;
     let startX = 0;
@@ -24,481 +22,375 @@
     let velocity = 0;
     let currentIndex = getActiveIndex ? getActiveIndex() : 0;
 
-    function getIndicatorPosition(index) {
+    function getPos(index) {
       const container = indicator.parentElement;
       if (!container || !items[index]) return { left: 0, width: 0 };
-
-      const containerRect = container.getBoundingClientRect();
-      const itemRect = items[index].getBoundingClientRect();
-      const paddingLeft = parseFloat(getComputedStyle(container).paddingLeft) || 0;
-
-      return {
-        left: itemRect.left - containerRect.left - paddingLeft,
-        width: itemRect.width
-      };
+      const cRect = container.getBoundingClientRect();
+      const iRect = items[index].getBoundingClientRect();
+      const pl = parseFloat(getComputedStyle(container).paddingLeft) || 0;
+      return { left: iRect.left - cRect.left - pl, width: iRect.width };
     }
 
-    function setIndicatorPosition(left, width) {
+    function setPos(left, width) {
       indicator.style.left = left + 'px';
       indicator.style.width = width + 'px';
     }
 
-    function springTo(targetLeft, targetWidth, initialVelocity = 0) {
-      const startLeft = parseFloat(indicator.style.left) || 0;
-      const startWidth = parseFloat(indicator.style.width) || 0;
-      const startTime = performance.now();
-      const duration = 500;
-
-      indicator.classList.remove('dragging', 'drag-fast-right', 'drag-fast-left');
-      indicator.classList.add(initialVelocity >= 0 ? 'moving-right' : 'moving-left');
-
-      function animate(now) {
-        const elapsed = now - startTime;
-        const t = Math.min(elapsed / duration, 1);
-        const springT = 1 - Math.pow(1 - t, 3) * (1 + 3 * t + 3 * t * t);
-
-        const left = startLeft + (targetLeft - startLeft) * springT;
-        const width = startWidth + (targetWidth - startWidth) * springT;
-
-        setIndicatorPosition(left, width);
-
-        if (t < 1) {
-          requestAnimationFrame(animate);
-        } else {
-          setIndicatorPosition(targetLeft, targetWidth);
-          indicator.classList.remove('moving-right', 'moving-left');
-        }
-      }
-
-      requestAnimationFrame(animate);
+    function springTo(tl, tw, iv) {
+      const sl = parseFloat(indicator.style.left) || 0;
+      const sw = parseFloat(indicator.style.width) || 0;
+      const st = performance.now();
+      const dur = 450;
+      indicator.classList.remove('dragging','drag-fast-right','drag-fast-left');
+      indicator.classList.add(iv >= 0 ? 'moving-right' : 'moving-left');
+      (function anim(now) {
+        const t = Math.min((now - st) / dur, 1);
+        const e = 1 - Math.pow(1 - t, 3) * (1 + 3*t + 3*t*t);
+        setPos(sl + (tl - sl) * e, sw + (tw - sw) * e);
+        if (t < 1) requestAnimationFrame(anim);
+        else { setPos(tl, tw); indicator.classList.remove('moving-right','moving-left'); }
+      })(performance.now());
     }
 
-    function findNearestIndex(centerX) {
-      const container = indicator.parentElement;
-      if (!container) return currentIndex;
-
-      const containerRect = container.getBoundingClientRect();
-      const paddingLeft = parseFloat(getComputedStyle(container).paddingLeft) || 0;
-      const relativeCenter = centerX - containerRect.left - paddingLeft;
-
-      let nearest = 0;
-      let minDist = Infinity;
-
-      items.forEach((item, index) => {
-        const itemRect = item.getBoundingClientRect();
-        const itemCenter = itemRect.left - containerRect.left - paddingLeft + itemRect.width / 2;
-        const dist = Math.abs(relativeCenter - itemCenter);
-        if (dist < minDist) {
-          minDist = dist;
-          nearest = index;
-        }
+    function nearest(centerX) {
+      const c = indicator.parentElement;
+      if (!c) return currentIndex;
+      const cr = c.getBoundingClientRect();
+      const pl = parseFloat(getComputedStyle(c).paddingLeft) || 0;
+      const rc = centerX - cr.left - pl;
+      let ni = 0, md = Infinity;
+      items.forEach((it, i) => {
+        const ir = it.getBoundingClientRect();
+        const ic = ir.left - cr.left - pl + ir.width / 2;
+        const d = Math.abs(rc - ic);
+        if (d < md) { md = d; ni = i; }
       });
-
-      return nearest;
+      return ni;
     }
 
-    function projectPosition(initialVelocity) {
-      const decelerationRate = 0.998;
-      return (initialVelocity / 1000) * decelerationRate / (1 - decelerationRate);
-    }
-
-    function rubberband(overshoot, dimension, constant = 0.55) {
-      return (overshoot * dimension * constant) / (dimension + constant * Math.abs(overshoot));
-    }
+    function proj(v) { return (v/1000)*0.998/(1-0.998); }
+    function rb(os, dim, c=0.55) { return (os*dim*c)/(dim+c*Math.abs(os)); }
 
     indicator.addEventListener('pointerdown', function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-
-      isDragging = true;
-      startX = e.clientX;
-      lastX = e.clientX;
-      lastTime = performance.now();
-      velocity = 0;
+      e.preventDefault(); e.stopPropagation();
+      isDragging = true; startX = e.clientX; lastX = e.clientX;
+      lastTime = performance.now(); velocity = 0;
       startLeft = parseFloat(indicator.style.left) || 0;
-
-      indicator.classList.add('dragging', 'pressed');
-      indicator.setPointerCapture(e.pointerId);
-
+      indicator.classList.add('dragging','pressed');
+      try { indicator.setPointerCapture(e.pointerId); } catch(err){}
       currentIndex = getActiveIndex ? getActiveIndex() : currentIndex;
     });
 
     indicator.addEventListener('pointermove', function(e) {
       if (!isDragging) return;
-
       const now = performance.now();
       const dt = now - lastTime;
-
-      if (dt > 0) {
-        velocity = (e.clientX - lastX) / dt * 1000;
+      if (dt > 0) velocity = (e.clientX - lastX) / dt * 1000;
+      lastX = e.clientX; lastTime = now;
+      let nl = startLeft + (e.clientX - startX);
+      const c = indicator.parentElement;
+      if (c) {
+        const fp = getPos(0), lp = getPos(items.length - 1);
+        if (nl < fp.left) nl = fp.left - rb(fp.left - nl, c.offsetWidth);
+        else if (nl > lp.left) nl = lp.left + rb(nl - lp.left, c.offsetWidth);
       }
-
-      lastX = e.clientX;
-      lastTime = now;
-
-      const deltaX = e.clientX - startX;
-      let newLeft = startLeft + deltaX;
-
-      const container = indicator.parentElement;
-      if (container) {
-        const firstPos = getIndicatorPosition(0);
-        const lastPos = getIndicatorPosition(items.length - 1);
-        const minLeft = firstPos.left;
-        const maxLeft = lastPos.left;
-
-        if (newLeft < minLeft) {
-          const overshoot = minLeft - newLeft;
-          newLeft = minLeft - rubberband(overshoot, container.offsetWidth);
-        } else if (newLeft > maxLeft) {
-          const overshoot = newLeft - maxLeft;
-          newLeft = maxLeft + rubberband(overshoot, container.offsetWidth);
-        }
-      }
-
-      indicator.classList.remove('drag-fast-right', 'drag-fast-left');
-      if (Math.abs(velocity) > 300) {
+      indicator.classList.remove('drag-fast-right','drag-fast-left');
+      if (Math.abs(velocity) > 300)
         indicator.classList.add(velocity > 0 ? 'drag-fast-right' : 'drag-fast-left');
-      }
-
-      setIndicatorPosition(newLeft, parseFloat(indicator.style.width) || 0);
+      setPos(nl, parseFloat(indicator.style.width) || 0);
     });
 
-    function endDrag(e) {
+    function end(e) {
       if (!isDragging) return;
       isDragging = false;
-
-      indicator.classList.remove('dragging', 'pressed', 'drag-fast-right', 'drag-fast-left');
-
-      try {
-        indicator.releasePointerCapture(e.pointerId);
-      } catch (err) {}
-
-      const projectedDelta = projectPosition(velocity);
-      const currentCenter = parseFloat(indicator.style.left) + parseFloat(indicator.style.width) / 2 + projectedDelta;
-
-      const targetIndex = findNearestIndex(currentCenter + indicator.parentElement.getBoundingClientRect().left);
-
-      if (targetIndex !== currentIndex || Math.abs(velocity) > 50) {
-        const targetPos = getIndicatorPosition(targetIndex);
-        springTo(targetPos.left, targetPos.width, velocity);
-
-        if (onSelect) {
-          setTimeout(() => onSelect(targetIndex), 50);
-        }
-        currentIndex = targetIndex;
+      indicator.classList.remove('dragging','pressed','drag-fast-right','drag-fast-left');
+      try { indicator.releasePointerCapture(e.pointerId); } catch(err){}
+      const pd = proj(velocity);
+      const cc = parseFloat(indicator.style.left) + parseFloat(indicator.style.width)/2 + pd;
+      const ti = nearest(cc + indicator.parentElement.getBoundingClientRect().left);
+      if (ti !== currentIndex || Math.abs(velocity) > 50) {
+        const tp = getPos(ti);
+        springTo(tp.left, tp.width, velocity);
+        if (onSelect) setTimeout(() => onSelect(ti), 50);
+        currentIndex = ti;
       } else {
-        const currentPos = getIndicatorPosition(currentIndex);
-        springTo(currentPos.left, currentPos.width, 0);
+        const cp = getPos(currentIndex);
+        springTo(cp.left, cp.width, 0);
       }
     }
-
-    indicator.addEventListener('pointerup', endDrag);
-    indicator.addEventListener('pointercancel', endDrag);
+    indicator.addEventListener('pointerup', end);
+    indicator.addEventListener('pointercancel', end);
 
     window.addEventListener('resize', () => {
-      if (!isDragging) {
-        const pos = getIndicatorPosition(currentIndex);
-        setIndicatorPosition(pos.left, pos.width);
-      }
+      if (!isDragging) { const p = getPos(currentIndex); setPos(p.left, p.width); }
     });
 
     return {
-      setIndex: function(index) {
-        currentIndex = index;
-        const pos = getIndicatorPosition(index);
-        springTo(pos.left, pos.width, 0);
+      setIndex: function(i) {
+        currentIndex = i;
+        const p = getPos(i);
+        springTo(p.left, p.width, 0);
       },
-      getIndex: function() {
-        return currentIndex;
-      },
+      getIndex: () => currentIndex,
       refresh: function() {
-        const pos = getIndicatorPosition(currentIndex);
-        setIndicatorPosition(pos.left, pos.width);
+        const p = getPos(currentIndex);
+        setPos(p.left, p.width);
       }
     };
   }
 
 
   // ============================================================
-  // 顶部 Tab 栏液态玻璃滑块
+  // 顶部 Tab 栏
   // ============================================================
-  let tabDraggable = null;
-
-  function initTabSlider() {
+  let tabDrag = null;
+  function initTab() {
     const nav = document.getElementById('tabNav');
     if (!nav || initializedContainers.has(nav)) return;
-
     initializedContainers.add(nav);
 
-    let indicator = nav.querySelector('.tab-indicator');
-    if (!indicator) {
-      indicator = document.createElement('div');
-      indicator.className = 'tab-indicator';
-      nav.insertBefore(indicator, nav.firstChild);
-    }
+    let ind = nav.querySelector('.tab-indicator');
+    if (!ind) { ind = document.createElement('div'); ind.className = 'tab-indicator'; nav.insertBefore(ind, nav.firstChild); }
 
     const tabs = nav.querySelectorAll('.tab-btn');
     if (!tabs.length) return;
 
-    function getActiveIndex() {
-      return Array.from(tabs).findIndex(tab => tab.classList.contains('active'));
-    }
+    const getActive = () => Array.from(tabs).findIndex(t => t.classList.contains('active'));
 
-    requestAnimationFrame(() => {
-      const activeIndex = getActiveIndex();
-      if (activeIndex >= 0) {
-        const navRect = nav.getBoundingClientRect();
-        const tabRect = tabs[activeIndex].getBoundingClientRect();
-        indicator.style.left = (tabRect.left - navRect.left) + 'px';
-        indicator.style.width = tabRect.width + 'px';
+    // 延迟定位，确保渲染完成
+    setTimeout(() => {
+      const ai = getActive();
+      if (ai >= 0) {
+        const nr = nav.getBoundingClientRect();
+        const tr = tabs[ai].getBoundingClientRect();
+        ind.style.left = (tr.left - nr.left) + 'px';
+        ind.style.width = tr.width + 'px';
+        console.log('✅ Tab 滑块定位: left=' + (tr.left - nr.left) + ', width=' + tr.width);
       }
-    });
+    }, 100);
 
-    tabDraggable = makeDraggable(indicator, tabs, function(index) {
+    tabDrag = makeDraggable(ind, tabs, function(i) {
       tabs.forEach(t => t.classList.remove('active'));
-      tabs[index].classList.add('active');
-      tabs[index].click();
-    }, getActiveIndex);
+      tabs[i].classList.add('active');
+      tabs[i].click();
+    }, getActive);
 
-    tabs.forEach((tab, index) => {
-      tab.addEventListener('click', function() {
-        if (tabDraggable) {
-          tabDraggable.setIndex(index);
-        }
-      });
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => { if (tabDrag) tabDrag.setIndex(i); });
     });
 
-    console.log('✅ Tab 栏液态玻璃滑块已初始化');
+    console.log('✅ Tab 栏液态玻璃滑块已初始化，共 ' + tabs.length + ' 个标签');
   }
 
 
   // ============================================================
-  // 批量等级按钮液态玻璃滑块
+  // 批量等级按钮
   // ============================================================
-  function initGradeBatchSliders() {
-    const batchBtns = document.querySelectorAll('.grade-batch-btn:not([data-slider-initialized])');
-    if (!batchBtns.length) return;
-
-    const containers = new Set();
-    batchBtns.forEach(btn => containers.add(btn.parentElement));
-
-    containers.forEach(container => {
-      if (!container || initializedContainers.has(container)) return;
-
-      const btns = container.querySelectorAll('.grade-batch-btn');
-      if (!btns.length) return;
-
-      initializedContainers.add(container);
-      btns.forEach(btn => btn.setAttribute('data-slider-initialized', 'true'));
-
-      // 创建 wrapper 容器
-      const wrapper = document.createElement('div');
-      wrapper.className = 'grade-batch-container';
-      wrapper.style.display = 'inline-flex';
-      wrapper.style.gap = '4px';
-
-      // 创建滑块
-      const indicator = document.createElement('div');
-      indicator.className = 'grade-batch-indicator';
-      wrapper.appendChild(indicator);
-
-      // 只把 .grade-batch-btn 移到 wrapper 中（不包含 span 等其他元素）
-      btns.forEach(btn => wrapper.appendChild(btn));
-      container.appendChild(wrapper);
-
-      function getActiveIndex() {
-        return Array.from(btns).findIndex(btn => btn.classList.contains('active'));
-      }
-
-      requestAnimationFrame(() => {
-        const activeIndex = getActiveIndex();
-        if (activeIndex >= 0) {
-          const wrapperRect = wrapper.getBoundingClientRect();
-          const btnRect = btns[activeIndex].getBoundingClientRect();
-          const paddingLeft = parseFloat(getComputedStyle(wrapper).paddingLeft) || 0;
-          indicator.style.left = (btnRect.left - wrapperRect.left - paddingLeft) + 'px';
-          indicator.style.width = btnRect.width + 'px';
-          updateGradeIndicatorColor(indicator, btns[activeIndex].dataset.grade);
-        } else {
-          indicator.style.width = '0px';
-          indicator.style.opacity = '0';
-        }
-      });
-
-      const draggable = makeDraggable(indicator, btns, function(index) {
-        btns.forEach(b => b.classList.remove('active'));
-        btns[index].classList.add('active');
-        updateGradeIndicatorColor(indicator, btns[index].dataset.grade);
-        btns[index].click();
-      }, getActiveIndex);
-
-      btns.forEach((btn, index) => {
-        btn.addEventListener('click', function() {
-          if (draggable) {
-            draggable.setIndex(index);
-          }
-          updateGradeIndicatorColor(indicator, this.dataset.grade);
-        });
-      });
-
-      wrapper._gradeIndicator = indicator;
-      wrapper._gradeDraggable = draggable;
-
-      console.log('✅ 批量等级液态玻璃滑块已初始化');
-    });
-  }
-
-
-  // ============================================================
-  // 学生行内等级按钮滑块（动态生成）
-  // ============================================================
-  function initGradeQuickSliders() {
-    // 找到所有包含 .grade-qbtn 的容器
-    const qbtns = document.querySelectorAll('.grade-qbtn:not([data-slider-initialized])');
-    if (!qbtns.length) return;
+  function initBatch() {
+    const btns = document.querySelectorAll('.grade-batch-btn:not([data-lg-init])');
+    if (!btns.length) return;
 
     // 按父容器分组
-    const containers = new Set();
-    qbtns.forEach(btn => {
-      let parent = btn.parentElement;
-      // 向上找，直到找到一个合适的容器（不是 .hw-student-row 本身）
-      while (parent && !parent.classList.contains('grade-quick-select') && parent.tagName !== 'BODY') {
-        if (parent.children.length <= 8 && parent.querySelectorAll('.grade-qbtn').length >= 3) {
-          break;
-        }
-        parent = parent.parentElement;
-      }
-      if (parent) containers.add(parent);
+    const groups = new Map();
+    btns.forEach(btn => {
+      const p = btn.parentElement;
+      if (!groups.has(p)) groups.set(p, []);
+      groups.get(p).push(btn);
     });
 
-    containers.forEach(container => {
-      if (!container || initializedQuickSelects.has(container)) return;
+    groups.forEach((groupBtns, container) => {
+      if (initializedContainers.has(container)) return;
+      if (groupBtns.length < 2) return;
 
-      const btns = container.querySelectorAll('.grade-qbtn');
-      if (!btns.length || btns.length < 2) return;
+      initializedContainers.add(container);
+      groupBtns.forEach(b => b.setAttribute('data-lg-init', 'true'));
 
-      initializedQuickSelects.add(container);
-      btns.forEach(btn => btn.setAttribute('data-slider-initialized', 'true'));
+      // 创建 wrapper
+      const wrap = document.createElement('div');
+      wrap.className = 'grade-batch-container';
+      wrap.style.cssText = 'display:inline-flex;align-items:center;gap:4px;';
 
-      // 添加容器类名
-      container.classList.add('grade-quick-select');
+      const ind = document.createElement('div');
+      ind.className = 'grade-batch-indicator';
+      wrap.appendChild(ind);
 
-      // 创建滑块
-      const indicator = document.createElement('div');
-      indicator.className = 'grade-quick-indicator';
-      container.insertBefore(indicator, container.firstChild);
+      groupBtns.forEach(b => wrap.appendChild(b));
+      container.appendChild(wrap);
 
-      function getActiveIndex() {
-        return Array.from(btns).findIndex(btn => btn.classList.contains('active'));
-      }
+      const getActive = () => Array.from(groupBtns).findIndex(b => b.classList.contains('active'));
 
-      requestAnimationFrame(() => {
-        const activeIndex = getActiveIndex();
-        if (activeIndex >= 0) {
-          const containerRect = container.getBoundingClientRect();
-          const btnRect = btns[activeIndex].getBoundingClientRect();
-          const paddingLeft = parseFloat(getComputedStyle(container).paddingLeft) || 0;
-          indicator.style.left = (btnRect.left - containerRect.left - paddingLeft) + 'px';
-          indicator.style.width = btnRect.width + 'px';
-          updateGradeIndicatorColor(indicator, btns[activeIndex].dataset.grade);
+      setTimeout(() => {
+        const ai = getActive();
+        if (ai >= 0) {
+          const wr = wrap.getBoundingClientRect();
+          const br = groupBtns[ai].getBoundingClientRect();
+          const pl = parseFloat(getComputedStyle(wrap).paddingLeft) || 0;
+          ind.style.left = (br.left - wr.left - pl) + 'px';
+          ind.style.width = br.width + 'px';
+          ind.style.opacity = '1';
+          updateColor(ind, groupBtns[ai].dataset.grade);
+          console.log('✅ 批量等级滑块定位: left=' + (br.left - wr.left - pl) + ', width=' + br.width);
         } else {
-          indicator.style.width = '0px';
-          indicator.style.opacity = '0';
+          ind.style.width = '0px';
+          ind.style.opacity = '0';
         }
-      });
+      }, 150);
 
-      const draggable = makeDraggable(indicator, btns, function(index) {
-        btns.forEach(b => b.classList.remove('active'));
-        btns[index].classList.add('active');
-        updateGradeIndicatorColor(indicator, btns[index].dataset.grade);
-        btns[index].click();
-      }, getActiveIndex);
+      const drag = makeDraggable(ind, groupBtns, function(i) {
+        groupBtns.forEach(b => b.classList.remove('active'));
+        groupBtns[i].classList.add('active');
+        updateColor(ind, groupBtns[i].dataset.grade);
+        groupBtns[i].click();
+      }, getActive);
 
-      btns.forEach((btn, index) => {
-        btn.addEventListener('click', function() {
-          if (draggable) {
-            draggable.setIndex(index);
-          }
-          updateGradeIndicatorColor(indicator, this.dataset.grade);
+      groupBtns.forEach((btn, i) => {
+        btn.addEventListener('click', () => {
+          if (drag) drag.setIndex(i);
+          updateColor(ind, btn.dataset.grade);
         });
       });
 
-      container._gradeIndicator = indicator;
-      container._gradeDraggable = draggable;
-
-      console.log('✅ 学生行内等级液态玻璃滑块已初始化，共 ' + btns.length + ' 个按钮');
+      wrap._ind = ind; wrap._drag = drag;
+      console.log('✅ 批量等级液态玻璃滑块已初始化，共 ' + groupBtns.length + ' 个按钮');
     });
   }
 
 
   // ============================================================
-  // 通用函数
+  // 学生行内等级按钮（关键修复：简化容器查找）
   // ============================================================
-  function updateGradeIndicatorColor(indicator, grade) {
-    if (!indicator) return;
-
-    indicator.classList.remove('grade-A', 'grade-B', 'grade-C', 'grade-other');
-
-    if (grade === 'A') {
-      indicator.classList.add('grade-A');
-    } else if (grade === 'B') {
-      indicator.classList.add('grade-B');
-    } else if (grade === 'C') {
-      indicator.classList.add('grade-C');
-    } else {
-      indicator.classList.add('grade-other');
+  function initQuick() {
+    const btns = document.querySelectorAll('.grade-qbtn:not([data-lg-init])');
+    if (!btns.length) {
+      console.log('⚠️ 未找到 .grade-qbtn 元素');
+      return;
     }
+
+    console.log('🔍 找到 ' + btns.length + ' 个 .grade-qbtn 元素');
+
+    // 按最近的共同父容器分组
+    // 策略：找到每个按钮的 parentElement，如果同一 parent 下有 >=2 个 .grade-qbtn，就用它
+    const groups = new Map();
+    btns.forEach(btn => {
+      // 直接用 parentElement（等级按钮通常在同一个容器里）
+      let p = btn.parentElement;
+      // 如果 parent 里的 .grade-qbtn 少于 2 个，向上找
+      let tries = 0;
+      while (p && p.querySelectorAll('.grade-qbtn').length < 2 && tries < 5) {
+        p = p.parentElement;
+        tries++;
+      }
+      if (!p) p = btn.parentElement;
+
+      if (!groups.has(p)) groups.set(p, []);
+      groups.get(p).push(btn);
+    });
+
+    console.log('🔍 分为 ' + groups.size + ' 个组');
+
+    let initCount = 0;
+    groups.forEach((groupBtns, container) => {
+      if (initializedContainers.has(container)) return;
+      if (groupBtns.length < 2) return;
+
+      initializedContainers.add(container);
+      groupBtns.forEach(b => b.setAttribute('data-lg-init', 'true'));
+
+      // 确保容器有 position: relative
+      container.classList.add('grade-quick-select');
+      if (getComputedStyle(container).position === 'static') {
+        container.style.position = 'relative';
+      }
+
+      // 创建滑块（插入到容器最前面）
+      const ind = document.createElement('div');
+      ind.className = 'grade-quick-indicator';
+      container.insertBefore(ind, container.firstChild);
+
+      const getActive = () => Array.from(groupBtns).findIndex(b => b.classList.contains('active'));
+
+      // 延迟定位（确保渲染完成）
+      setTimeout(() => {
+        const ai = getActive();
+        if (ai >= 0) {
+          const cr = container.getBoundingClientRect();
+          const br = groupBtns[ai].getBoundingClientRect();
+          const pl = parseFloat(getComputedStyle(container).paddingLeft) || 0;
+          const left = br.left - cr.left - pl;
+          ind.style.left = left + 'px';
+          ind.style.width = br.width + 'px';
+          ind.style.opacity = '1';
+          updateColor(ind, groupBtns[ai].dataset.grade);
+          console.log('✅ 学生行内滑块定位: left=' + left + ', width=' + br.width + ', grade=' + groupBtns[ai].dataset.grade);
+        } else {
+          // 即使没有 active，也定位到第一个按钮
+          const cr = container.getBoundingClientRect();
+          const br = groupBtns[0].getBoundingClientRect();
+          const pl = parseFloat(getComputedStyle(container).paddingLeft) || 0;
+          ind.style.left = (br.left - cr.left - pl) + 'px';
+          ind.style.width = br.width + 'px';
+          ind.style.opacity = '0.3';
+          console.log('ℹ️ 学生行内无 active，定位到第一个按钮');
+        }
+      }, 200);
+
+      const drag = makeDraggable(ind, groupBtns, function(i) {
+        groupBtns.forEach(b => b.classList.remove('active'));
+        groupBtns[i].classList.add('active');
+        updateColor(ind, groupBtns[i].dataset.grade);
+        groupBtns[i].click();
+      }, getActive);
+
+      groupBtns.forEach((btn, i) => {
+        btn.addEventListener('click', () => {
+          if (drag) drag.setIndex(i);
+          updateColor(ind, btn.dataset.grade);
+        });
+      });
+
+      container._ind = ind; container._drag = drag;
+      initCount++;
+    });
+
+    if (initCount > 0) console.log('✅ 学生行内等级液态玻璃滑块已初始化，共 ' + initCount + ' 组');
   }
 
 
   // ============================================================
-  // 外部 API
+  // 工具函数
   // ============================================================
-  window.refreshLiquidGlassSliders = function() {
-    initGradeBatchSliders();
-    initGradeQuickSliders();
-  };
+  function updateColor(ind, grade) {
+    if (!ind) return;
+    ind.classList.remove('grade-A','grade-B','grade-C','grade-other');
+    if (grade === 'A') ind.classList.add('grade-A');
+    else if (grade === 'B') ind.classList.add('grade-B');
+    else if (grade === 'C') ind.classList.add('grade-C');
+    else ind.classList.add('grade-other');
+  }
 
-  window.updateGradeSlider = function(container, activeBtn) {
-    if (!container || !activeBtn) return;
-    const indicator = container._gradeIndicator;
-    const draggable = container._gradeDraggable;
-    if (indicator && draggable) {
-      const btns = container.querySelectorAll('.grade-qbtn, .grade-batch-btn');
-      const index = Array.from(btns).indexOf(activeBtn);
-      if (index >= 0) {
-        draggable.setIndex(index);
-        updateGradeIndicatorColor(indicator, activeBtn.dataset.grade);
-      }
-    }
-  };
+  window.refreshLGS = function() { initBatch(); initQuick(); };
 
 
   // ============================================================
   // 初始化
   // ============================================================
   function init() {
-    initTabSlider();
-    initGradeBatchSliders();
-    initGradeQuickSliders();
+    initTab();
+    initBatch();
+    initQuick();
   }
 
-  if (document.readyState === 'loading') {
+  if (document.readyState === 'loading')
     document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
+  else init();
 
-  // 监听 DOM 变化，初始化动态生成的等级按钮
-  let domChangeTimer = null;
+  // 监听 DOM 变化（关键：学生行是动态生成的）
+  let timer = null;
   new MutationObserver(() => {
-    if (domChangeTimer) clearTimeout(domChangeTimer);
-    domChangeTimer = setTimeout(() => {
-      initGradeBatchSliders();
-      initGradeQuickSliders();
-    }, 200);
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => { initBatch(); initQuick(); }, 300);
   }).observe(document.body, { subtree: true, childList: true });
 
-  console.log('✅ 液态玻璃滑块效果已加载（支持动态元素初始化）');
+  console.log('✅ 液态玻璃滑块效果已加载（修复版）');
 
 })();
