@@ -1,0 +1,322 @@
+/* ============================================================
+ * ClassTrack 液态玻璃全局主题
+ * 参考 Apple HIG：液态玻璃用于导航栏、工具栏、卡片、弹窗、分段控制器
+ * 原则：玻璃材质传达层级，不堆叠轻量玻璃，文字保持高对比度
+ * ============================================================ */
+
+/* ---- 全局背景：丰富的渐变让玻璃折射更明显 ---- */
+body {
+  background:
+    radial-gradient(ellipse at 10% 10%, rgba(126, 181, 214, 0.3) 0%, transparent 45%),
+    radial-gradient(ellipse at 90% 20%, rgba(232, 160, 191, 0.25) 0%, transparent 40%),
+    radial-gradient(ellipse at 20% 85%, rgba(168, 213, 186, 0.25) 0%, transparent 45%),
+    radial-gradient(ellipse at 85% 75%, rgba(244, 201, 126, 0.22) 0%, transparent 40%),
+    radial-gradient(ellipse at 50% 50%, rgba(196, 181, 214, 0.15) 0%, transparent 60%),
+    linear-gradient(135deg, #eef5fa 0%, #fdf6f0 50%, #f2f0fb 100%);
+  background-attachment: fixed;
+}
+
+/* ============================================================
+ * 1. 卡片 / 面板 / 容器
+ * ============================================================ */
+.ct-card,
+.glass-panel,
+.glass-card {
+  background: rgba(255, 255, 255, 0.5) !important;
+  backdrop-filter: blur(24px) saturate(180%) brightness(1.05) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) brightness(1.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.55) !important;
+  box-shadow:
+    0 8px 32px rgba(90, 110, 140, 0.12),
+    0 2px 8px rgba(90, 110, 140, 0.08),
+    inset 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+}
+
+/* 更轻量的卡片 */
+.glass-card {
+  background: rgba(255, 255, 255, 0.42) !important;
+  backdrop-filter: blur(18px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(160%) !important;
+}
+
+/* ============================================================
+ * 2. 按钮
+ * ============================================================ */
+.glass-btn,
+button:not(.el-button):not(.tab-btn):not(.grade-qbtn):not(.grade-batch-btn) {
+  background: rgba(255, 255, 255, 0.5) !important;
+  backdrop-filter: blur(12px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(160%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.08),
+    inset 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+  transition: all 0.2s ease !important;
+}
+.glass-btn:hover,
+button:not(.el-button):not(.tab-btn):not(.grade-qbtn):not(.grade-batch-btn):hover {
+  background: rgba(255, 255, 255, 0.65) !important;
+  transform: translateY(-1px) !important;
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.12),
+    inset 0 1px 1px rgba(255, 255, 255, 0.9) !important;
+}
+.glass-btn:active,
+button:not(.el-button):not(.tab-btn):not(.grade-qbtn):not(.grade-batch-btn):active {
+  transform: translateY(0) scale(0.98) !important;
+}
+
+/* ============================================================
+ * 3. Element Plus 组件：对话框 / 弹窗
+ * ============================================================ */
+.el-dialog {
+  background: rgba(255, 255, 255, 0.6) !important;
+  backdrop-filter: blur(28px) saturate(180%) brightness(1.05) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(180%) brightness(1.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  border-radius: 18px !important;
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.18),
+    0 8px 24px rgba(0, 0, 0, 0.12),
+    inset 0 1px 1px rgba(255, 255, 255, 0.85) !important;
+}
+
+.el-dialog__header {
+  background: transparent !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
+  padding: 18px 24px !important;
+}
+
+.el-dialog__body {
+  background: transparent !important;
+  padding: 20px 24px !important;
+}
+
+.el-dialog__footer {
+  background: transparent !important;
+  border-top: 1px solid rgba(0, 0, 0, 0.06) !important;
+  padding: 14px 24px !important;
+}
+
+/* 弹窗遮罩 */
+.el-overlay {
+  background: rgba(0, 0, 0, 0.25) !important;
+  backdrop-filter: blur(4px) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+}
+
+/* ============================================================
+ * 4. Element Plus：输入框 / 选择器 / 下拉
+ * ============================================================ */
+.el-input__wrapper,
+.el-textarea__inner,
+.el-select__wrapper {
+  background: rgba(255, 255, 255, 0.55) !important;
+  backdrop-filter: blur(12px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(160%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  box-shadow:
+    0 1px 4px rgba(0, 0, 0, 0.06),
+    inset 0 1px 1px rgba(255, 255, 255, 0.7) !important;
+  transition: all 0.2s ease !important;
+}
+
+.el-input__wrapper:hover,
+.el-textarea__inner:hover,
+.el-select__wrapper:hover {
+  background: rgba(255, 255, 255, 0.68) !important;
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.1),
+    inset 0 1px 1px rgba(255, 255, 255, 0.85) !important;
+}
+
+.el-input__wrapper.is-focus,
+.el-textarea__inner:focus,
+.el-select__wrapper.is-focused {
+  background: rgba(255, 255, 255, 0.75) !important;
+  border-color: rgba(107, 163, 199, 0.6) !important;
+  box-shadow:
+    0 0 0 3px rgba(107, 163, 199, 0.15),
+    0 2px 8px rgba(0, 0, 0, 0.08),
+    inset 0 1px 1px rgba(255, 255, 255, 0.9) !important;
+}
+
+/* 下拉菜单 */
+.el-select-dropdown,
+.el-dropdown-menu {
+  background: rgba(255, 255, 255, 0.7) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  border-radius: 12px !important;
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.15),
+    0 4px 12px rgba(0, 0, 0, 0.1),
+    inset 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+}
+
+/* ============================================================
+ * 5. Element Plus：按钮
+ * ============================================================ */
+.el-button {
+  backdrop-filter: blur(8px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(8px) saturate(160%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  transition: all 0.2s ease !important;
+}
+
+.el-button:hover {
+  transform: translateY(-1px) !important;
+}
+
+.el-button:active {
+  transform: translateY(0) scale(0.98) !important;
+}
+
+.el-button--primary {
+  background: linear-gradient(135deg, rgba(107, 163, 199, 0.85), rgba(127, 181, 214, 0.85)) !important;
+  border-color: rgba(255, 255, 255, 0.4) !important;
+  box-shadow:
+    0 4px 12px rgba(107, 163, 199, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.4) !important;
+}
+
+.el-button--success {
+  background: linear-gradient(135deg, rgba(111, 174, 131, 0.85), rgba(131, 190, 151, 0.85)) !important;
+  box-shadow: 0 4px 12px rgba(111, 174, 131, 0.3), inset 0 1px 1px rgba(255,255,255,0.4) !important;
+}
+
+.el-button--warning {
+  background: linear-gradient(135deg, rgba(224, 180, 92, 0.85), rgba(240, 196, 108, 0.85)) !important;
+  box-shadow: 0 4px 12px rgba(224, 180, 92, 0.3), inset 0 1px 1px rgba(255,255,255,0.4) !important;
+}
+
+.el-button--danger {
+  background: linear-gradient(135deg, rgba(216, 137, 168, 0.85), rgba(232, 153, 184, 0.85)) !important;
+  box-shadow: 0 4px 12px rgba(216, 137, 168, 0.3), inset 0 1px 1px rgba(255,255,255,0.4) !important;
+}
+
+/* ============================================================
+ * 6. Element Plus：表格
+ * ============================================================ */
+.el-table {
+  background: transparent !important;
+}
+
+.el-table tr {
+  background: transparent !important;
+}
+
+.el-table td,
+.el-table th {
+  background: rgba(255, 255, 255, 0.35) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4) !important;
+}
+
+.el-table th.el-table__cell {
+  background: rgba(255, 255, 255, 0.5) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+}
+
+.el-table--striped .el-table__body tr.el-table__row--striped td.el-table__cell {
+  background: rgba(255, 255, 255, 0.25) !important;
+}
+
+.el-table__body tr:hover > td.el-table__cell {
+  background: rgba(255, 255, 255, 0.55) !important;
+}
+
+/* ============================================================
+ * 7. Element Plus：标签 / Tag
+ * ============================================================ */
+.el-tag {
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+}
+
+/* ============================================================
+ * 8. Element Plus：消息提示 / Message
+ * ============================================================ */
+.el-message {
+  background: rgba(255, 255, 255, 0.7) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  border-radius: 12px !important;
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.12),
+    inset 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+}
+
+/* ============================================================
+ * 9. 分段控制器 / Tab 栏通用样式
+ * ============================================================ */
+.segmented-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  background: rgba(0, 0, 0, 0.03);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  position: relative;
+}
+
+.segmented-control .segment-item {
+  position: relative;
+  z-index: 2;
+  padding: 6px 16px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(60, 70, 85, 0.7);
+  border-radius: 8px;
+  transition: color 0.3s ease;
+  font-family: inherit;
+}
+
+.segmented-control .segment-item.active {
+  color: #1d1d1f;
+  font-weight: 600;
+}
+
+.segmented-control .segment-indicator {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 4px;
+  z-index: 1;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.1),
+    inset 0 1px 1px rgba(255, 255, 255, 0.9);
+  transition: left 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+              width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+              transform 0.3s ease;
+}
+
+/* ============================================================
+ * 10. 减少透明度偏好：降级为更实的背景
+ * ============================================================ */
+@media (prefers-reduced-transparency: reduce) {
+  .ct-card, .glass-panel, .glass-card,
+  .el-dialog, .el-input__wrapper, .el-textarea__inner,
+  .el-select__wrapper, .el-select-dropdown, .el-dropdown-menu,
+  .el-message, .el-table td, .el-table th {
+    background: rgba(255, 255, 255, 0.92) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}

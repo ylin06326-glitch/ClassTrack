@@ -24,13 +24,11 @@
         </div>
         <div class="batch-area">
           <span class="batch-label">批量：</span>
-          <button
-            v-for="gv in GRADE_OPTIONS"
-            :key="gv"
-            class="grade-batch-btn"
-            :class="`grade-${gv.toLowerCase()}`"
-            @click="batchSetGrade(gv)"
-          >全部 {{ gradeDisplayLabel(gv) }}</button>
+          <LiquidGlassSegmented
+            :model-value="batchGrade"
+            :items="batchGradeItems"
+            @update:model-value="onBatchGradeChange"
+          />
         </div>
         <button class="btn-reminder" @click="reminderVisible = true">🔔 催交通知</button>
       </div>
@@ -84,16 +82,12 @@
               <span class="hw-student-name">
                 <span v-if="showCodePrefix(gradeOf(s.id)) && s.student_code" class="student-code-label">{{ s.student_code }}</span>{{ displayNameOf(s, gradeOf(s.id)) }}
               </span>
-              <div class="grade-quick-select">
-                <button
-                  v-for="gv in GRADE_OPTIONS"
-                  :key="gv"
-                  class="grade-qbtn"
-                  :class="[`grade-${gv.toLowerCase()}`, { active: gradeOf(s.id) === gv }]"
-                  :title="gradeDisplayLabel(gv)"
-                  @click="setGrade(s, gv)"
-                >{{ gradeDisplayLabel(gv) }}</button>
-              </div>
+              <LiquidGlassSegmented
+                :model-value="gradeOf(s.id)"
+                :items="quickGradeItems"
+                compact
+                @update:model-value="(g: string) => setGrade(s, g as Grade)"
+              />
             </div>
           </div>
         </div>
@@ -224,6 +218,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { Html5Qrcode } from 'html5-qrcode'
 import QRCode from 'qrcode'
 import { useAppStore } from '@/stores/app'
+import LiquidGlassSegmented from '@/components/LiquidGlassSegmented.vue'
 import { useDialogs, type DetailItem } from '@/composables/dialogs'
 import {
   loadHomework, saveHomework, batchHomework, findStudentByCode, scanBatch, scanSingle,
@@ -294,6 +289,17 @@ interface StudentSection {
 
 // ============ 作业控制 ============
 const GRADE_OPTIONS: Grade[] = [...VALID_GRADES]
+
+// 液态玻璃分段控制器的 items
+const batchGradeItems = GRADE_OPTIONS.map(g => ({ value: g, label: `全部 ${gradeDisplayLabel(g)}` }))
+const quickGradeItems = GRADE_OPTIONS.map(g => ({ value: g, label: gradeDisplayLabel(g) }))
+const batchGrade = ref<Grade>('A')
+
+function onBatchGradeChange(g: string) {
+  const grade = g as Grade
+  batchGrade.value = grade
+  batchSetGrade(grade)
+}
 const PC_GRADE_LABELS: Record<Grade, string> = {
   A: '🟢 A 优秀',
   B: '🔵 B 中等',
