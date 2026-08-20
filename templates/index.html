@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="/static/css/style.css?v=2.2.0">
 <link rel="stylesheet" href="/static/css/ai.css?v=2.2.0">
 <link rel="stylesheet" href="/static/css/ui-refresh.css?v=2.2.0">
+<link rel="stylesheet" href="/static/css/apple-style.css?v=2.2.0">
 <link rel="stylesheet" href="/static/css/liquid-glass-slider.css?v=2.2.0">
 <script>
 // 老浏览器检测：本应用使用了现代 JS 语法（可选链等），
@@ -40,7 +41,8 @@ catch (e) {
 </head>
 <body>
 <!-- WebGL 液态玻璃折射背景 -->
-<canvas id="liquid-glass-bg" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none;"></canvas>
+<!-- WebGL 背景已禁用（苹果风格用浅色背景） -->
+<canvas id="liquid-glass-bg" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;"></canvas>
 
 <!-- ============================================================ -->
 <!-- 顶部导航栏 -->
@@ -917,7 +919,7 @@ catch (e) {
         </div>
       </div>
     </div>
-  </div><script src="/static/js/liquid-glass-bg.js?v=2.2.0"></script>
+  </div><!-- liquid-glass-bg.js 已禁用（苹果风格） -->
 <script src="/static/js/liquid-glass-slider.js?v=2.2.0"></script>
 </body>
 </html>
