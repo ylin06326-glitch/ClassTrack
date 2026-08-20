@@ -788,3 +788,141 @@ body:has(#liquid-glass-bg) .tab-indicator {
     animation: none !important;
   }
 }
+/* ============================================================
+   增强玻璃边缘效果 — 参考 liquid-glass-studio
+   菲涅尔高光 + 色散条纹 + 眩光 + 厚度感
+   ============================================================ */
+
+/* 卡片：增强边缘菲涅尔高光和色散 */
+body:has(#liquid-glass-bg) .card {
+  /* 色散边缘：红/蓝轻微偏移 */
+  box-shadow:
+    /* 外阴影 */
+    0 10px 40px rgba(0, 0, 0, 0.1),
+    0 3px 12px rgba(0, 0, 0, 0.05),
+    /* 色散边缘（红/蓝偏移） */
+    0 0 0 1px rgba(255, 100, 100, 0.15),
+    0 0 0 2px rgba(100, 150, 255, 0.1),
+    /* 内高光（菲涅尔边缘） */
+    inset 0 2px 2px rgba(255, 255, 255, 0.8),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.05),
+    inset 2px 0 2px rgba(255, 255, 255, 0.4),
+    inset -2px 0 2px rgba(255, 255, 255, 0.3) !important;
+}
+
+/* 卡片顶部眩光（斜向高光） */
+body:has(#liquid-glass-bg) .card::after {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important; left: 0 !important; right: 0 !important;
+  height: 60% !important;
+  border-radius: 22px 22px 0 0 !important;
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(255, 255, 255, 0.1) 30%,
+    transparent 60%
+  ) !important;
+  pointer-events: none !important;
+  z-index: 3 !important;
+}
+
+/* 导航栏：增强边缘效果 */
+body:has(#liquid-glass-bg) .tab-nav {
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    0 2px 8px rgba(0, 0, 0, 0.05),
+    0 0 0 1px rgba(255, 100, 100, 0.12),
+    0 0 0 2px rgba(100, 150, 255, 0.08),
+    inset 0 1.5px 1.5px rgba(255, 255, 255, 0.85),
+    inset 0 -1.5px 3px rgba(0, 0, 0, 0.04),
+    inset 1.5px 0 1.5px rgba(255, 255, 255, 0.5),
+    inset -1.5px 0 1.5px rgba(255, 255, 255, 0.4) !important;
+}
+
+/* 模态框：强玻璃边缘效果 */
+body:has(#liquid-glass-bg) .modal-card {
+  box-shadow:
+    0 28px 72px rgba(0, 0, 0, 0.2),
+    0 8px 24px rgba(0, 0, 0, 0.12),
+    0 0 0 1px rgba(255, 100, 100, 0.18),
+    0 0 0 2px rgba(100, 150, 255, 0.12),
+    inset 0 2.5px 2.5px rgba(255, 255, 255, 0.9),
+    inset 0 -2.5px 5px rgba(0, 0, 0, 0.06),
+    inset 2.5px 0 2.5px rgba(255, 255, 255, 0.5),
+    inset -2.5px 0 2.5px rgba(255, 255, 255, 0.4) !important;
+}
+
+/* 模态框顶部眩光 */
+body:has(#liquid-glass-bg) .modal-card::after {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important; left: 0 !important; right: 0 !important;
+  height: 50% !important;
+  border-radius: 26px 26px 0 0 !important;
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.45) 0%,
+    rgba(255, 255, 255, 0.12) 35%,
+    transparent 65%
+  ) !important;
+  pointer-events: none !important;
+  z-index: 3 !important;
+}
+
+/* Tab 滑块：增强玻璃效果 */
+body:has(#liquid-glass-bg) .tab-indicator {
+  box-shadow:
+    0 4px 16px rgba(0, 113, 227, 0.3),
+    0 2px 6px rgba(0, 113, 227, 0.18),
+    0 0 0 1px rgba(255, 100, 100, 0.15),
+    0 0 0 2px rgba(100, 150, 255, 0.1),
+    inset 0 1.5px 1.5px rgba(255, 255, 255, 0.95),
+    inset 0 -2px 4px rgba(0, 113, 227, 0.12),
+    inset 1.5px 0 1.5px rgba(255, 255, 255, 0.6),
+    inset -1.5px 0 1.5px rgba(255, 255, 255, 0.5) !important;
+}
+
+/* 统计卡片：增强边缘效果 */
+body:has(#liquid-glass-bg) .stat-card {
+  box-shadow:
+    0 6px 24px rgba(0, 0, 0, 0.08),
+    0 2px 6px rgba(0, 0, 0, 0.04),
+    0 0 0 1px rgba(255, 100, 100, 0.12),
+    0 0 0 2px rgba(100, 150, 255, 0.08),
+    inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75),
+    inset 0 -1.5px 3px rgba(0, 0, 0, 0.03),
+    inset 1.5px 0 1.5px rgba(255, 255, 255, 0.4),
+    inset -1.5px 0 1.5px rgba(255, 255, 255, 0.3) !important;
+}
+
+/* 按钮：增强玻璃边缘 */
+body:has(#liquid-glass-bg) .btn-secondary {
+  box-shadow:
+    0 3px 12px rgba(0, 0, 0, 0.08),
+    0 1px 3px rgba(0, 0, 0, 0.04),
+    0 0 0 1px rgba(255, 100, 100, 0.1),
+    0 0 0 2px rgba(100, 150, 255, 0.06),
+    inset 0 1px 1px rgba(255, 255, 255, 0.8),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.04) !important;
+}
+
+/* 学生卡片：增强边缘 */
+body:has(#liquid-glass-bg) .student-card {
+  box-shadow:
+    0 3px 12px rgba(0, 0, 0, 0.06),
+    0 1px 3px rgba(0, 0, 0, 0.03),
+    0 0 0 1px rgba(255, 100, 100, 0.1),
+    0 0 0 2px rgba(100, 150, 255, 0.06),
+    inset 0 1px 1px rgba(255, 255, 255, 0.7),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.02) !important;
+}
+
+/* 输入框：增强玻璃边缘 */
+body:has(#liquid-glass-bg) input:focus,
+body:has(#liquid-glass-bg) select:focus,
+body:has(#liquid-glass-bg) textarea:focus {
+  box-shadow:
+    0 0 0 4px rgba(0, 113, 227, 0.15),
+    0 0 0 1px rgba(255, 100, 100, 0.12),
+    0 0 0 2px rgba(100, 150, 255, 0.08),
+    inset 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+}

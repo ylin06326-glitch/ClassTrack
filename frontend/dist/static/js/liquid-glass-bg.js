@@ -32,7 +32,6 @@
     uniform vec2 u_resolution;
     uniform vec2 u_mouse;
 
-    // 简单的 2D 噪声函数
     float hash(vec2 p) {
       return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
     }
@@ -48,12 +47,11 @@
       return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
     }
 
-    // 分形布朗运动（多层噪声叠加）
     float fbm(vec2 p) {
       float value = 0.0;
       float amplitude = 0.5;
       float frequency = 1.0;
-      for (int i = 0; i < 5; i++) {
+      for (int i = 0; i < 6; i++) {
         value += amplitude * noise(p * frequency);
         frequency *= 2.0;
         amplitude *= 0.5;
@@ -61,90 +59,102 @@
       return value;
     }
 
-    // 模糊圆形光源
     float blob(vec2 uv, vec2 center, float radius, float blur) {
       float dist = distance(uv, center);
       return smoothstep(radius + blur, radius - blur, dist);
+    }
+
+    vec2 warp(vec2 p, float t) {
+      vec2 q = vec2(
+        fbm(p + vec2(0.0, 0.0) + t * 0.1),
+        fbm(p + vec2(5.2, 1.3) + t * 0.15)
+      );
+      vec2 r = vec2(
+        fbm(p + 4.0 * q + vec2(1.7, 9.2) + t * 0.2),
+        fbm(p + 4.0 * q + vec2(8.3, 2.8) + t * 0.18)
+      );
+      return p + 3.0 * r;
     }
 
     void main() {
       vec2 uv = v_uv;
       vec2 aspect = vec2(u_resolution.x / u_resolution.y, 1.0);
       vec2 p = (uv - 0.5) * aspect;
+      float t = u_time * 0.06;
 
-      // 时间动画（缓慢流动）
-      float t = u_time * 0.08;
+      vec2 warpedP = warp(p * 2.0, t);
+      float warpNoise = fbm(warpedP * 1.5);
 
-      // 用噪声扰动 UV，模拟光线折射扭曲
-      float noiseScale = 3.0;
       vec2 distort = vec2(
-        fbm(p * noiseScale + vec2(t, t * 0.7)),
-        fbm(p * noiseScale + vec2(t * 0.8, -t * 0.5))
+        fbm(p * 2.5 + vec2(t, t * 0.7) + warpNoise * 0.5),
+        fbm(p * 2.5 + vec2(t * 0.8, -t * 0.5) + warpNoise * 0.3)
       );
-      distort = (distort - 0.5) * 0.06; // 扭曲强度
-      vec2 refractedUV = uv + distort;
+      distort = (distort - 0.5) * 0.15;
 
-      // 基础彩色渐变（多色渐变）
-      vec3 color1 = vec3(0.85, 0.92, 1.0);  // 浅蓝
-      vec3 color2 = vec3(0.94, 0.88, 1.0);  // 浅紫
-      vec3 color3 = vec3(1.0, 0.88, 0.94);  // 浅粉
-      vec3 color4 = vec3(1.0, 0.95, 0.82);  // 浅黄
-      vec3 color5 = vec3(0.85, 0.97, 0.90);  // 浅绿
+      vec2 uvR = uv + distort * 1.1;
+      vec2 uvG = uv + distort * 1.0;
+      vec2 uvB = uv + distort * 0.9;
 
-      // 用扰动后的 UV 做渐变混合
-      float gradient = refractedUV.x * 0.5 + refractedUV.y * 0.5;
+      vec3 color1 = vec3(0.75, 0.88, 1.0);
+      vec3 color2 = vec3(0.90, 0.80, 1.0);
+      vec3 color3 = vec3(1.0, 0.80, 0.90);
+      vec3 color4 = vec3(1.0, 0.92, 0.75);
+      vec3 color5 = vec3(0.78, 0.95, 0.85);
+
+      float gradient = uvG.x * 0.4 + uvG.y * 0.6 + warpNoise * 0.2;
       vec3 baseColor = mix(color1, color3, smoothstep(0.0, 0.5, gradient));
-      baseColor = mix(baseColor, color5, smoothstep(0.3, 0.8, refractedUV.y));
+      baseColor = mix(baseColor, color5, smoothstep(0.3, 0.8, uvG.y + warpNoise * 0.1));
 
-      // 多个模糊彩色光源（模拟光线透过玻璃）
-      vec2 blob1Pos = vec2(0.2 + sin(t * 0.5) * 0.1, 0.3 + cos(t * 0.3) * 0.1);
-      vec2 blob2Pos = vec2(0.8 + cos(t * 0.4) * 0.1, 0.7 + sin(t * 0.6) * 0.1);
-      vec2 blob3Pos = vec2(0.6 + sin(t * 0.3 + 1.0) * 0.15, 0.2 + cos(t * 0.5 + 0.5) * 0.1);
-      vec2 blob4Pos = vec2(0.3 + cos(t * 0.4 + 2.0) * 0.1, 0.8 + sin(t * 0.3 + 1.5) * 0.15);
+      vec2 blob1Pos = vec2(0.15 + sin(t * 0.4) * 0.12, 0.25 + cos(t * 0.3) * 0.1);
+      vec2 blob2Pos = vec2(0.85 + cos(t * 0.35) * 0.12, 0.75 + sin(t * 0.5) * 0.1);
+      vec2 blob3Pos = vec2(0.65 + sin(t * 0.25 + 1.0) * 0.15, 0.15 + cos(t * 0.45 + 0.5) * 0.1);
+      vec2 blob4Pos = vec2(0.25 + cos(t * 0.3 + 2.0) * 0.12, 0.85 + sin(t * 0.25 + 1.5) * 0.15);
+      vec2 blob5Pos = vec2(0.5 + sin(t * 0.2) * 0.2, 0.5 + cos(t * 0.25) * 0.15);
 
-      // 应用折射扭曲到光源位置
-      blob1Pos += distort * 0.5;
-      blob2Pos += distort * 0.5;
-      blob3Pos += distort * 0.5;
-      blob4Pos += distort * 0.5;
+      blob1Pos += distort * 0.8;
+      blob2Pos += distort * 0.8;
+      blob3Pos += distort * 0.8;
+      blob4Pos += distort * 0.8;
+      blob5Pos += distort * 0.6;
 
-      float b1 = blob(uv, blob1Pos, 0.25, 0.2);
-      float b2 = blob(uv, blob2Pos, 0.3, 0.25);
-      float b3 = blob(uv, blob3Pos, 0.2, 0.18);
-      float b4 = blob(uv, blob4Pos, 0.22, 0.2);
+      float b1 = blob(uv, blob1Pos, 0.28, 0.22);
+      float b2 = blob(uv, blob2Pos, 0.32, 0.25);
+      float b3 = blob(uv, blob3Pos, 0.22, 0.2);
+      float b4 = blob(uv, blob4Pos, 0.25, 0.22);
+      float b5 = blob(uv, blob5Pos, 0.35, 0.3);
 
-      // 光源颜色（高饱和度，模拟光线）
-      vec3 light1 = vec3(0.4, 0.7, 1.0);   // 蓝
-      vec3 light2 = vec3(1.0, 0.5, 0.8);   // 粉
-      vec3 light3 = vec3(0.5, 1.0, 0.7);   // 绿
-      vec3 light4 = vec3(1.0, 0.8, 0.4);   // 黄
+      vec3 light1 = vec3(0.3, 0.65, 1.0);
+      vec3 light2 = vec3(1.0, 0.45, 0.75);
+      vec3 light3 = vec3(0.4, 1.0, 0.7);
+      vec3 light4 = vec3(1.0, 0.75, 0.35);
+      vec3 light5 = vec3(0.7, 0.5, 1.0);
 
-      // 叠加光源到基础色
-      baseColor += light1 * b1 * 0.4;
-      baseColor += light2 * b2 * 0.35;
-      baseColor += light3 * b3 * 0.3;
-      baseColor += light4 * b4 * 0.25;
+      baseColor += light1 * b1 * 0.5;
+      baseColor += light2 * b2 * 0.45;
+      baseColor += light3 * b3 * 0.4;
+      baseColor += light4 * b4 * 0.35;
+      baseColor += light5 * b5 * 0.3;
 
-      // 添加细微的折射条纹（模拟玻璃的棱镜效应）
-      float prism = sin((refractedUV.x + refractedUV.y) * 30.0 + t * 2.0) * 0.5 + 0.5;
-      vec3 prismColor = mix(
-        vec3(1.0, 0.95, 0.9),
-        vec3(0.9, 0.95, 1.0),
-        prism
-      );
-      baseColor = mix(baseColor, prismColor, 0.08);
+      float prism = sin((uvG.x + uvG.y) * 25.0 + t * 3.0 + warpNoise * 5.0) * 0.5 + 0.5;
+      vec3 prismColor = mix(vec3(1.0, 0.92, 0.85), vec3(0.85, 0.92, 1.0), prism);
+      baseColor = mix(baseColor, prismColor, 0.12);
 
-      // 鼠标交互：鼠标位置添加额外的折射焦点
+      vec3 finalColor = baseColor;
+
       vec2 mouseUV = u_mouse / u_resolution;
       mouseUV.y = 1.0 - mouseUV.y;
-      float mouseFocus = blob(uv, mouseUV, 0.15, 0.1);
-      baseColor += vec3(1.0, 1.0, 1.0) * mouseFocus * 0.15;
+      float mouseFocus = blob(uv, mouseUV, 0.2, 0.15);
+      finalColor += vec3(1.0, 1.0, 1.0) * mouseFocus * 0.2;
+      float mouseDistort = mouseFocus * 0.05;
+      finalColor.r += sin(uv.x * 50.0 + t * 5.0) * mouseDistort * 0.1;
+      finalColor.b -= sin(uv.y * 50.0 + t * 5.0) * mouseDistort * 0.1;
 
-      // 整体亮度和饱和度调整
-      baseColor = pow(baseColor, vec3(0.95)); // 轻微伽马校正
-      baseColor = clamp(baseColor, 0.0, 1.0);
+      finalColor = pow(finalColor, vec3(0.9));
+      float gray = dot(finalColor, vec3(0.299, 0.587, 0.114));
+      finalColor = mix(vec3(gray), finalColor, 1.3);
+      finalColor = clamp(finalColor, 0.0, 1.0);
 
-      fragColor = vec4(baseColor, 1.0);
+      fragColor = vec4(finalColor, 1.0);
     }
   `;
 
