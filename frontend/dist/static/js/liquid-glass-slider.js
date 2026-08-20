@@ -384,13 +384,36 @@
     document.addEventListener('DOMContentLoaded', init);
   else init();
 
-  // 监听 DOM 变化（关键：学生行是动态生成的）
-  let timer = null;
-  new MutationObserver(() => {
-    if (timer) clearTimeout(timer);
-    timer = setTimeout(() => { initBatch(); initQuick(); }, 300);
-  }).observe(document.body, { subtree: true, childList: true });
+  // 多次尝试初始化（学生行是异步生成的）
+  [300, 800, 1500, 2500, 4000].forEach(function(delay) {
+    setTimeout(function() {
+      initBatch();
+      initQuick();
+      console.log('🔄 延迟初始化尝试: ' + delay + 'ms');
+    }, delay);
+  });
 
-  console.log('✅ 液态玻璃滑块效果已加载（修复版）');
+  // 监听 DOM 变化（关键：学生行是动态生成的）
+  var domTimer = null;
+  new MutationObserver(function() {
+    if (domTimer) clearTimeout(domTimer);
+    domTimer = setTimeout(function() { initBatch(); initQuick(); }, 200);
+  }).observe(document.body, { subtree: true, childList: true, characterData: true });
+
+  // 定期检查（兜底机制）
+  setInterval(function() {
+    var uninitBtns = document.querySelectorAll('.grade-qbtn:not([data-lg-init])');
+    if (uninitBtns.length > 0) {
+      console.log('🔍 定期检查发现 ' + uninitBtns.length + ' 个未初始化的 .grade-qbtn');
+      initQuick();
+    }
+    var uninitBatch = document.querySelectorAll('.grade-batch-btn:not([data-lg-init])');
+    if (uninitBatch.length > 0) {
+      console.log('🔍 定期检查发现 ' + uninitBatch.length + ' 个未初始化的 .grade-batch-btn');
+      initBatch();
+    }
+  }, 1000);
+
+  console.log('✅ 液态玻璃滑块效果已加载（高保真版 + 可靠初始化）');
 
 })();
