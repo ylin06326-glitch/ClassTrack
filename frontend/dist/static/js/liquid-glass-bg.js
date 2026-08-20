@@ -129,29 +129,29 @@
       vec3 light4 = vec3(1.0, 0.75, 0.35);
       vec3 light5 = vec3(0.7, 0.5, 1.0);
 
-      baseColor += light1 * b1 * 0.65;
-      baseColor += light2 * b2 * 0.6;
-      baseColor += light3 * b3 * 0.55;
-      baseColor += light4 * b4 * 0.5;
-      baseColor += light5 * b5 * 0.45;
+      baseColor += light1 * b1 * 0.35;
+      baseColor += light2 * b2 * 0.3;
+      baseColor += light3 * b3 * 0.3;
+      baseColor += light4 * b4 * 0.25;
+      baseColor += light5 * b5 * 0.25;
 
       float prism = sin((uvG.x + uvG.y) * 25.0 + t * 3.0 + warpNoise * 5.0) * 0.5 + 0.5;
       vec3 prismColor = mix(vec3(1.0, 0.92, 0.85), vec3(0.85, 0.92, 1.0), prism);
-      baseColor = mix(baseColor, prismColor, 0.18);
+      baseColor = mix(baseColor, prismColor, 0.1);
 
       vec3 finalColor = baseColor;
 
       vec2 mouseUV = u_mouse / u_resolution;
       mouseUV.y = 1.0 - mouseUV.y;
       float mouseFocus = blob(uv, mouseUV, 0.2, 0.15);
-      finalColor += vec3(1.0, 1.0, 1.0) * mouseFocus * 0.3;
+      finalColor += vec3(1.0, 1.0, 1.0) * mouseFocus * 0.15;
       float mouseDistort = mouseFocus * 0.08;
       finalColor.r += sin(uv.x * 50.0 + t * 5.0) * mouseDistort * 0.1;
       finalColor.b -= sin(uv.y * 50.0 + t * 5.0) * mouseDistort * 0.1;
 
       finalColor = pow(finalColor, vec3(0.9));
       float gray = dot(finalColor, vec3(0.299, 0.587, 0.114));
-      finalColor = mix(vec3(gray), finalColor, 1.5);
+      finalColor = mix(vec3(gray), finalColor, 1.15);
       finalColor = clamp(finalColor, 0.0, 1.0);
 
       fragColor = vec4(finalColor, 1.0);
