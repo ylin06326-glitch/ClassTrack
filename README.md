@@ -73,18 +73,28 @@
 - 🔔 **智能预警横幅**：首页实时展示连续未交 / A率下降预警
 - ⚙️ **多服务商支持**：DeepSeek / OpenAI / 通义千问 / 自定义
 
+### v2.1 新特性
+
+- 🍎 **Apple Design 界面**：流体交互动画（滑块可拖动 + 动量预测 + 橡皮筋边界）、半透明材质层级、顶部亮边、系统字体排版
+- 👋 **新手引导**：首次使用自动弹出 8 步引导，覆盖全部核心功能
+- 🖨️ **二维码打印**：批量打印学生二维码，支持 A4 排版
+- 📱 **手机扫码端**：独立 /mobile 页面，手机浏览器直接扫码登记作业
+- ❤️ **打赏支持**：导航栏打赏按钮，微信收款码弹窗
+- ⚡ **性能优化**：同步路由替代异步阻塞，解决卡顿问题
+- ♿ **无障碍支持**：Reduced Motion / Reduced Transparency / 高对比度
+
 ---
 
 ## 技术栈
 
 | 层级 | 技术 |
 |------|------|
-| 后端 | Python 3.8+ / Flask / Waitress |
-| 前端 | HTML5 / CSS3 / JavaScript / ECharts / Chart.js |
+| 后端 | Python 3.10+ / FastAPI / Uvicorn |
+| 前端 | Vue 3 + TypeScript / HTML5 / CSS3 / JavaScript / ECharts |
 | 数据 | SQLite (本地文件数据库) |
 | 打包 | PyInstaller (Windows 单文件 exe) |
 | AI | OpenAI 兼容 API (DeepSeek / OpenAI / 通义千问) |
-| 其他 | qrcode / pandas / openpyxl / pywebview |
+| 其他 | qrcode / pandas / openpyxl / html5-qrcode |
 
 ---
 
@@ -100,17 +110,22 @@
 
 ```bash
 # 1. 克隆仓库
-git clone https://github.com/ylin06326-glitch/-AI-Class-Assignment-Group-Management-System-with-AI-Assistant-.git
+git clone https://github.com/ylin06326-glitch/ClassTrack.git
 cd ClassTrack
 
 # 2. 安装依赖
-pip install -r requirements.txt
+pip install -r backend/requirements.txt
 
-# 3. 启动
-python main.py
+# 3. 启动（默认 HTTPS 5088）
+python backend/run.py
+
+# 或 HTTP 调试模式
+python backend/run.py --http --port 5099
 ```
 
 启动后浏览器将自动打开 `https://localhost:5088`。
+
+> **手机扫码登记**：确保手机和电脑在同一局域网，访问 `https://<电脑IP>:5088/mobile`
 
 ### 打包为 exe
 
@@ -126,24 +141,33 @@ pyinstaller ClassTrack.spec
 
 ```
 ClassTrack/
-├── main.py                  # 主程序入口（Flask 服务 + 路由）
-├── app_paths.py             # 路径配置
-├── requirements.txt         # Python 依赖
-├── ClassTrack.spec          # PyInstaller 打包配置
-├── build.bat                # 打包脚本
-├── 启动ClassTrack.bat        # Windows 快捷启动
-├── LICENSE                  # 许可协议
-├── README.md                # 中文说明
-├── README.en.md             # 英文说明
-├── PROGRESS.md              # 开发进度追踪
-├── 使用说明书.md             # 详细使用说明
-├── docs/images/             # 软件截图
-├── backend_server/          # 后端服务模块
-├── static/                  # 静态资源 (CSS/JS/图片)
-├── templates/               # HTML 模板
-├── data/                    # 数据库文件 (运行时生成)
-├── docs/                    # 文档
-└── media/                   # 媒体资源
+├── backend/                  # FastAPI 后端
+│   ├── run.py               # 开发启动入口
+│   ├── requirements.txt     # Python 依赖
+│   └── app/
+│       ├── main.py          # FastAPI 应用 + 路由注册
+│       ├── config.py        # 配置与路径管理
+│       ├── database.py      # SQLite 数据库
+│       ├── deps.py          # 依赖注入
+│       ├── routers/         # API 路由 (11个模块)
+│       ├── services/        # 业务服务 (AI/报表/TLS)
+│       └── activation/      # 激活与授权
+├── frontend/                 # Vue 3 + TypeScript 前端
+│   ├── src/                 # 源代码
+│   └── dist/                # 构建产物 (后端托管)
+├── launcher.py               # 打包版启动入口
+├── launcher_nolock.py        # 无锁版启动入口
+├── ClassTrack.spec           # PyInstaller 打包配置
+├── ClassTrack_nolock.spec    # 无锁版打包配置
+├── build.bat                 # 打包脚本
+├── 启动ClassTrack.bat         # Windows 快捷启动
+├── static/                   # 老版静态资源 (CSS/JS/图片)
+├── templates/                # 老版 HTML 模板
+├── docs/images/              # 软件截图
+├── data/                     # 数据库文件 (运行时生成)
+├── LICENSE                   # 许可协议
+├── README.md                 # 中文说明
+└── README.en.md              # 英文说明
 ```
 
 ---
