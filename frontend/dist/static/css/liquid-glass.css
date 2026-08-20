@@ -490,7 +490,7 @@ html {
 
 body {
   font-family: var(--font);
-  background: var(--macaron-bg);
+  background: transparent; /* WebGL 液态玻璃背景 */
   color: var(--text-primary);
   min-height: 100vh;
   line-height: 1.6;
@@ -501,25 +501,11 @@ body {
 
 /* 纯色浅底色背景装饰（极简，突出玻璃通透感） */
 body::before {
-  content: "";
-  position: fixed;
-  top: -200px; right: -150px;
-  width: 500px; height: 500px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(232,160,191,0.08) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 0;
+  display: none; /* WebGL 液态玻璃背景已替代 */
 }
 
 body::after {
-  content: "";
-  position: fixed;
-  bottom: -180px; left: -120px;
-  width: 450px; height: 450px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(126,181,214,0.08) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 0;
+  display: none; /* WebGL 液态玻璃背景已替代 */
 }
 
 /* v2: GPU 加速仅在交互时启用，避免静态 GPU 层浪费显存 */
