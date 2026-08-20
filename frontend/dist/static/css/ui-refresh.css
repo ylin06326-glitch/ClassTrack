@@ -1,3 +1,32 @@
+/* ============================================================
+   强制 WebGL 背景显示 — 覆盖 liquid-glass.css 的不透明背景
+   ============================================================ */
+html, body {
+  background: transparent !important;
+}
+
+/* 隐藏 liquid-glass.css 的 body::before 装饰（WebGL 背景已有装饰） */
+body::before,
+body::after {
+  display: none !important;
+}
+
+/* 确保 WebGL canvas 在最底层 */
+#liquid-glass-bg {
+  z-index: 0 !important;
+}
+
+/* 确保所有内容在 canvas 上面 */
+.container,
+.main-container,
+.tab-nav,
+.card,
+.modal-overlay,
+.toast,
+.guide-overlay {
+  position: relative;
+  z-index: 2 !important;
+}
 /* WebGL 背景支持 */
 body { background: transparent !important; }
 body:not(.webgl-active) { background: linear-gradient(135deg, #e0f0ff 0%, #f0e8ff 30%, #ffe8f0 60%, #fff5e0 80%, #e8ffe8 100%) !important; }
