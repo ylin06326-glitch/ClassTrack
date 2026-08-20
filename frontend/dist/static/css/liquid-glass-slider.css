@@ -1,6 +1,6 @@
 /* ============================================================
-   液态玻璃滑块效果 — 高对比度版本
-   仅作用于：顶部 Tab 栏滑块 + 作业登记等级选择滑块
+   液态玻璃滑块效果 — 高保真版本
+   参考 Liquid Glass React 演示效果
    ============================================================ */
 
 /* ========== 顶部 Tab 栏液态玻璃滑块 ========== */
@@ -8,42 +8,59 @@
 .tab-nav {
   overflow: visible !important;
   position: relative !important;
-  background: rgba(255, 255, 255, 0.3) !important;
-  backdrop-filter: blur(10px) !important;
-  -webkit-backdrop-filter: blur(10px) !important;
-  border: 1px solid rgba(0, 0, 0, 0.06) !important;
+  background: rgba(255, 255, 255, 0.25) !important;
+  backdrop-filter: blur(12px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
   border-radius: 14px !important;
-  padding: 5px !important;
+  padding: 6px !important;
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.08),
+    inset 0 1px 1px rgba(255, 255, 255, 0.5) !important;
 }
 
-/* 高对比度液态玻璃滑块 — 蓝色渐变 */
+/* 高保真液态玻璃滑块 */
 .tab-nav .tab-indicator {
   position: absolute !important;
-  top: 5px !important;
-  bottom: 5px !important;
+  top: 6px !important;
+  bottom: 6px !important;
   left: 0 !important;
   height: auto !important;
   width: 0 !important;
   border-radius: 10px !important;
+
+  /* 液态玻璃核心：半透明 + 强模糊 + 高饱和 */
   background: linear-gradient(135deg,
-    rgba(126, 181, 214, 0.85) 0%,
-    rgba(142, 200, 192, 0.75) 50%,
-    rgba(126, 181, 214, 0.8) 100%
+    rgba(255, 255, 255, 0.45) 0%,
+    rgba(255, 255, 255, 0.25) 50%,
+    rgba(255, 255, 255, 0.35) 100%
   ) !important;
-  backdrop-filter: blur(16px) saturate(180%) brightness(1.1) !important;
-  -webkit-backdrop-filter: blur(16px) saturate(180%) brightness(1.1) !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.6) !important;
-  border-bottom: 1.5px solid rgba(255, 255, 255, 0.6) !important;
+  backdrop-filter: blur(24px) saturate(200%) brightness(1.15) contrast(1.08) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(200%) brightness(1.15) contrast(1.08) !important;
+
+  /* 白色边框 */
+  border: 1.5px solid rgba(255, 255, 255, 0.55) !important;
+  border-bottom: 1.5px solid rgba(255, 255, 255, 0.4) !important;
+
+  /* 强阴影 */
   box-shadow:
-    0 4px 16px rgba(126, 181, 214, 0.5),
-    0 2px 8px rgba(0, 0, 0, 0.12),
+    0 8px 32px rgba(0, 0, 0, 0.15),
+    0 2px 8px rgba(0, 0, 0, 0.1),
+    0 0 20px rgba(126, 181, 214, 0.2),
+    /* 顶部高光 */
     inset 0 1.5px 1.5px rgba(255, 255, 255, 0.85),
-    inset 0 -1.5px 3px rgba(0, 0, 0, 0.1),
-    0 0 20px rgba(126, 181, 214, 0.3) !important;
+    /* 底部反光 */
+    inset 0 -2px 4px rgba(0, 0, 0, 0.06),
+    /* 左侧高光 */
+    inset 1.5px 0 1.5px rgba(255, 255, 255, 0.5),
+    /* 右侧高光 */
+    inset -1.5px 0 1.5px rgba(255, 255, 255, 0.4) !important;
+
   transition: left 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
               width 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
               transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
               background 0.3s ease !important;
+
   transform-origin: center center !important;
   z-index: 1 !important;
   cursor: grab !important;
@@ -61,36 +78,34 @@
   transition: none !important;
 }
 
-/* 顶部眩光 */
+/* 顶部眩光层（模拟玻璃反光） */
 .tab-nav .tab-indicator::before {
   content: '' !important;
   position: absolute !important;
   top: 0 !important;
   left: 0 !important;
   right: 0 !important;
-  height: 55% !important;
+  height: 60% !important;
   border-radius: 10px 10px 0 0 !important;
-  background: linear-gradient(135deg,
-    rgba(255, 255, 255, 0.6) 0%,
-    rgba(255, 255, 255, 0.15) 50%,
-    transparent 75%
-  ) !important;
+  background:
+    radial-gradient(ellipse 80% 70% at 25% 10%, rgba(255,255,255,0.7) 0%, transparent 55%),
+    linear-gradient(180deg, rgba(255,255,255,0.3) 0%, transparent 100%) !important;
   pointer-events: none !important;
   z-index: 2 !important;
   display: block !important;
 }
 
-/* 底部反光 */
+/* 底部反光层 */
 .tab-nav .tab-indicator::after {
   content: '' !important;
   position: absolute !important;
   bottom: 0 !important;
   left: 10% !important;
   right: 10% !important;
-  height: 35% !important;
+  height: 40% !important;
   border-radius: 0 0 10px 10px !important;
   background: linear-gradient(to top,
-    rgba(0, 113, 227, 0.2) 0%,
+    rgba(0, 113, 227, 0.15) 0%,
     transparent 100%
   ) !important;
   pointer-events: none !important;
@@ -131,8 +146,9 @@
 }
 
 .tab-nav .tab-btn.active {
-  color: #ffffff !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+  color: #1d1d1f !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5) !important;
 }
 
 
@@ -144,11 +160,11 @@
   align-items: center !important;
   gap: 4px !important;
   padding: 5px !important;
-  background: rgba(255, 255, 255, 0.25) !important;
-  backdrop-filter: blur(8px) !important;
-  -webkit-backdrop-filter: blur(8px) !important;
+  background: rgba(255, 255, 255, 0.2) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
   border-radius: 10px !important;
-  border: 1px solid rgba(0, 0, 0, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
   overflow: visible !important;
 }
 
@@ -159,14 +175,24 @@
   left: 5px !important;
   width: 0 !important;
   border-radius: 8px !important;
-  backdrop-filter: blur(14px) saturate(180%) brightness(1.1) !important;
-  -webkit-backdrop-filter: blur(14px) saturate(180%) brightness(1.1) !important;
+
+  backdrop-filter: blur(20px) saturate(200%) brightness(1.15) contrast(1.08) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(200%) brightness(1.15) contrast(1.08) !important;
+
   border: 1.5px solid rgba(255, 255, 255, 0.5) !important;
+
+  box-shadow:
+    0 6px 24px rgba(0, 0, 0, 0.15),
+    0 2px 6px rgba(0, 0, 0, 0.1),
+    inset 0 1.5px 1.5px rgba(255, 255, 255, 0.75),
+    inset 0 -1.5px 3px rgba(0, 0, 0, 0.08) !important;
+
   transition: left 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
               width 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
               transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
               background 0.4s ease,
               box-shadow 0.4s ease !important;
+
   cursor: grab !important;
   pointer-events: auto !important;
   z-index: 1 !important;
@@ -183,31 +209,64 @@
   transition: none !important;
 }
 
-/* 等级颜色 — 高饱和度 */
+/* 等级颜色 — 半透明彩色玻璃 */
 .grade-batch-indicator.grade-A {
-  background: linear-gradient(135deg, rgba(52,199,89,0.9), rgba(48,209,88,0.8), rgba(52,199,89,0.85)) !important;
-  border-color: rgba(52,199,89,0.6) !important;
-  box-shadow: 0 3px 14px rgba(52,199,89,0.5), inset 0 1.5px 1.5px rgba(255,255,255,0.7) !important;
+  background: linear-gradient(135deg,
+    rgba(52,199,89,0.5) 0%,
+    rgba(52,199,89,0.3) 50%,
+    rgba(52,199,89,0.4) 100%
+  ) !important;
+  border-color: rgba(52,199,89,0.5) !important;
+  box-shadow:
+    0 6px 24px rgba(52,199,89,0.35),
+    0 2px 6px rgba(52,199,89,0.2),
+    inset 0 1.5px 1.5px rgba(255,255,255,0.7),
+    inset 0 -1.5px 3px rgba(0,0,0,0.08) !important;
 }
 
 .grade-batch-indicator.grade-B {
-  background: linear-gradient(135deg, rgba(255,204,0,0.9), rgba(255,214,10,0.8), rgba(255,204,0,0.85)) !important;
-  border-color: rgba(255,204,0,0.6) !important;
-  box-shadow: 0 3px 14px rgba(255,204,0,0.5), inset 0 1.5px 1.5px rgba(255,255,255,0.7) !important;
+  background: linear-gradient(135deg,
+    rgba(255,204,0,0.5) 0%,
+    rgba(255,204,0,0.3) 50%,
+    rgba(255,204,0,0.4) 100%
+  ) !important;
+  border-color: rgba(255,204,0,0.5) !important;
+  box-shadow:
+    0 6px 24px rgba(255,204,0,0.35),
+    0 2px 6px rgba(255,204,0,0.2),
+    inset 0 1.5px 1.5px rgba(255,255,255,0.7),
+    inset 0 -1.5px 3px rgba(0,0,0,0.08) !important;
 }
 
 .grade-batch-indicator.grade-C {
-  background: linear-gradient(135deg, rgba(255,59,48,0.9), rgba(255,69,58,0.8), rgba(255,59,48,0.85)) !important;
-  border-color: rgba(255,59,48,0.6) !important;
-  box-shadow: 0 3px 14px rgba(255,59,48,0.5), inset 0 1.5px 1.5px rgba(255,255,255,0.7) !important;
+  background: linear-gradient(135deg,
+    rgba(255,59,48,0.5) 0%,
+    rgba(255,59,48,0.3) 50%,
+    rgba(255,59,48,0.4) 100%
+  ) !important;
+  border-color: rgba(255,59,48,0.5) !important;
+  box-shadow:
+    0 6px 24px rgba(255,59,48,0.35),
+    0 2px 6px rgba(255,59,48,0.2),
+    inset 0 1.5px 1.5px rgba(255,255,255,0.7),
+    inset 0 -1.5px 3px rgba(0,0,0,0.08) !important;
 }
 
 .grade-batch-indicator.grade-other {
-  background: linear-gradient(135deg, rgba(142,142,147,0.85), rgba(174,174,178,0.75), rgba(142,142,147,0.8)) !important;
-  border-color: rgba(142,142,147,0.55) !important;
-  box-shadow: 0 3px 14px rgba(142,142,147,0.4), inset 0 1.5px 1.5px rgba(255,255,255,0.7) !important;
+  background: linear-gradient(135deg,
+    rgba(142,142,147,0.45) 0%,
+    rgba(142,142,147,0.28) 50%,
+    rgba(142,142,147,0.38) 100%
+  ) !important;
+  border-color: rgba(142,142,147,0.45) !important;
+  box-shadow:
+    0 6px 24px rgba(142,142,147,0.3),
+    0 2px 6px rgba(142,142,147,0.18),
+    inset 0 1.5px 1.5px rgba(255,255,255,0.7),
+    inset 0 -1.5px 3px rgba(0,0,0,0.08) !important;
 }
 
+/* 顶部眩光 */
 .grade-batch-indicator::before {
   content: '' !important;
   position: absolute !important;
@@ -216,11 +275,9 @@
   right: 0 !important;
   height: 55% !important;
   border-radius: 8px 8px 0 0 !important;
-  background: linear-gradient(135deg,
-    rgba(255, 255, 255, 0.5) 0%,
-    rgba(255, 255, 255, 0.1) 50%,
-    transparent 75%
-  ) !important;
+  background:
+    radial-gradient(ellipse 70% 60% at 25% 10%, rgba(255,255,255,0.6) 0%, transparent 55%),
+    linear-gradient(180deg, rgba(255,255,255,0.25) 0%, transparent 100%) !important;
   pointer-events: none !important;
   z-index: 2 !important;
   display: block !important;
@@ -247,7 +304,7 @@
   transform: skewX(10deg) scaleX(1.1) !important;
 }
 
-/* 批量等级按钮 — 透明背景，白色文字选中 */
+/* 批量等级按钮 — 透明背景 */
 .grade-batch-container .grade-batch-btn {
   background: transparent !important;
   backdrop-filter: none !important;
@@ -271,8 +328,8 @@
 
 .grade-batch-container .grade-batch-btn.active {
   font-weight: 700 !important;
-  color: #ffffff !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25) !important;
+  color: #1d1d1f !important;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.4) !important;
 }
 
 
@@ -296,13 +353,23 @@
   left: 4px !important;
   width: 0 !important;
   border-radius: 6px !important;
-  backdrop-filter: blur(12px) saturate(180%) brightness(1.1) !important;
-  -webkit-backdrop-filter: blur(12px) saturate(180%) brightness(1.1) !important;
-  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+
+  backdrop-filter: blur(16px) saturate(180%) brightness(1.12) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%) brightness(1.12) !important;
+
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.12),
+    0 1px 4px rgba(0, 0, 0, 0.08),
+    inset 0 1px 1px rgba(255, 255, 255, 0.7),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.06) !important;
+
   transition: left 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
               width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
               transform 0.25s ease,
               background 0.4s ease !important;
+
   cursor: grab !important;
   pointer-events: auto !important;
   z-index: 1 !important;
@@ -319,26 +386,32 @@
 }
 
 .grade-quick-indicator.grade-A {
-  background: rgba(52,199,89,0.85) !important;
-  border-color: rgba(52,199,89,0.5) !important;
-  box-shadow: 0 2px 8px rgba(52,199,89,0.4) !important;
+  background: rgba(52,199,89,0.45) !important;
+  border-color: rgba(52,199,89,0.45) !important;
+  box-shadow:
+    0 4px 16px rgba(52,199,89,0.3),
+    inset 0 1px 1px rgba(255,255,255,0.65) !important;
 }
 
 .grade-quick-indicator.grade-B {
-  background: rgba(255,204,0,0.85) !important;
-  border-color: rgba(255,204,0,0.5) !important;
-  box-shadow: 0 2px 8px rgba(255,204,0,0.4) !important;
+  background: rgba(255,204,0,0.45) !important;
+  border-color: rgba(255,204,0,0.45) !important;
+  box-shadow:
+    0 4px 16px rgba(255,204,0,0.3),
+    inset 0 1px 1px rgba(255,255,255,0.65) !important;
 }
 
 .grade-quick-indicator.grade-C {
-  background: rgba(255,59,48,0.85) !important;
-  border-color: rgba(255,59,48,0.5) !important;
-  box-shadow: 0 2px 8px rgba(255,59,48,0.4) !important;
+  background: rgba(255,59,48,0.45) !important;
+  border-color: rgba(255,59,48,0.45) !important;
+  box-shadow:
+    0 4px 16px rgba(255,59,48,0.3),
+    inset 0 1px 1px rgba(255,255,255,0.65) !important;
 }
 
 .grade-quick-indicator.grade-other {
-  background: rgba(142,142,147,0.8) !important;
-  border-color: rgba(142,142,147,0.45) !important;
+  background: rgba(142,142,147,0.4) !important;
+  border-color: rgba(142,142,147,0.4) !important;
 }
 
 .grade-quick-indicator::before {
@@ -349,11 +422,9 @@
   right: 0 !important;
   height: 50% !important;
   border-radius: 6px 6px 0 0 !important;
-  background: linear-gradient(135deg,
-    rgba(255, 255, 255, 0.45) 0%,
-    rgba(255, 255, 255, 0.08) 50%,
-    transparent 75%
-  ) !important;
+  background:
+    radial-gradient(ellipse 60% 55% at 25% 10%, rgba(255,255,255,0.55) 0%, transparent 55%),
+    linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 100%) !important;
   pointer-events: none !important;
   z-index: 2 !important;
   display: block !important;
@@ -387,8 +458,8 @@
   transform: none !important;
   box-shadow: none !important;
   font-weight: 700 !important;
-  color: #ffffff !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25) !important;
+  color: #1d1d1f !important;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.4) !important;
 }
 
 
