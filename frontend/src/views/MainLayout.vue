@@ -23,18 +23,21 @@
           <button class="btn-class-manage" title="管理班级" @click="classVisible = true">⚙️</button>
         </div>
 
-        <!-- Tab 导航（液态玻璃） -->
-        <div class="tab-nav-wrapper">
-          <LiquidGlassBottomNavBar
-            v-model="activeTab"
-            :items="tabItems"
-            size="medium"
-            active-color="#6ba3c7"
-          />
-        </div>
-        <button class="tab-btn-donate" title="支持作者" @click="donateVisible = true">
-          <span>❤️</span><span>打赏</span>
-        </button>
+        <!-- Tab 导航 -->
+        <nav class="tab-nav">
+          <button
+            v-for="tab in TABS"
+            :key="tab.id"
+            class="tab-btn"
+            :class="{ active: activeTab === tab.id }"
+            @click="activeTab = tab.id"
+          >
+            <span class="tab-icon">{{ tab.icon }}</span><span class="tab-label">{{ tab.label }}</span>
+          </button>
+          <button class="tab-btn" title="支持作者" @click="donateVisible = true">
+            <span class="tab-icon">❤️</span><span class="tab-label">打赏</span>
+          </button>
+        </nav>
 
         <!-- 姓名显示模式 -->
         <el-dropdown trigger="click" @command="onDisplayMode">
@@ -184,7 +187,6 @@ import AnalyticsTab from './tabs/AnalyticsTab.vue'
 import ExportTab from './tabs/ExportTab.vue'
 import AIChatTab from './tabs/AIChatTab.vue'
 import SettingsTab from './tabs/SettingsTab.vue'
-import { LiquidGlassBottomNavBar } from '@sapryniukt/vue-liquid-glass'
 
 const store = useAppStore()
 
@@ -198,8 +200,7 @@ const TABS = [
   { id: 'settings', icon: '⚙️', label: '设置' },
 ] as const
 
-// 液态玻璃导航栏的 items（icon 用 emoji）
-const tabItems = TABS.map(t => ({ id: t.id, label: t.label, icon: t.icon }))
+
 
 const DM_CONFIG: Record<'name' | 'code' | 'auto', { icon: string; label: string }> = {
   name: { icon: '👤', label: '显示姓名' },
@@ -395,48 +396,20 @@ function exportStudentReport(): void {
   border-radius: 8px; padding: 4px 8px; cursor: pointer; font-size: 13px;
 }
 .btn-class-manage:hover { background: #f0f6fa; }
-.tab-nav-wrapper {
-  display: flex;
-  align-items: center;
-  /* 覆盖液态玻璃导航栏的 CSS 变量，适配浅色背景 */
-  --lg-nav-text: rgba(60, 70, 85, 0.75);
-  --lg-nav-active: #1d1d1f;
-  --lg-nav-track-bg: rgba(0, 0, 0, 0.025);
-  --lg-nav-track-border: rgba(0, 0, 0, 0.06);
-  --lg-nav-thumb-rgb: 255, 255, 255;
-  --lg-nav-thumb-border: rgba(255, 255, 255, 0.8);
-  --lg-nav-thumb-border-active: rgba(255, 255, 255, 0.6);
-  --lg-nav-thumb-shadow: 0 4px 16px rgba(0, 0, 0, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.9);
-  --lg-nav-thumb-shadow-active: 0 6px 20px rgba(0, 0, 0, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.8);
-  --lg-nav-track-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.04), 0 2px 8px rgba(0, 0, 0, 0.04);
-}
-.tab-nav-wrapper :deep(.lg-bottom-nav) {
-  position: relative !important;
-  bottom: auto !important;
-  left: auto !important;
-  right: auto !important;
-  width: auto !important;
-  background: transparent !important;
-  backdrop-filter: none !important;
-  border: none !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-}
-/* 确保未选中的标签文字清晰 */
-.tab-nav-wrapper :deep(.lg-nav-item) {
-  color: var(--lg-nav-text) !important;
-}
-.tab-nav-wrapper :deep(.lg-nav-item.active) {
-  color: var(--lg-nav-active) !important;
-  font-weight: 600 !important;
-}
-.tab-btn-donate {
+.tab-nav { display: flex; gap: 4px; flex-wrap: wrap; }
+.tab-btn {
   display: flex; align-items: center; gap: 5px;
-  border: 1px solid rgba(150, 160, 175, 0.3); background: #fff;
-  border-radius: 10px; padding: 6px 10px; cursor: pointer;
-  font-size: 13px; color: #4a5a68; font-family: inherit;
+  border: none; background: transparent; cursor: pointer;
+  padding: 7px 12px; border-radius: 10px;
+  font-size: 14px; color: #5a6775; font-family: inherit;
+  transition: all 0.18s;
 }
-.tab-btn-donate:hover { background: #fff5f5; }
+.tab-btn:hover { background: rgba(107, 163, 199, 0.12); }
+.tab-btn.active {
+  background: linear-gradient(135deg, #6ba3c7, #7fb5d6);
+  color: #fff; font-weight: 600;
+  box-shadow: 0 3px 10px rgba(107, 163, 199, 0.35);
+}
 .tab-btn {
   display: flex; align-items: center; gap: 5px;
   border: none; background: transparent; cursor: pointer;

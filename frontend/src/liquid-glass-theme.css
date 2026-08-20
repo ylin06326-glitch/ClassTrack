@@ -4,6 +4,15 @@
  * 原则：玻璃材质传达层级，不堆叠轻量玻璃，文字保持高对比度
  * ============================================================ */
 
+:root {
+  /* 液态玻璃模糊程度（可在设置页面调节） */
+  --glass-blur: 24px;        /* 标准模糊：卡片、面板 */
+  --glass-blur-light: 12px;  /* 轻量模糊：按钮、输入框 */
+  --glass-blur-heavy: 28px;  /* 重度模糊：弹窗、对话框 */
+  --glass-saturate: 180%;    /* 饱和度 */
+  --glass-opacity: 0.5;      /* 玻璃不透明度 */
+}
+
 /* ---- 全局背景：丰富的渐变让玻璃折射更明显 ---- */
 body {
   background:
@@ -23,8 +32,8 @@ body {
 .glass-panel,
 .glass-card {
   background: rgba(255, 255, 255, 0.5) !important;
-  backdrop-filter: blur(24px) saturate(180%) brightness(1.05) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(180%) brightness(1.05) !important;
+  backdrop-filter: blur(var(--glass-blur)) saturate(180%) brightness(1.05) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%) brightness(1.05) !important;
   border: 1px solid rgba(255, 255, 255, 0.55) !important;
   box-shadow:
     0 8px 32px rgba(90, 110, 140, 0.12),
@@ -35,8 +44,8 @@ body {
 /* 更轻量的卡片 */
 .glass-card {
   background: rgba(255, 255, 255, 0.42) !important;
-  backdrop-filter: blur(18px) saturate(160%) !important;
-  -webkit-backdrop-filter: blur(18px) saturate(160%) !important;
+  backdrop-filter: blur(calc(var(--glass-blur) * 0.75)) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) * 0.75)) saturate(160%) !important;
 }
 
 /* ============================================================
@@ -45,8 +54,8 @@ body {
 .glass-btn,
 button:not(.el-button):not(.tab-btn):not(.grade-qbtn):not(.grade-batch-btn) {
   background: rgba(255, 255, 255, 0.5) !important;
-  backdrop-filter: blur(12px) saturate(160%) !important;
-  -webkit-backdrop-filter: blur(12px) saturate(160%) !important;
+  backdrop-filter: blur(var(--glass-blur-light)) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur-light)) saturate(160%) !important;
   border: 1px solid rgba(255, 255, 255, 0.6) !important;
   box-shadow:
     0 2px 8px rgba(0, 0, 0, 0.08),
@@ -71,8 +80,8 @@ button:not(.el-button):not(.tab-btn):not(.grade-qbtn):not(.grade-batch-btn):acti
  * ============================================================ */
 .el-dialog {
   background: rgba(255, 255, 255, 0.6) !important;
-  backdrop-filter: blur(28px) saturate(180%) brightness(1.05) !important;
-  -webkit-backdrop-filter: blur(28px) saturate(180%) brightness(1.05) !important;
+  backdrop-filter: blur(var(--glass-blur-heavy)) saturate(180%) brightness(1.05) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur-heavy)) saturate(180%) brightness(1.05) !important;
   border: 1px solid rgba(255, 255, 255, 0.6) !important;
   border-radius: 18px !important;
   box-shadow:
@@ -101,8 +110,8 @@ button:not(.el-button):not(.tab-btn):not(.grade-qbtn):not(.grade-batch-btn):acti
 /* 弹窗遮罩 */
 .el-overlay {
   background: rgba(0, 0, 0, 0.25) !important;
-  backdrop-filter: blur(4px) !important;
-  -webkit-backdrop-filter: blur(4px) !important;
+  backdrop-filter: blur(calc(var(--glass-blur-light) * 0.33)) !important;
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur-light) * 0.33)) !important;
 }
 
 /* ============================================================
@@ -112,8 +121,8 @@ button:not(.el-button):not(.tab-btn):not(.grade-qbtn):not(.grade-batch-btn):acti
 .el-textarea__inner,
 .el-select__wrapper {
   background: rgba(255, 255, 255, 0.55) !important;
-  backdrop-filter: blur(12px) saturate(160%) !important;
-  -webkit-backdrop-filter: blur(12px) saturate(160%) !important;
+  backdrop-filter: blur(var(--glass-blur-light)) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur-light)) saturate(160%) !important;
   border: 1px solid rgba(255, 255, 255, 0.6) !important;
   box-shadow:
     0 1px 4px rgba(0, 0, 0, 0.06),
@@ -145,8 +154,8 @@ button:not(.el-button):not(.tab-btn):not(.grade-qbtn):not(.grade-batch-btn):acti
 .el-select-dropdown,
 .el-dropdown-menu {
   background: rgba(255, 255, 255, 0.7) !important;
-  backdrop-filter: blur(20px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  backdrop-filter: blur(var(--glass-blur)) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%) !important;
   border: 1px solid rgba(255, 255, 255, 0.6) !important;
   border-radius: 12px !important;
   box-shadow:
@@ -159,8 +168,8 @@ button:not(.el-button):not(.tab-btn):not(.grade-qbtn):not(.grade-batch-btn):acti
  * 5. Element Plus：按钮
  * ============================================================ */
 .el-button {
-  backdrop-filter: blur(8px) saturate(160%) !important;
-  -webkit-backdrop-filter: blur(8px) saturate(160%) !important;
+  backdrop-filter: blur(calc(var(--glass-blur-light) * 0.67)) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur-light) * 0.67)) saturate(160%) !important;
   border: 1px solid rgba(255, 255, 255, 0.4) !important;
   transition: all 0.2s ease !important;
 }
@@ -210,15 +219,15 @@ button:not(.el-button):not(.tab-btn):not(.grade-qbtn):not(.grade-batch-btn):acti
 .el-table td,
 .el-table th {
   background: rgba(255, 255, 255, 0.35) !important;
-  backdrop-filter: blur(8px) !important;
-  -webkit-backdrop-filter: blur(8px) !important;
+  backdrop-filter: blur(calc(var(--glass-blur-light) * 0.67)) !important;
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur-light) * 0.67)) !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.4) !important;
 }
 
 .el-table th.el-table__cell {
   background: rgba(255, 255, 255, 0.5) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
+  backdrop-filter: blur(var(--glass-blur-light)) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur-light)) !important;
 }
 
 .el-table--striped .el-table__body tr.el-table__row--striped td.el-table__cell {
@@ -233,8 +242,8 @@ button:not(.el-button):not(.tab-btn):not(.grade-qbtn):not(.grade-batch-btn):acti
  * 7. Element Plus：标签 / Tag
  * ============================================================ */
 .el-tag {
-  backdrop-filter: blur(8px) !important;
-  -webkit-backdrop-filter: blur(8px) !important;
+  backdrop-filter: blur(calc(var(--glass-blur-light) * 0.67)) !important;
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur-light) * 0.67)) !important;
   border: 1px solid rgba(255, 255, 255, 0.5) !important;
 }
 
@@ -243,8 +252,8 @@ button:not(.el-button):not(.tab-btn):not(.grade-qbtn):not(.grade-batch-btn):acti
  * ============================================================ */
 .el-message {
   background: rgba(255, 255, 255, 0.7) !important;
-  backdrop-filter: blur(20px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  backdrop-filter: blur(var(--glass-blur)) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%) !important;
   border: 1px solid rgba(255, 255, 255, 0.6) !important;
   border-radius: 12px !important;
   box-shadow:
@@ -261,8 +270,8 @@ button:not(.el-button):not(.tab-btn):not(.grade-qbtn):not(.grade-batch-btn):acti
   gap: 2px;
   padding: 4px;
   background: rgba(0, 0, 0, 0.03);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(calc(var(--glass-blur-light) * 0.83));
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur-light) * 0.83));
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.4);
   position: relative;
@@ -296,8 +305,8 @@ button:not(.el-button):not(.tab-btn):not(.grade-qbtn):not(.grade-batch-btn):acti
   z-index: 1;
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(calc(var(--glass-blur) * 0.67)) saturate(180%);
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) * 0.67)) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.7);
   box-shadow:
     0 2px 8px rgba(0, 0, 0, 0.1),
