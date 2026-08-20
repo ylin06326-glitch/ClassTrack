@@ -720,3 +720,71 @@ tr:hover td {
     margin: 12px !important;
   }
 }
+
+/* ============================================================
+   WebGL 液态玻璃折射背景支持
+   ============================================================ */
+
+/* 当 WebGL 背景存在时，body 背景透明，由 canvas 提供背景 */
+body:has(#liquid-glass-bg) {
+  background: transparent !important;
+}
+
+/* 隐藏 CSS 装饰圆形（WebGL 已提供更真实的光源） */
+body:has(#liquid-glass-bg)::before,
+body:has(#liquid-glass-bg)::after {
+  display: none !important;
+}
+
+#app:has(~ #liquid-glass-bg),
+#app {
+  position: relative;
+  z-index: 1;
+}
+
+/* 确保所有内容在 canvas 之上 */
+.main-container, .container, .tab-nav, .card, .modal-card,
+.stat-card, .student-card, .btn, input, select, textarea,
+table, .toast, .guide-card, .donate-modal-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* 玻璃元素在 WebGL 折射背景上效果更明显，增强模糊和高光 */
+body:has(#liquid-glass-bg) .card {
+  backdrop-filter: blur(24px) saturate(200%) brightness(1.1) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(200%) brightness(1.1) !important;
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.6) 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    rgba(255, 255, 255, 0.55) 100%
+  ) !important;
+}
+
+body:has(#liquid-glass-bg) .tab-nav {
+  backdrop-filter: blur(28px) saturate(200%) brightness(1.12) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(200%) brightness(1.12) !important;
+  background: rgba(255, 255, 255, 0.5) !important;
+}
+
+body:has(#liquid-glass-bg) .modal-card {
+  backdrop-filter: blur(36px) saturate(220%) brightness(1.12) !important;
+  -webkit-backdrop-filter: blur(36px) saturate(220%) brightness(1.12) !important;
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.75) 0%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0.72) 100%
+  ) !important;
+}
+
+body:has(#liquid-glass-bg) .tab-indicator {
+  backdrop-filter: blur(14px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(180%) !important;
+}
+
+/* Reduced Motion：WebGL 动画减速 */
+@media (prefers-reduced-motion: reduce) {
+  #liquid-glass-bg {
+    animation: none !important;
+  }
+}
