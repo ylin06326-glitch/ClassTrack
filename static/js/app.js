@@ -1515,6 +1515,10 @@ async function renderHomeworkView(forceRebuild = false) {
   container.innerHTML = '';
   container.appendChild(fragment);
   bindGradeButtons();
+  // 初始化液态玻璃滑块（学生行动态生成后）
+  if (typeof window.refreshLGS === 'function') {
+    setTimeout(function() { window.refreshLGS(); }, 50);
+  }
   // v2: 学生行交错入场
   requestAnimationFrame(() => {
     container.querySelectorAll('.hw-group-students').forEach(g => {
