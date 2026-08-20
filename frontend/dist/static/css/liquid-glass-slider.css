@@ -1,45 +1,46 @@
 /* ============================================================
-   液态玻璃滑块效果 — 参考 liquid-glass-studio
-   移动变形、点击变形、颜色变化、菲涅尔高光、色散
+   液态玻璃滑块效果 — 适配老版 ClassTrack 结构
+   仅作用于：顶部 Tab 栏滑块 + 作业登记等级选择滑块
    ============================================================ */
 
-/* ========== Tab 栏液态玻璃滑块 ========== */
+/* ========== 顶部 Tab 栏液态玻璃滑块 ========== */
+.tab-nav {
+  position: relative !important;
+}
+
 .tab-indicator {
   position: absolute !important;
-  top: 8px !important;
-  bottom: 8px !important;
+  top: 6px !important;
+  bottom: 6px !important;
   left: 0 !important;
   width: 0 !important;
-  border-radius: 14px !important;
+  border-radius: 10px !important;
   background: linear-gradient(135deg,
-    rgba(255, 255, 255, 0.45) 0%,
-    rgba(255, 255, 255, 0.25) 50%,
-    rgba(255, 255, 255, 0.35) 100%
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0.4) 100%
   ) !important;
-  backdrop-filter: blur(20px) saturate(180%) brightness(1.1) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(180%) brightness(1.1) !important;
+  backdrop-filter: blur(16px) saturate(180%) brightness(1.1) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%) brightness(1.1) !important;
   border: 1px solid rgba(255, 255, 255, 0.6) !important;
   box-shadow:
-    0 4px 20px rgba(0, 113, 227, 0.25),
-    0 2px 8px rgba(0, 113, 227, 0.15),
-    inset 0 1.5px 1.5px rgba(255, 255, 255, 0.9),
-    inset 0 -2px 4px rgba(0, 113, 227, 0.1),
-    inset 1.5px 0 1.5px rgba(255, 255, 255, 0.6),
-    inset -1.5px 0 1.5px rgba(255, 255, 255, 0.5),
-    0 0 0 1px rgba(255, 100, 100, 0.1),
-    0 0 0 2px rgba(100, 150, 255, 0.08) !important;
-  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+    0 3px 12px rgba(0, 0, 0, 0.12),
+    0 1px 4px rgba(0, 0, 0, 0.08),
+    inset 0 1px 1px rgba(255, 255, 255, 0.85),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.06),
+    inset 1px 0 1px rgba(255, 255, 255, 0.5),
+    inset -1px 0 1px rgba(255, 255, 255, 0.4) !important;
+  transition: left 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
               width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
-              left 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
-              background 0.3s ease,
-              box-shadow 0.3s ease !important;
+              transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+              background 0.3s ease !important;
   transform-origin: center center !important;
   z-index: 0 !important;
   pointer-events: none !important;
   overflow: hidden !important;
 }
 
-/* 滑块顶部眩光（模拟光线反射） */
+/* 滑块顶部眩光 */
 .tab-indicator::before {
   content: '' !important;
   position: absolute !important;
@@ -47,10 +48,10 @@
   left: 0 !important;
   right: 0 !important;
   height: 55% !important;
-  border-radius: 14px 14px 0 0 !important;
+  border-radius: 10px 10px 0 0 !important;
   background: linear-gradient(135deg,
     rgba(255, 255, 255, 0.5) 0%,
-    rgba(255, 255, 255, 0.15) 40%,
+    rgba(255, 255, 255, 0.12) 45%,
     transparent 70%
   ) !important;
   pointer-events: none !important;
@@ -62,10 +63,10 @@
   content: '' !important;
   position: absolute !important;
   bottom: 0 !important;
-  left: 10% !important;
-  right: 10% !important;
+  left: 15% !important;
+  right: 15% !important;
   height: 30% !important;
-  border-radius: 0 0 14px 14px !important;
+  border-radius: 0 0 10px 10px !important;
   background: linear-gradient(to top,
     rgba(0, 113, 227, 0.12) 0%,
     transparent 100%
@@ -74,207 +75,36 @@
   z-index: 1 !important;
 }
 
-/* 滑块移动时的变形类 */
+/* 滑块移动时变形 */
 .tab-indicator.moving-right {
-  transform: skewX(-8deg) scaleX(1.05) scaleY(0.95) !important;
+  transform: skewX(-6deg) scaleX(1.04) scaleY(0.96) !important;
 }
 
 .tab-indicator.moving-left {
-  transform: skewX(8deg) scaleX(1.05) scaleY(0.95) !important;
+  transform: skewX(6deg) scaleX(1.04) scaleY(0.96) !important;
 }
 
-/* 滑块点击时的变形 */
+/* 滑块点击时变形 */
 .tab-indicator.pressed {
-  transform: scale(0.92) !important;
+  transform: scale(0.93) !important;
   transition: transform 0.1s ease-out !important;
 }
 
-/* Tab 按钮样式调整 */
+/* Tab 按钮层级 */
 .tab-btn {
   position: relative !important;
   z-index: 1 !important;
-  transition: color 0.3s ease, transform 0.2s ease !important;
+  transition: color 0.3s ease, transform 0.15s ease !important;
 }
 
 .tab-btn:active {
   transform: scale(0.95) !important;
 }
 
-.tab-btn.active {
-  color: #0071e3 !important;
-  font-weight: 600 !important;
-}
 
-.tab-btn:not(.active) {
-  color: rgba(0, 0, 0, 0.5) !important;
-}
+/* ========== 作业登记等级选择液态玻璃滑块 ========== */
 
-
-/* ========== 登记作业等级滑块 ========== */
-.grade-slider-container {
-  position: relative !important;
-  display: flex !important;
-  align-items: center !important;
-  gap: 4px !important;
-  padding: 6px !important;
-  background: rgba(255, 255, 255, 0.2) !important;
-  backdrop-filter: blur(10px) !important;
-  -webkit-backdrop-filter: blur(10px) !important;
-  border-radius: 12px !important;
-  border: 1px solid rgba(255, 255, 255, 0.3) !important;
-}
-
-.grade-slider-indicator {
-  position: absolute !important;
-  top: 6px !important;
-  bottom: 6px !important;
-  left: 6px !important;
-  width: 0 !important;
-  border-radius: 8px !important;
-  transition: left 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
-              width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
-              transform 0.3s ease,
-              background 0.4s ease,
-              box-shadow 0.4s ease !important;
-  pointer-events: none !important;
-  z-index: 0 !important;
-  overflow: hidden !important;
-}
-
-/* 等级颜色 — A=绿色, B=黄色, C=红色 */
-.grade-slider-indicator.grade-A {
-  background: linear-gradient(135deg,
-    rgba(52, 199, 89, 0.4) 0%,
-    rgba(52, 199, 89, 0.25) 50%,
-    rgba(52, 199, 89, 0.35) 100%
-  ) !important;
-  backdrop-filter: blur(15px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(15px) saturate(180%) !important;
-  border: 1px solid rgba(52, 199, 89, 0.5) !important;
-  box-shadow:
-    0 3px 12px rgba(52, 199, 89, 0.3),
-    inset 0 1px 1px rgba(255, 255, 255, 0.8),
-    inset 0 -1px 2px rgba(52, 199, 89, 0.2),
-    0 0 0 1px rgba(255, 100, 100, 0.08),
-    0 0 0 2px rgba(100, 150, 255, 0.06) !important;
-}
-
-.grade-slider-indicator.grade-B {
-  background: linear-gradient(135deg,
-    rgba(255, 204, 0, 0.4) 0%,
-    rgba(255, 204, 0, 0.25) 50%,
-    rgba(255, 204, 0, 0.35) 100%
-  ) !important;
-  backdrop-filter: blur(15px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(15px) saturate(180%) !important;
-  border: 1px solid rgba(255, 204, 0, 0.5) !important;
-  box-shadow:
-    0 3px 12px rgba(255, 204, 0, 0.3),
-    inset 0 1px 1px rgba(255, 255, 255, 0.8),
-    inset 0 -1px 2px rgba(255, 204, 0, 0.2),
-    0 0 0 1px rgba(255, 100, 100, 0.08),
-    0 0 0 2px rgba(100, 150, 255, 0.06) !important;
-}
-
-.grade-slider-indicator.grade-C {
-  background: linear-gradient(135deg,
-    rgba(255, 59, 48, 0.4) 0%,
-    rgba(255, 59, 48, 0.25) 50%,
-    rgba(255, 59, 48, 0.35) 100%
-  ) !important;
-  backdrop-filter: blur(15px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(15px) saturate(180%) !important;
-  border: 1px solid rgba(255, 59, 48, 0.5) !important;
-  box-shadow:
-    0 3px 12px rgba(255, 59, 48, 0.3),
-    inset 0 1px 1px rgba(255, 255, 255, 0.8),
-    inset 0 -1px 2px rgba(255, 59, 48, 0.2),
-    0 0 0 1px rgba(255, 100, 100, 0.08),
-    0 0 0 2px rgba(100, 150, 255, 0.06) !important;
-}
-
-.grade-slider-indicator.grade-other {
-  background: linear-gradient(135deg,
-    rgba(142, 142, 147, 0.4) 0%,
-    rgba(142, 142, 147, 0.25) 50%,
-    rgba(142, 142, 147, 0.35) 100%
-  ) !important;
-  backdrop-filter: blur(15px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(15px) saturate(180%) !important;
-  border: 1px solid rgba(142, 142, 147, 0.5) !important;
-  box-shadow:
-    0 3px 12px rgba(142, 142, 147, 0.3),
-    inset 0 1px 1px rgba(255, 255, 255, 0.8),
-    inset 0 -1px 2px rgba(142, 142, 147, 0.2) !important;
-}
-
-/* 等级滑块移动变形 */
-.grade-slider-indicator.moving-right {
-  transform: skewX(-6deg) scaleX(1.03) !important;
-}
-
-.grade-slider-indicator.moving-left {
-  transform: skewX(6deg) scaleX(1.03) !important;
-}
-
-.grade-slider-indicator.pressed {
-  transform: scale(0.9) !important;
-  transition: transform 0.1s ease-out !important;
-}
-
-/* 等级滑块顶部眩光 */
-.grade-slider-indicator::before {
-  content: '' !important;
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  height: 50% !important;
-  border-radius: 8px 8px 0 0 !important;
-  background: linear-gradient(135deg,
-    rgba(255, 255, 255, 0.45) 0%,
-    rgba(255, 255, 255, 0.1) 50%,
-    transparent 75%
-  ) !important;
-  pointer-events: none !important;
-  z-index: 1 !important;
-}
-
-/* 等级按钮样式 */
-.grade-qbtn, .grade-batch-btn {
-  position: relative !important;
-  z-index: 1 !important;
-  transition: color 0.3s ease, transform 0.15s ease !important;
-}
-
-.grade-qbtn:active, .grade-batch-btn:active {
-  transform: scale(0.92) !important;
-}
-
-.grade-qbtn.active {
-  font-weight: 700 !important;
-}
-
-/* A 等级激活颜色 */
-.grade-qbtn.active[data-grade="A"],
-.grade-batch-btn.active[data-grade="A"] {
-  color: #34c759 !important;
-}
-
-/* B 等级激活颜色 */
-.grade-qbtn.active[data-grade="B"],
-.grade-batch-btn.active[data-grade="B"] {
-  color: #ffcc00 !important;
-}
-
-/* C 等级激活颜色 */
-.grade-qbtn.active[data-grade="C"],
-.grade-batch-btn.active[data-grade="C"] {
-  color: #ff3b30 !important;
-}
-
-
-/* ========== 批量等级按钮组滑块 ========== */
+/* 批量等级按钮容器 */
 .grade-batch-container {
   position: relative !important;
   display: inline-flex !important;
@@ -295,9 +125,12 @@
   left: 4px !important;
   width: 0 !important;
   border-radius: 7px !important;
+  backdrop-filter: blur(14px) saturate(180%) brightness(1.1) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(180%) brightness(1.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
   transition: left 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
               width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
-              transform 0.3s ease,
+              transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
               background 0.4s ease,
               box-shadow 0.4s ease !important;
   pointer-events: none !important;
@@ -305,6 +138,32 @@
   overflow: hidden !important;
 }
 
+/* 等级颜色 */
+.grade-batch-indicator.grade-A {
+  background: linear-gradient(135deg, rgba(52,199,89,0.4), rgba(52,199,89,0.25), rgba(52,199,89,0.35)) !important;
+  border-color: rgba(52,199,89,0.5) !important;
+  box-shadow: 0 2px 10px rgba(52,199,89,0.25), inset 0 1px 1px rgba(255,255,255,0.7) !important;
+}
+
+.grade-batch-indicator.grade-B {
+  background: linear-gradient(135deg, rgba(255,204,0,0.4), rgba(255,204,0,0.25), rgba(255,204,0,0.35)) !important;
+  border-color: rgba(255,204,0,0.5) !important;
+  box-shadow: 0 2px 10px rgba(255,204,0,0.25), inset 0 1px 1px rgba(255,255,255,0.7) !important;
+}
+
+.grade-batch-indicator.grade-C {
+  background: linear-gradient(135deg, rgba(255,59,48,0.4), rgba(255,59,48,0.25), rgba(255,59,48,0.35)) !important;
+  border-color: rgba(255,59,48,0.5) !important;
+  box-shadow: 0 2px 10px rgba(255,59,48,0.25), inset 0 1px 1px rgba(255,255,255,0.7) !important;
+}
+
+.grade-batch-indicator.grade-other {
+  background: linear-gradient(135deg, rgba(142,142,147,0.35), rgba(142,142,147,0.2), rgba(142,142,147,0.3)) !important;
+  border-color: rgba(142,142,147,0.45) !important;
+  box-shadow: 0 2px 10px rgba(142,142,147,0.2), inset 0 1px 1px rgba(255,255,255,0.7) !important;
+}
+
+/* 等级滑块顶部眩光 */
 .grade-batch-indicator::before {
   content: '' !important;
   position: absolute !important;
@@ -314,7 +173,7 @@
   height: 50% !important;
   border-radius: 7px 7px 0 0 !important;
   background: linear-gradient(135deg,
-    rgba(255, 255, 255, 0.4) 0%,
+    rgba(255, 255, 255, 0.45) 0%,
     rgba(255, 255, 255, 0.1) 50%,
     transparent 75%
   ) !important;
@@ -322,30 +181,7 @@
   z-index: 1 !important;
 }
 
-.grade-batch-indicator.grade-A {
-  background: linear-gradient(135deg, rgba(52,199,89,0.35), rgba(52,199,89,0.2)) !important;
-  border: 1px solid rgba(52,199,89,0.45) !important;
-  box-shadow: 0 2px 10px rgba(52,199,89,0.25), inset 0 1px 1px rgba(255,255,255,0.7) !important;
-}
-
-.grade-batch-indicator.grade-B {
-  background: linear-gradient(135deg, rgba(255,204,0,0.35), rgba(255,204,0,0.2)) !important;
-  border: 1px solid rgba(255,204,0,0.45) !important;
-  box-shadow: 0 2px 10px rgba(255,204,0,0.25), inset 0 1px 1px rgba(255,255,255,0.7) !important;
-}
-
-.grade-batch-indicator.grade-C {
-  background: linear-gradient(135deg, rgba(255,59,48,0.35), rgba(255,59,48,0.2)) !important;
-  border: 1px solid rgba(255,59,48,0.45) !important;
-  box-shadow: 0 2px 10px rgba(255,59,48,0.25), inset 0 1px 1px rgba(255,255,255,0.7) !important;
-}
-
-.grade-batch-indicator.grade-other {
-  background: linear-gradient(135deg, rgba(142,142,147,0.35), rgba(142,142,147,0.2)) !important;
-  border: 1px solid rgba(142,142,147,0.45) !important;
-  box-shadow: 0 2px 10px rgba(142,142,147,0.25), inset 0 1px 1px rgba(255,255,255,0.7) !important;
-}
-
+/* 等级滑块移动变形 */
 .grade-batch-indicator.moving-right {
   transform: skewX(-5deg) scaleX(1.03) !important;
 }
@@ -359,24 +195,116 @@
   transition: transform 0.1s ease-out !important;
 }
 
+/* 等级按钮层级 */
+.grade-batch-btn {
+  position: relative !important;
+  z-index: 1 !important;
+  transition: color 0.3s ease, transform 0.15s ease !important;
+}
+
+.grade-batch-btn:active {
+  transform: scale(0.92) !important;
+}
+
+.grade-batch-btn.active {
+  font-weight: 700 !important;
+}
+
+.grade-batch-btn.active[data-grade="A"] {
+  color: #248a3d !important;
+}
+
+.grade-batch-btn.active[data-grade="B"] {
+  color: #997700 !important;
+}
+
+.grade-batch-btn.active[data-grade="C"] {
+  color: #d70015 !important;
+}
+
+
+/* ========== 学生行内等级按钮滑块 ========== */
+.grade-quick-select {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 2px !important;
+  padding: 2px !important;
+}
+
+.grade-quick-indicator {
+  position: absolute !important;
+  top: 2px !important;
+  bottom: 2px !important;
+  left: 2px !important;
+  width: 0 !important;
+  border-radius: 6px !important;
+  backdrop-filter: blur(10px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(160%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  transition: left 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+              width 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+              transform 0.25s ease,
+              background 0.35s ease !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+}
+
+.grade-quick-indicator.grade-A {
+  background: rgba(52,199,89,0.3) !important;
+  border-color: rgba(52,199,89,0.4) !important;
+}
+
+.grade-quick-indicator.grade-B {
+  background: rgba(255,204,0,0.3) !important;
+  border-color: rgba(255,204,0,0.4) !important;
+}
+
+.grade-quick-indicator.grade-C {
+  background: rgba(255,59,48,0.3) !important;
+  border-color: rgba(255,59,48,0.4) !important;
+}
+
+.grade-quick-indicator.grade-other {
+  background: rgba(142,142,147,0.25) !important;
+  border-color: rgba(142,142,147,0.35) !important;
+}
+
+.grade-quick-indicator.moving-right {
+  transform: skewX(-4deg) scaleX(1.02) !important;
+}
+
+.grade-quick-indicator.moving-left {
+  transform: skewX(4deg) scaleX(1.02) !important;
+}
+
+.grade-qbtn {
+  position: relative !important;
+  z-index: 1 !important;
+  transition: color 0.3s ease, transform 0.15s ease !important;
+}
+
+.grade-qbtn:active {
+  transform: scale(0.9) !important;
+}
+
 
 /* ========== 减少动画偏好 ========== */
 @media (prefers-reduced-motion: reduce) {
   .tab-indicator,
-  .grade-slider-indicator,
-  .grade-batch-indicator {
+  .grade-batch-indicator,
+  .grade-quick-indicator {
     transition: none !important;
     transform: none !important;
   }
   .tab-indicator.moving-right,
   .tab-indicator.moving-left,
   .tab-indicator.pressed,
-  .grade-slider-indicator.moving-right,
-  .grade-slider-indicator.moving-left,
-  .grade-slider-indicator.pressed,
   .grade-batch-indicator.moving-right,
   .grade-batch-indicator.moving-left,
-  .grade-batch-indicator.pressed {
+  .grade-batch-indicator.pressed,
+  .grade-quick-indicator.moving-right,
+  .grade-quick-indicator.moving-left {
     transform: none !important;
   }
 }
