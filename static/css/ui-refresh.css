@@ -1,3 +1,7 @@
+/* WebGL 背景支持 */
+body { background: transparent !important; }
+body:not(.webgl-active) { background: linear-gradient(135deg, #e0f0ff 0%, #f0e8ff 30%, #ffe8f0 60%, #fff5e0 80%, #e8ffe8 100%) !important; }
+
 /* ============================================================
    ClassTrack UI Refresh — 全面重构液态玻璃界面
    ============================================================
@@ -726,13 +730,13 @@ tr:hover td {
    ============================================================ */
 
 /* 当 WebGL 背景存在时，body 背景透明，由 canvas 提供背景 */
-body:has(#liquid-glass-bg) {
+{
   background: transparent !important;
 }
 
 /* 隐藏 CSS 装饰圆形（WebGL 已提供更真实的光源） */
-body:has(#liquid-glass-bg)::before,
-body:has(#liquid-glass-bg)::after {
+::before,
+::after {
   display: none !important;
 }
 
@@ -751,9 +755,9 @@ table, .toast, .guide-card, .donate-modal-content {
 }
 
 /* 玻璃元素在 WebGL 折射背景上效果更明显，增强模糊和高光 */
-body:has(#liquid-glass-bg) .card {
-  backdrop-filter: blur(24px) saturate(200%) brightness(1.1) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(200%) brightness(1.1) !important;
+.card {
+  backdrop-filter: blur(30px) saturate(220%) brightness(1.15) !important;
+  -webkit-backdrop-filter: blur(30px) saturate(220%) brightness(1.15) !important;
   background: linear-gradient(135deg,
     rgba(255, 255, 255, 0.6) 0%,
     rgba(255, 255, 255, 0.4) 50%,
@@ -761,13 +765,13 @@ body:has(#liquid-glass-bg) .card {
   ) !important;
 }
 
-body:has(#liquid-glass-bg) .tab-nav {
+.tab-nav {
   backdrop-filter: blur(28px) saturate(200%) brightness(1.12) !important;
   -webkit-backdrop-filter: blur(28px) saturate(200%) brightness(1.12) !important;
   background: rgba(255, 255, 255, 0.5) !important;
 }
 
-body:has(#liquid-glass-bg) .modal-card {
+.modal-card {
   backdrop-filter: blur(36px) saturate(220%) brightness(1.12) !important;
   -webkit-backdrop-filter: blur(36px) saturate(220%) brightness(1.12) !important;
   background: linear-gradient(135deg,
@@ -777,7 +781,7 @@ body:has(#liquid-glass-bg) .modal-card {
   ) !important;
 }
 
-body:has(#liquid-glass-bg) .tab-indicator {
+.tab-indicator {
   backdrop-filter: blur(14px) saturate(180%) !important;
   -webkit-backdrop-filter: blur(14px) saturate(180%) !important;
 }
@@ -794,7 +798,7 @@ body:has(#liquid-glass-bg) .tab-indicator {
    ============================================================ */
 
 /* 卡片：增强边缘菲涅尔高光和色散 */
-body:has(#liquid-glass-bg) .card {
+.card {
   /* 色散边缘：红/蓝轻微偏移 */
   box-shadow:
     /* 外阴影 */
@@ -811,7 +815,7 @@ body:has(#liquid-glass-bg) .card {
 }
 
 /* 卡片顶部眩光（斜向高光） */
-body:has(#liquid-glass-bg) .card::after {
+.card::after {
   content: '' !important;
   position: absolute !important;
   top: 0 !important; left: 0 !important; right: 0 !important;
@@ -827,7 +831,7 @@ body:has(#liquid-glass-bg) .card::after {
 }
 
 /* 导航栏：增强边缘效果 */
-body:has(#liquid-glass-bg) .tab-nav {
+.tab-nav {
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.1),
     0 2px 8px rgba(0, 0, 0, 0.05),
@@ -840,7 +844,7 @@ body:has(#liquid-glass-bg) .tab-nav {
 }
 
 /* 模态框：强玻璃边缘效果 */
-body:has(#liquid-glass-bg) .modal-card {
+.modal-card {
   box-shadow:
     0 28px 72px rgba(0, 0, 0, 0.2),
     0 8px 24px rgba(0, 0, 0, 0.12),
@@ -853,7 +857,7 @@ body:has(#liquid-glass-bg) .modal-card {
 }
 
 /* 模态框顶部眩光 */
-body:has(#liquid-glass-bg) .modal-card::after {
+.modal-card::after {
   content: '' !important;
   position: absolute !important;
   top: 0 !important; left: 0 !important; right: 0 !important;
@@ -869,7 +873,7 @@ body:has(#liquid-glass-bg) .modal-card::after {
 }
 
 /* Tab 滑块：增强玻璃效果 */
-body:has(#liquid-glass-bg) .tab-indicator {
+.tab-indicator {
   box-shadow:
     0 4px 16px rgba(0, 113, 227, 0.3),
     0 2px 6px rgba(0, 113, 227, 0.18),
@@ -882,7 +886,7 @@ body:has(#liquid-glass-bg) .tab-indicator {
 }
 
 /* 统计卡片：增强边缘效果 */
-body:has(#liquid-glass-bg) .stat-card {
+.stat-card {
   box-shadow:
     0 6px 24px rgba(0, 0, 0, 0.08),
     0 2px 6px rgba(0, 0, 0, 0.04),
@@ -895,7 +899,7 @@ body:has(#liquid-glass-bg) .stat-card {
 }
 
 /* 按钮：增强玻璃边缘 */
-body:has(#liquid-glass-bg) .btn-secondary {
+.btn-secondary {
   box-shadow:
     0 3px 12px rgba(0, 0, 0, 0.08),
     0 1px 3px rgba(0, 0, 0, 0.04),
@@ -906,7 +910,7 @@ body:has(#liquid-glass-bg) .btn-secondary {
 }
 
 /* 学生卡片：增强边缘 */
-body:has(#liquid-glass-bg) .student-card {
+.student-card {
   box-shadow:
     0 3px 12px rgba(0, 0, 0, 0.06),
     0 1px 3px rgba(0, 0, 0, 0.03),
@@ -917,9 +921,9 @@ body:has(#liquid-glass-bg) .student-card {
 }
 
 /* 输入框：增强玻璃边缘 */
-body:has(#liquid-glass-bg) input:focus,
-body:has(#liquid-glass-bg) select:focus,
-body:has(#liquid-glass-bg) textarea:focus {
+input:focus,
+select:focus,
+textarea:focus {
   box-shadow:
     0 0 0 4px rgba(0, 113, 227, 0.15),
     0 0 0 1px rgba(255, 100, 100, 0.12),
