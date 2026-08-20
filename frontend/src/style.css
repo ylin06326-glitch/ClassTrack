@@ -1,0 +1,137 @@
+/* ============================================================
+ * ClassTrack 全局样式与设计令牌
+ * 保留原版的业务色彩语义:作业等级 A绿/B蓝/C黄/未交粉/请假紫、分组12色
+ * ============================================================ */
+
+:root {
+  /* ---- Element-Plus 主题定制(卡通童趣风,柔和色) ---- */
+  --el-color-primary: #6ba3c7;
+  --el-color-primary-light-3: #8dbbd8;
+  --el-color-primary-light-5: #aecfe2;
+  --el-color-primary-light-7: #cfe3ee;
+  --el-color-primary-light-8: #e0edf4;
+  --el-color-primary-light-9: #f0f6fa;
+  --el-color-primary-dark-2: #55829f;
+  --el-border-radius-base: 10px;
+  --el-border-radius-small: 8px;
+  --el-border-radius-round: 20px;
+  --el-font-family: 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', system-ui, sans-serif;
+
+  /* ---- 作业等级色彩(业务语义,前后端约定) ---- */
+  --grade-a-color: #2d6a3f;
+  --grade-a-bg: rgba(168, 213, 186, 0.55);
+  --grade-b-color: #2d5a7a;
+  --grade-b-bg: rgba(126, 181, 214, 0.5);
+  --grade-c-color: #7a6510;
+  --grade-c-bg: rgba(244, 201, 126, 0.5);
+  --grade-x-color: #8a4a5a;
+  --grade-x-bg: rgba(242, 200, 218, 0.5);
+  --grade-l-color: #5b4a8a;
+  --grade-l-bg: rgba(197, 179, 230, 0.5);
+
+  /* ---- 分组循环色(与后端 get_group_color 一致) ---- */
+  --group-colors: #7eb5d6, #e8a0bf, #a8d5ba, #f4c97e, #c4b5d6, #f0b8a0,
+    #8ec8c0, #d4a8c8, #9dc8e0, #f2c8da, #b8d8c8, #f8dca0;
+
+  /* ---- 基础 ---- */
+  --app-bg: linear-gradient(135deg, #eef5fa 0%, #fdf6f0 50%, #f2f0fb 100%);
+  --card-shadow: 0 4px 16px rgba(90, 110, 140, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--el-font-family);
+  background: var(--app-bg);
+  background-attachment: fixed;
+  color: #3a4a5a;
+  min-width: 1024px;
+}
+
+/* ---- 通用卡片 ---- */
+.ct-card {
+  background: rgba(255, 255, 255, 0.86);
+  border-radius: 16px;
+  box-shadow: var(--card-shadow);
+  padding: 16px;
+  backdrop-filter: blur(8px);
+}
+
+/* ---- 作业等级徽章 ---- */
+.grade-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  height: 28px;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+  user-select: none;
+}
+.grade-badge:hover {
+  transform: scale(1.06);
+}
+.grade-badge.grade-a { background: var(--grade-a-bg); color: var(--grade-a-color); }
+.grade-badge.grade-b { background: var(--grade-b-bg); color: var(--grade-b-color); }
+.grade-badge.grade-c { background: var(--grade-c-bg); color: var(--grade-c-color); }
+.grade-badge.grade-x { background: var(--grade-x-bg); color: var(--grade-x-color); }
+.grade-badge.grade-l { background: var(--grade-l-bg); color: var(--grade-l-color); }
+
+/* ---- 等级底色块(报表统计等,与旧版 .grade-a-bg 语义一致) ---- */
+.grade-a-bg { background: var(--grade-a-bg); color: var(--grade-a-color); }
+.grade-b-bg { background: var(--grade-b-bg); color: var(--grade-b-color); }
+.grade-c-bg { background: var(--grade-c-bg); color: var(--grade-c-color); }
+.grade-x-bg { background: var(--grade-x-bg); color: var(--grade-x-color); }
+.grade-l-bg { background: var(--grade-l-bg); color: var(--grade-l-color); }
+
+/* ---- 拖拽相关 ---- */
+.drag-ghost {
+  opacity: 0.45;
+  transform: scale(0.96);
+}
+.drop-target-glow {
+  box-shadow: 0 0 0 3px rgba(107, 163, 199, 0.55) !important;
+  border-radius: 12px;
+}
+
+/* ---- 学生卡片选中态 ---- */
+.student-card.selected {
+  border: 2px solid #6ba3c7 !important;
+  background: rgba(174, 207, 226, 0.25) !important;
+}
+
+/* ---- 滚动条 ---- */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(107, 163, 199, 0.4);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ---- 打印优化 ---- */
+@media print {
+  body {
+    background: #fff;
+  }
+  .no-print {
+    display: none !important;
+  }
+}

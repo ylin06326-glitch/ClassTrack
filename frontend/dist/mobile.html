@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+<title>ClassTrack 手机扫码</title>
+<script src="/static/html5-qrcode.min.js"></script>
+<style>
+/* ============================================================
+   ClassTrack Mobile — 液态玻璃视觉
+   ============================================================ */
+:root {
+  --glass-blur: 16px; --glass-saturate: 1.3;
+  --blue: #7EB5D6; --blue-light: #B8D8E8;
+  --pink: #E8A0BF; --green: #A8D5BA;
+  --text: #5D5A5A; --text-light: #999595;
+  --radius: 18px; --radius-sm: 14px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:"Microsoft YaHei","PingFang SC",sans-serif;
+  background: #F5F1ED; min-height:100vh;
+  display:flex; flex-direction:column; align-items:center; padding:16px;
+}
+/* 纯色背景装饰 */
+body::before {
+  content:""; position:fixed; top:-150px; right:-100px;
+  width:350px; height:350px; border-radius:50%;
+  background:radial-gradient(circle, rgba(126,181,214,0.08) 0%, transparent 70%);
+  pointer-events:none; z-index:0;
+}
+body::after {
+  content:""; position:fixed; bottom:-120px; left:-80px;
+  width:300px; height:300px; border-radius:50%;
+  background:radial-gradient(circle, rgba(232,160,191,0.08) 0%, transparent 70%);
+  pointer-events:none; z-index:0;
+}
+
+.header{text-align:center;margin-bottom:16px;position:relative;z-index:1}
+.header h1{font-size:1.2rem;color:var(--blue);margin-bottom:4px}
+.header p{font-size:.75rem;color:var(--text-light)}
+
+/* 扫码框 — 玻璃卡片 */
+.scan-box{
+  width:100%; max-width:400px;
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: var(--radius); padding:12px;
+  box-shadow: 0 4px 20px rgba(80,60,50,0.08);
+  margin-bottom:14px; position:relative; z-index:1;
+  overflow:hidden;
+}
+.scan-box::after {
+  content:""; position:absolute; top:0; left:5%; right:5%;
+  height:1px;
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  pointer-events:none;
+}
+#reader{width:100%;border-radius:14px;overflow:hidden}
+#reader video{border-radius:14px}
+
+.controls{display:flex;gap:10px;width:100%;max-width:400px;margin-bottom:14px;position:relative;z-index:1}
+.btn{
+  flex:1; padding:12px; border:1px solid rgba(255,255,255,0.25);
+  border-radius:16px; font-size:.9rem; font-weight:700;
+  cursor:pointer; font-family:inherit; transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+}
+.btn-start{
+  background: linear-gradient(135deg, rgba(126,181,214,0.6), rgba(142,200,224,0.65));
+  color:white; box-shadow:0 2px 12px rgba(126,181,214,0.25);
+}
+.btn-stop{
+  background: linear-gradient(135deg, rgba(232,160,191,0.55), rgba(240,168,192,0.6));
+  color:white;
+}
+.btn:active{transform:scale(.97)}
+
+/* 日志区 — 玻璃面板 */
+.log-area{
+  width:100%; max-width:400px;
+  background: rgba(255,255,255,0.55);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: 16px; padding:12px;
+  box-shadow: 0 2px 12px rgba(80,60,50,0.05);
+  position:relative; z-index:1; overflow:hidden;
+}
+.log-area::after {
+  content:""; position:absolute; top:0; left:5%; right:5%;
+  height:1px;
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+  pointer-events:none;
+}
+.log-title{font-size:.8rem;font-weight:700;color:var(--text);margin-bottom:8px}
+.log-list{max-height:200px;overflow-y:auto}
+.log-item{
+  display:flex; justify-content:space-between; align-items:center;
+  padding:8px 10px; margin-bottom:4px;
+  background: rgba(255,255,255,0.5);
+  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+  border-radius:10px; font-size:.8rem;
+  animation:slideIn .3s ease-out;
+}
+.log-item.success{background:rgba(168,213,186,0.3)}
+.log-item.error{background:rgba(232,160,191,0.25)}
+.log-code{font-weight:700;font-family:monospace}
+.log-time{font-size:.7rem;color:var(--text-light)}
+@keyframes slideIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+.status{text-align:center;font-size:.75rem;color:var(--text-light);margin-top:16px;position:relative;z-index:1}
+.status.connected{color:var(--green);font-weight:600}
+
+/* 证书信任指南 */
+.cert-hint{
+  width:100%; max-width:400px;
+  background: #FFF8E1;
+  border: 1px solid #FFE082;
+  border-radius:14px; padding:14px 16px;
+  margin-bottom:12px; position:relative; z-index:1;
+}
+.cert-hint-title{font-size:.85rem;font-weight:700;color:#F57F17;margin-bottom:8px}
+.cert-hint-steps{font-size:.73rem;color:#856404;line-height:1.7}
+.cert-step{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.cert-step-num{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:20px;height:20px;border-radius:50%;
+  background:#F57F17;color:white;font-size:.68rem;font-weight:700;flex-shrink:0
+}
+.cert-hint-done{font-size:.8rem;color:#2D6A3F;font-weight:600;text-align:center;padding:6px}
+.cert-hint-actions{display:flex;gap:8px;margin-top:10px}
+.cert-download-btn{
+  flex:1;display:block;text-align:center;padding:10px;
+  background:linear-gradient(135deg,#F57F17,#FFA000);color:white;
+  border-radius:12px;font-size:.8rem;font-weight:700;text-decoration:none;
+  transition:all .2s;
+}
+.cert-download-btn:active{transform:scale(.96)}
+.cert-dismiss-btn{
+  padding:10px 14px;border:1px solid #FFE082;border-radius:12px;
+  background:white;color:#856404;font-size:.78rem;cursor:pointer;font-family:inherit;
+}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>📱 ClassTrack 手机扫码</h1>
+  <p>连续扫描学生二维码 · 数据实时同步电脑</p>
+</div>
+
+<div class="cert-hint" id="certHint">
+  <div class="cert-hint-title">🔐 信任证书指南</div>
+  <div class="cert-hint-steps" id="certSteps">
+    <p style="margin-bottom:8px">首次使用需安装 CA 证书以消除"不安全"警告：</p>
+    <div class="cert-step"><span class="cert-step-num">1</span> 点击下方按钮下载证书</div>
+    <div class="cert-step"><span class="cert-step-num">2</span> 打开下载的 <b>ClassTrack_CA_Certificate.crt</b></div>
+    <div class="cert-step"><span class="cert-step-num">3</span> 按系统提示安装并<b>信任</b>此证书</div>
+  </div>
+  <div class="cert-hint-done" id="certDone" style="display:none">
+    ✅ 证书已信任，无需重复操作
+  </div>
+  <div class="cert-hint-actions">
+    <a class="cert-download-btn" href="/api/cert/download" id="btnDownloadCert">📥 下载证书</a>
+    <button class="cert-dismiss-btn" id="btnCertDismiss">我知道了，先试用</button>
+  </div>
+  <details style="margin-top:8px;font-size:.7rem;color:#856404;cursor:pointer">
+    <summary style="font-weight:600">📱 各平台详细步骤</summary>
+    <div style="margin-top:6px;line-height:1.8;text-align:left">
+      <b>iOS：</b>设置 → 通用 → VPN与设备管理 → 安装描述文件 → 设置 → 通用 → 关于本机 → 证书信任设置 → 开启 ClassTrack<br>
+      <b>Android：</b>设置 → 安全 → 加密与凭据 → 从存储设备安装 → 选择 .crt 文件 → 确定<br>
+      <b>Windows：</b>电脑端已自动信任，无需操作
+    </div>
+  </details>
+</div>
+
+<div class="scan-box">
+  <div id="reader"></div>
+</div>
+
+<div class="controls">
+  <button class="btn btn-start" id="btnStart">▶ 开始扫描</button>
+  <button class="btn btn-stop" id="btnStop" style="display:none">⏹ 停止扫描</button>
+</div>
+
+<div class="log-area">
+  <div class="log-title">📋 扫码记录 <span id="logCount" style="color:#999">(0)</span></div>
+  <div class="log-list" id="logList">
+    <div style="color:#999;font-size:.75rem;text-align:center;padding:12px">等待扫描...</div>
+  </div>
+</div>
+
+<div class="status" id="statusBar">🟡 准备就绪</div>
+
+<script>
+const API_BASE = window.location.origin;
+let html5QrCode = null;
+let scanning = false;
+let scanBuffer = [];       // 批量缓冲区
+let batchTimer = null;
+let scanCount = 0;
+
+// 批量提交：攒 300ms 或满 20 条一次性发送
+const BATCH_INTERVAL = 300;
+const BATCH_MAX = 20;
+
+// 页面加载时验证与电脑的连通性
+(async function checkConnection() {
+  try {
+    const res = await fetch(API_BASE + "/api/mobile/pair");
+    const data = await res.json();
+    if (data.code === 0) {
+      updateStatus("🟢 已连接到电脑 · 准备就绪", "connected");
+    }
+  } catch (e) {
+    updateStatus("⚠️ 无法连接到电脑，请检查 WiFi");
+  }
+})();
+
+document.getElementById("btnStart").addEventListener("click", startScan);
+document.getElementById("btnStop").addEventListener("click", stopScan);
+
+function updateStatus(msg, type) {
+  const bar = document.getElementById("statusBar");
+  bar.textContent = msg;
+  bar.className = "status";
+  if (type === "connected") bar.classList.add("connected");
+}
+
+async function startScan() {
+  try {
+    html5QrCode = new Html5Qrcode("reader");
+    document.getElementById("btnStart").style.display = "none";
+    document.getElementById("btnStop").style.display = "";
+    updateStatus("🟢 扫描中...", "connected");
+
+    await html5QrCode.start(
+      { facingMode: "environment" },
+      { fps: 20, qrbox: { width: 280, height: 280 }, aspectRatio: 1, disableFlip: true },
+      onScanSuccess,
+      onScanError
+    );
+    scanning = true;
+  } catch (err) {
+    updateStatus("❌ 摄像头启动失败：" + err.message);
+    document.getElementById("btnStart").style.display = "";
+    document.getElementById("btnStop").style.display = "none";
+  }
+}
+
+async function stopScan() {
+  if (html5QrCode && scanning) {
+    await html5QrCode.stop();
+    scanning = false;
+    html5QrCode = null;
+  }
+  // 提交缓冲区剩余
+  if (scanBuffer.length > 0) await flushBuffer();
+  document.getElementById("btnStart").style.display = "";
+  document.getElementById("btnStop").style.display = "none";
+  updateStatus("🟡 已停止 · 共扫 " + scanCount + " 条");
+}
+
+function onScanSuccess(decodedText) {
+  if (!scanning) return;
+  const code = (decodedText || "").trim();
+  if (!code) return;
+
+  const now = new Date().toLocaleTimeString();
+
+  // 加入批量缓冲区
+  scanBuffer.push({ code: code, time: now });
+  scanCount++;
+  document.getElementById("logCount").textContent = "(" + scanCount + ")";
+  addLogItem(code, now, "success");
+
+  // 震动反馈
+  if (navigator.vibrate) navigator.vibrate([30, 50, 30]);
+
+  // 批量发送：满 20 条立即发，否则定时发
+  if (scanBuffer.length >= BATCH_MAX) {
+    flushBuffer();
+  } else if (!batchTimer) {
+    batchTimer = setTimeout(flushBuffer, BATCH_INTERVAL);
+  }
+
+  updateStatus("🟢 已扫 " + scanCount + " 条 · 继续扫描中...", "connected");
+}
+
+function onScanError(err) {
+  // 正常扫描尝试中的虚警，忽略
+}
+
+/** 批量提交到后端 */
+async function flushBuffer() {
+  if (batchTimer) { clearTimeout(batchTimer); batchTimer = null; }
+  if (scanBuffer.length === 0) return;
+
+  const batch = scanBuffer.splice(0);
+  const codes = batch.map(function (b) { return b.code; });
+  try {
+    const res = await fetch(API_BASE + "/api/mobile/scan/batch", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ codes: codes })
+    });
+    const data = await res.json();
+    if (data.code === 0) {
+      console.log("批量提交成功:", data.data.count, "条");
+    } else {
+      console.warn("批量提交异常:", data.msg);
+    }
+  } catch (e) {
+    console.warn("批量提交网络错误");
+    // 失败时重新入队（防止无限堆积）
+    if (scanBuffer.length < BATCH_MAX * 2) {
+      for (var i = 0; i < batch.length; i++) {
+        scanBuffer.unshift(batch[i]);
+      }
+    }
+  }
+}
+
+function addLogItem(code, time, type) {
+  const list = document.getElementById("logList");
+  // 移除占位文本
+  var placeholder = list.querySelector("div[style]");
+  if (placeholder) placeholder.remove();
+
+  var item = document.createElement("div");
+  item.className = "log-item " + type;
+  item.innerHTML = '<span class="log-code">' + escapeHtml(code) + '</span><span class="log-time">' + time + '</span>';
+  list.insertBefore(item, list.firstChild);
+
+  // 限制日志数量
+  while (list.children.length > 100) {
+    list.lastChild.remove();
+  }
+}
+
+function escapeHtml(t) {
+  var d = document.createElement("div");
+  d.textContent = t;
+  return d.innerHTML;
+}
+
+// ---- 证书信任提示 ----
+var CERT_DISMISS_KEY = "classtrack_cert_dismissed";
+(function initCertHint() {
+  var hint = document.getElementById("certHint");
+  if (!hint) return;
+  if (localStorage.getItem(CERT_DISMISS_KEY) === "1") {
+    hint.style.display = "none";
+    return;
+  }
+  setTimeout(function () {
+    document.getElementById("certSteps").style.display = "none";
+    document.getElementById("certDone").style.display = "";
+  }, 2000);
+  document.getElementById("btnCertDismiss").addEventListener("click", function () {
+    hint.style.display = "none";
+    localStorage.setItem(CERT_DISMISS_KEY, "1");
+  });
+})();
+
+// 页面关闭时停止扫描
+window.addEventListener("beforeunload", function () {
+  if (html5QrCode && scanning) html5QrCode.stop();
+  if (scanBuffer.length > 0) flushBuffer();
+});
+</script>
+</body>
+</html>

@@ -4,25 +4,42 @@ title ClassTrack - 打包构建
 
 echo.
 echo   ============================================
-echo     🔨 ClassTrack v1.5 - 打包构建脚本
+echo     🔨 ClassTrack v2.0 - 打包构建脚本
+echo     FastAPI + Vue3 前后端分离架构
 echo     生成 Windows 独立可执行程序
 echo   ============================================
 echo.
 
 cd /d "%~dp0"
 
-:: 检查依赖
+:: 检查 Python 依赖
 python -c "import PyInstaller" >nul 2>&1
 if errorlevel 1 (
     echo   ⏳ 正在安装 PyInstaller...
     pip install pyinstaller -i https://pypi.tuna.tsinghua.edu.cn/simple
 )
 
-python -c "import flask, pandas, openpyxl, qrcode, PIL" >nul 2>&1
+python -c "import fastapi, uvicorn, pandas, openpyxl, qrcode, PIL" >nul 2>&1
 if errorlevel 1 (
     echo   ⏳ 正在安装项目依赖...
-    pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+    pip install -r backend\requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
 )
+
+:: 构建前端（Vite）
+echo   📦 正在构建前端...
+cd frontend
+if not exist "node_modules" (
+    echo   ⏳ 首次构建,安装前端依赖...
+    call npm install
+)
+call npm run build
+if errorlevel 1 (
+    echo   ❌ 前端构建失败
+    cd ..
+    pause
+    exit /b 1
+)
+cd ..
 
 echo   🔨 开始打包 (使用 ClassTrack.spec)...
 echo.

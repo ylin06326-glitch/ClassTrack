@@ -55,18 +55,33 @@
   backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
   border: 1px solid rgba(255,255,255,0.2);
   border-radius: var(--radius); padding: 4px; flex-shrink: 0;
+  position: relative; overflow: hidden;
+}
+.tab-indicator {
+  position: absolute; top: 4px; left: 0; height: calc(100% - 8px);
+  background: linear-gradient(135deg, #ffffff 0%, #f0f6ff 100%);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.25), 0 1px 3px rgba(0,0,0,0.08);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1; cursor: grab;
+  border-bottom: 3px solid #3b82f6;
+}
+.tab-indicator.dragging {
+  cursor: grabbing;
+  transition: none;
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.4), 0 2px 6px rgba(0,0,0,0.12);
 }
 .tab-btn {
   display: flex; align-items: center; gap: 5px; padding: 7px 14px;
   border: none; background: transparent; border-radius: var(--radius-sm);
   cursor: pointer; font-size: .88rem; color: var(--text-light);
-  transition: transform var(--transition-fast), opacity var(--transition-fast), background var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast); font-family: var(--font); white-space: nowrap;
+  transition: transform var(--transition-fast), opacity var(--transition-fast), background var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast); font-family: var(--font); white-space: nowrap;
+  position: relative; z-index: 2; opacity: 0.55;
 }
-.tab-btn:hover { color: var(--text); background: rgba(255,255,255,0.6); }
+.tab-btn:hover { color: var(--text); background: rgba(255,255,255,0.4); opacity: 0.85; }
 .tab-btn.active {
-  background: rgba(255,255,255,0.85);
-  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-  color: var(--blue); box-shadow: var(--shadow-sm); font-weight: 600;
+  background: transparent;
+  color: #1e6fd9; box-shadow: none; font-weight: 700; opacity: 1;
 }
 .tab-btn:active { transform: scale(0.97); }
 .tab-icon { font-size: 1rem; }
@@ -139,7 +154,7 @@
   position: relative; z-index: 1; contain: layout style;
 }
 .tab-content { display: none; }
-.tab-content.active { display: block; animation: tabContentIn 0.25s var(--glass-spring); }
+.tab-content.active { display: block; }
 /* v2: Tab 退出过渡 */
 .tab-content.fading-out {
   display: block;
@@ -1221,5 +1236,229 @@
   .alert-student-item:hover,
   .class-item:hover {
     transform: none;
+  }
+}
+/* ============================================================
+   新手引导页面
+   ============================================================ */
+.guide-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+  z-index: 10000; display: none;
+  align-items: center; justify-content: center;
+  animation: guideFadeIn 0.3s ease;
+}
+.guide-overlay.active { display: flex; }
+@keyframes guideFadeIn {
+  from { opacity: 0; } to { opacity: 1; }
+}
+.guide-card {
+  background: #fff; border-radius: 16px;
+  width: 90%; max-width: 520px; max-height: 85vh;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  overflow: hidden; display: flex; flex-direction: column;
+  animation: guideSlideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes guideSlideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.guide-header {
+  padding: 24px 28px 16px; text-align: center;
+  background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+  color: #fff; position: relative;
+}
+.guide-header h2 { margin: 0; font-size: 1.3rem; font-weight: 700; }
+.guide-header p { margin: 6px 0 0; font-size: .85rem; opacity: 0.9; }
+.guide-close {
+  position: absolute; top: 12px; right: 14px;
+  background: rgba(255,255,255,0.2); border: none; color: #fff;
+  width: 28px; height: 28px; border-radius: 50%; cursor: pointer;
+  font-size: 1rem; display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+.guide-close:hover { background: rgba(255,255,255,0.35); }
+.guide-body {
+  padding: 24px 28px; flex: 1; overflow-y: auto;
+}
+.guide-step { display: none; }
+.guide-step.active { display: block; animation: guideStepIn 0.3s ease; }
+@keyframes guideStepIn {
+  from { opacity: 0; transform: translateX(15px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.guide-step-icon {
+  font-size: 2.5rem; text-align: center; margin-bottom: 12px;
+}
+.guide-step h3 {
+  margin: 0 0 10px; font-size: 1.1rem; color: #1e293b;
+  text-align: center;
+}
+.guide-step p {
+  margin: 0 0 12px; font-size: .9rem; color: #475569;
+  line-height: 1.6;
+}
+.guide-step ul {
+  margin: 0; padding-left: 20px;
+}
+.guide-step li {
+  font-size: .85rem; color: #64748b; margin-bottom: 6px; line-height: 1.5;
+}
+.guide-dots {
+  display: flex; justify-content: center; gap: 8px;
+  padding: 0 28px 12px;
+}
+.guide-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #cbd5e1; cursor: pointer; transition: all 0.3s;
+}
+.guide-dot.active { background: #3b82f6; width: 24px; border-radius: 4px; }
+.guide-footer {
+  padding: 14px 28px 20px; display: flex; justify-content: space-between;
+  align-items: center; border-top: 1px solid #f1f5f9;
+}
+.guide-btn {
+  padding: 8px 20px; border-radius: 8px; border: none;
+  font-size: .88rem; cursor: pointer; font-weight: 600;
+  transition: all 0.2s; font-family: inherit;
+}
+.guide-btn-prev {
+  background: #f1f5f9; color: #64748b;
+}
+.guide-btn-prev:hover { background: #e2e8f0; }
+.guide-btn-prev:disabled { opacity: 0.4; cursor: not-allowed; }
+.guide-btn-next {
+  background: linear-gradient(135deg, #3b82f6, #6366f1); color: #fff;
+}
+.guide-btn-next:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(59,130,246,0.4); }
+.guide-skip {
+  background: none; border: none; color: #94a3b8; font-size: .8rem;
+  cursor: pointer; padding: 4px 8px;
+}
+.guide-skip:hover { color: #64748b; }
+/* ============================================================
+   Apple Design Optimization — Materials, Depth, Typography
+   ============================================================ */
+
+/* --- 材质层级优化 --- */
+/* 导航栏：轻材质，低模糊，高透明 */
+.tab-nav {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+/* 卡片：中等材质，添加顶部亮边模拟光线 */
+.card {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
+  position: relative;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+  pointer-events: none;
+}
+.card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* 模态框：重材质，强模糊，深阴影 */
+.modal-card {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.15), 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+.modal-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.9), transparent);
+  pointer-events: none;
+}
+
+/* --- 按钮即时反馈（pointer-down，非 click）--- */
+.tab-btn, .btn, .grade-qbtn, .grade-batch-btn, .hw-subtab-btn, .date-nav-btn, .alerts-tab-btn {
+  transition: transform 120ms ease-out, opacity 150ms ease-out, background 150ms ease-out, box-shadow 150ms ease-out;
+}
+.tab-btn:active, .btn:active, .grade-qbtn:active, .grade-batch-btn:active, .hw-subtab-btn:active, .date-nav-btn:active, .alerts-tab-btn:active {
+  transform: scale(0.96);
+  transition: transform 80ms ease-out;
+}
+
+/* --- 排版优化：字间距随大小变化 --- */
+:root {
+  font: 100%/1.5 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-optical-sizing: auto;
+}
+h1, h2, h3 {
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+}
+.modal-header h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.tab-label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+/* --- 滑块弹簧动画（模拟 critically damped spring）--- */
+.tab-indicator {
+  transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1),
+              width 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* --- Reduced Motion 支持 --- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .tab-indicator {
+    transition: none !important;
+  }
+  .card:hover, .stat-card:hover, .student-card:hover {
+    transform: none !important;
+  }
+}
+
+/* --- Reduced Transparency 支持 --- */
+@media (prefers-reduced-transparency: reduce) {
+  .tab-nav, .card, .modal-card, .stat-card, .hw-student-row {
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}
+
+/* --- 高对比度支持 --- */
+@media (prefers-contrast: more) {
+  .tab-nav, .card, .modal-card {
+    border: 1.5px solid rgba(0, 0, 0, 0.2) !important;
+  }
+  .tab-btn {
+    opacity: 0.8 !important;
+  }
+  .tab-btn.active {
+    opacity: 1 !important;
+    background: rgba(255, 255, 255, 0.9) !important;
   }
 }
