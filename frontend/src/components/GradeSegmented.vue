@@ -71,7 +71,7 @@ function onChange(value: string) {
   left: auto !important;
   right: auto !important;
   width: 100% !important;
-  min-width: 290px !important;
+  min-width: 310px !important;
   background: rgba(0, 0, 0, 0.03) !important;
   backdrop-filter: none !important;
   border: 1px solid rgba(0, 0, 0, 0.06) !important;

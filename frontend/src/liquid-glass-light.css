@@ -6,17 +6,96 @@
 
 /* ---- 全局背景：轻微渐变，让玻璃效果更明显 ---- */
 body {
-  background: linear-gradient(135deg, #f5f7fa 0%, #eef2f7 50%, #f0f4f8 100%) !important;
+  background: linear-gradient(135deg, #e8ecf2 0%, #dde3ec 50%, #e2e8f0 100%) !important;
   background-attachment: fixed !important;
+  min-height: 100vh;
 }
+
+/* ============================================================
+ * 增强版液态玻璃 - 更强的光线折射效果
+ * ============================================================ */
+:root {
+  --glass-refraction-strength: 1.2;
+  --glass-highlight-intensity: 0.8;
+  --glass-shadow-depth: 1.3;
+}
+
+/* 全局玻璃元素通用增强：顶部高光层 */
+.el-dialog::before,
+.el-card::before,
+.ct-card::before,
+.el-message::before,
+.el-select-dropdown::before,
+.el-dropdown-menu::before,
+.el-popover::before,
+.el-notification::before,
+.el-picker-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(255, 255, 255, 0.08) 50%,
+    transparent 100%
+  );
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* 全局玻璃元素通用增强：底部反光层 */
+.el-dialog::after,
+.el-card::after,
+.ct-card::after,
+.el-message::after,
+.el-select-dropdown::after,
+.el-dropdown-menu::after,
+.el-popover::after,
+.el-notification::after,
+.el-picker-panel::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+  right: 10%;
+  height: 30%;
+  background: linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.15) 0%,
+    transparent 100%
+  );
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* 确保玻璃元素内容在高光层之上 */
+.el-dialog > *,
+.el-card > *,
+.ct-card > *,
+.el-message > *,
+.el-select-dropdown > *,
+.el-dropdown-menu > *,
+.el-popover > *,
+.el-notification > *,
+.el-picker-panel > * {
+  position: relative;
+  z-index: 2;
+}
+
+
 
 /* ---- 顶部导航栏（中等重量玻璃） ---- */
 .ct-header,
 .app-header,
 .main-header {
-  background: rgba(255, 255, 255, 0.65) !important;
-  backdrop-filter: blur(20px) saturate(180%) brightness(1.05) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(180%) brightness(1.05) !important;
+  background: rgba(255, 255, 255, 0.45) !important;
+  backdrop-filter: blur(20px) saturate(200%) brightness(1.12) contrast(1.05) brightness(1.05) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(200%) brightness(1.12) contrast(1.05) brightness(1.05) !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.5) !important;
   box-shadow:
     0 2px 12px rgba(90, 110, 140, 0.08),
@@ -28,10 +107,10 @@ body {
 .app-sidebar,
 .el-tabs__header,
 .el-tabs__nav-wrap {
-  background: rgba(255, 255, 255, 0.55) !important;
-  backdrop-filter: blur(16px) saturate(160%) !important;
-  -webkit-backdrop-filter: blur(16px) saturate(160%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  background: rgba(255, 255, 255, 0.35) !important;
+  backdrop-filter: blur(16px) saturate(200%) brightness(1.12) contrast(1.05) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(200%) brightness(1.12) contrast(1.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.60) !important;
 }
 
 /* ---- 主内容区域卡片（轻量玻璃） ---- */
@@ -42,8 +121,8 @@ body {
 .student-card,
 .stats-card {
   background: rgba(255, 255, 255, 0.6) !important;
-  backdrop-filter: blur(16px) saturate(160%) !important;
-  -webkit-backdrop-filter: blur(16px) saturate(160%) !important;
+  backdrop-filter: blur(16px) saturate(200%) brightness(1.12) contrast(1.05) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(200%) brightness(1.12) contrast(1.05) !important;
   border: 1px solid rgba(255, 255, 255, 0.5) !important;
   border-radius: 14px !important;
   box-shadow:
@@ -66,8 +145,8 @@ body {
 
 .el-table th.el-table__cell {
   background: rgba(245, 248, 252, 0.85) !important;
-  backdrop-filter: blur(10px) !important;
-  -webkit-backdrop-filter: blur(10px) !important;
+  backdrop-filter: blur(10px) saturate(180%) brightness(1.1) contrast(1.04) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(180%) brightness(1.1) contrast(1.04) !important;
   border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
 }
 
@@ -87,9 +166,9 @@ body {
 .el-input__wrapper,
 .el-textarea__inner,
 .el-select__wrapper {
-  background: rgba(255, 255, 255, 0.75) !important;
-  backdrop-filter: blur(8px) saturate(140%) !important;
-  -webkit-backdrop-filter: blur(8px) saturate(140%) !important;
+  background: rgba(255, 255, 255, 0.50) !important;
+  backdrop-filter: blur(10px) saturate(180%) brightness(1.08) contrast(1.03) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(180%) brightness(1.08) contrast(1.03) !important;
   border: 1px solid rgba(150, 160, 175, 0.25) !important;
   border-radius: 10px !important;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03) !important;
@@ -112,9 +191,9 @@ body {
 
 /* ---- 弹窗 / 对话框（较重重量玻璃） ---- */
 .el-dialog {
-  background: rgba(255, 255, 255, 0.72) !important;
-  backdrop-filter: blur(24px) saturate(180%) brightness(1.05) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(180%) brightness(1.05) !important;
+  background: rgba(255, 255, 255, 0.47) !important;
+  backdrop-filter: blur(28px) saturate(220%) brightness(1.15) contrast(1.08) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(220%) brightness(1.15) contrast(1.08) !important;
   border: 1px solid rgba(255, 255, 255, 0.6) !important;
   border-radius: 16px !important;
   box-shadow:
@@ -142,9 +221,9 @@ body {
 
 /* ---- 消息提示（轻量玻璃） ---- */
 .el-message {
-  background: rgba(255, 255, 255, 0.78) !important;
-  backdrop-filter: blur(16px) saturate(160%) !important;
-  -webkit-backdrop-filter: blur(16px) saturate(160%) !important;
+  background: rgba(255, 255, 255, 0.53) !important;
+  backdrop-filter: blur(16px) saturate(200%) brightness(1.12) contrast(1.05) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(200%) brightness(1.12) contrast(1.05) !important;
   border: 1px solid rgba(255, 255, 255, 0.6) !important;
   border-radius: 12px !important;
   box-shadow:
@@ -157,8 +236,8 @@ body {
 .el-dropdown-menu,
 .el-popper {
   background: rgba(255, 255, 255, 0.8) !important;
-  backdrop-filter: blur(20px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  backdrop-filter: blur(20px) saturate(200%) brightness(1.12) contrast(1.05) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(200%) brightness(1.12) contrast(1.05) !important;
   border: 1px solid rgba(255, 255, 255, 0.6) !important;
   border-radius: 12px !important;
   box-shadow:
@@ -217,9 +296,9 @@ body {
 /* ---- 分页（轻量玻璃） ---- */
 .el-pagination {
   background: rgba(255, 255, 255, 0.6) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  backdrop-filter: blur(12px) saturate(180%) brightness(1.1) contrast(1.04) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(180%) brightness(1.1) contrast(1.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.60) !important;
   border-radius: 12px !important;
   padding: 8px 12px !important;
 }
@@ -271,8 +350,8 @@ body {
 .tab-btn-donate,
 .action-btn {
   background: rgba(255, 255, 255, 0.7) !important;
-  backdrop-filter: blur(8px) saturate(140%) !important;
-  -webkit-backdrop-filter: blur(8px) saturate(140%) !important;
+  backdrop-filter: blur(10px) saturate(180%) brightness(1.08) contrast(1.03) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(180%) brightness(1.08) contrast(1.03) !important;
   border: 1px solid rgba(150, 160, 175, 0.25) !important;
   border-radius: 10px !important;
   box-shadow:
@@ -356,9 +435,9 @@ body {
 
 /* ---- 批量等级按钮 ---- */
 .grade-batch-btn {
-  background: rgba(255, 255, 255, 0.65) !important;
-  backdrop-filter: blur(8px) saturate(140%) !important;
-  -webkit-backdrop-filter: blur(8px) saturate(140%) !important;
+  background: rgba(255, 255, 255, 0.45) !important;
+  backdrop-filter: blur(10px) saturate(180%) brightness(1.08) contrast(1.03) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(180%) brightness(1.08) contrast(1.03) !important;
   border: 1px solid rgba(150, 160, 175, 0.25) !important;
   border-radius: 10px !important;
   box-shadow:
@@ -387,7 +466,7 @@ body {
 
 /* ---- 学生行（作业登记） ---- */
 .hw-student-row {
-  background: rgba(255, 255, 255, 0.55) !important;
+  background: rgba(255, 255, 255, 0.35) !important;
   backdrop-filter: blur(8px) !important;
   -webkit-backdrop-filter: blur(8px) !important;
   border: 1px solid rgba(255, 255, 255, 0.4) !important;
@@ -405,7 +484,7 @@ body {
 .group-student-card,
 .student-item,
 .draggable-student {
-  background: rgba(255, 255, 255, 0.65) !important;
+  background: rgba(255, 255, 255, 0.45) !important;
   backdrop-filter: blur(10px) saturate(150%) !important;
   -webkit-backdrop-filter: blur(10px) saturate(150%) !important;
   border: 1px solid rgba(255, 255, 255, 0.5) !important;
@@ -495,7 +574,7 @@ body {
 }
 
 .el-tabs__item:hover {
-  background: rgba(255, 255, 255, 0.75) !important;
+  background: rgba(255, 255, 255, 0.50) !important;
   border-color: rgba(107, 163, 199, 0.35) !important;
 }
 
@@ -509,8 +588,8 @@ body {
 /* ---- 面包屑 Breadcrumb（轻量玻璃） ---- */
 .el-breadcrumb {
   background: rgba(255, 255, 255, 0.5) !important;
-  backdrop-filter: blur(10px) !important;
-  -webkit-backdrop-filter: blur(10px) !important;
+  backdrop-filter: blur(10px) saturate(180%) brightness(1.1) contrast(1.04) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(180%) brightness(1.1) contrast(1.04) !important;
   border: 1px solid rgba(255, 255, 255, 0.4) !important;
   border-radius: 10px !important;
   padding: 8px 14px !important;
@@ -519,8 +598,8 @@ body {
 /* ---- 步骤条 Steps（轻量玻璃） ---- */
 .el-steps {
   background: rgba(255, 255, 255, 0.45) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
+  backdrop-filter: blur(12px) saturate(180%) brightness(1.1) contrast(1.04) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(180%) brightness(1.1) contrast(1.04) !important;
   border: 1px solid rgba(255, 255, 255, 0.4) !important;
   border-radius: 12px !important;
   padding: 16px !important;
@@ -529,8 +608,8 @@ body {
 /* ---- 时间线 Timeline（轻量玻璃） ---- */
 .el-timeline {
   background: rgba(255, 255, 255, 0.45) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
+  backdrop-filter: blur(12px) saturate(180%) brightness(1.1) contrast(1.04) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(180%) brightness(1.1) contrast(1.04) !important;
   border: 1px solid rgba(255, 255, 255, 0.4) !important;
   border-radius: 12px !important;
   padding: 16px !important;
@@ -595,9 +674,9 @@ body {
 
 /* ---- 上传 Upload（轻量玻璃） ---- */
 .el-upload-dragger {
-  background: rgba(255, 255, 255, 0.55) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
+  background: rgba(255, 255, 255, 0.35) !important;
+  backdrop-filter: blur(12px) saturate(180%) brightness(1.1) contrast(1.04) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(180%) brightness(1.1) contrast(1.04) !important;
   border: 2px dashed rgba(150, 160, 175, 0.3) !important;
   border-radius: 12px !important;
   transition: all 0.2s ease !important;
@@ -610,9 +689,9 @@ body {
 
 /* ---- 树形控件 Tree（轻量玻璃） ---- */
 .el-tree {
-  background: rgba(255, 255, 255, 0.55) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
+  background: rgba(255, 255, 255, 0.35) !important;
+  backdrop-filter: blur(12px) saturate(180%) brightness(1.1) contrast(1.04) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(180%) brightness(1.1) contrast(1.04) !important;
   border: 1px solid rgba(255, 255, 255, 0.4) !important;
   border-radius: 12px !important;
   padding: 8px !important;
@@ -636,9 +715,9 @@ body {
 /* ---- 穿梭框 Transfer（轻量玻璃） ---- */
 .el-transfer-panel {
   background: rgba(255, 255, 255, 0.6) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  backdrop-filter: blur(12px) saturate(180%) brightness(1.1) contrast(1.04) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(180%) brightness(1.1) contrast(1.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.60) !important;
   border-radius: 12px !important;
   overflow: hidden !important;
 }
@@ -653,8 +732,8 @@ body {
 /* ---- 表单 Form（轻量玻璃容器） ---- */
 .el-form {
   background: rgba(255, 255, 255, 0.45) !important;
-  backdrop-filter: blur(10px) !important;
-  -webkit-backdrop-filter: blur(10px) !important;
+  backdrop-filter: blur(10px) saturate(180%) brightness(1.1) contrast(1.04) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(180%) brightness(1.1) contrast(1.04) !important;
   border: 1px solid rgba(255, 255, 255, 0.4) !important;
   border-radius: 12px !important;
   padding: 16px !important;
@@ -667,10 +746,10 @@ body {
 
 /* ---- 描述列表 Descriptions（轻量玻璃） ---- */
 .el-descriptions {
-  background: rgba(255, 255, 255, 0.55) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  background: rgba(255, 255, 255, 0.35) !important;
+  backdrop-filter: blur(12px) saturate(180%) brightness(1.1) contrast(1.04) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(180%) brightness(1.1) contrast(1.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.60) !important;
   border-radius: 12px !important;
   overflow: hidden !important;
 }
@@ -684,8 +763,8 @@ body {
 /* ---- 空状态 Empty（轻量玻璃） ---- */
 .el-empty {
   background: rgba(255, 255, 255, 0.4) !important;
-  backdrop-filter: blur(10px) !important;
-  -webkit-backdrop-filter: blur(10px) !important;
+  backdrop-filter: blur(10px) saturate(180%) brightness(1.1) contrast(1.04) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(180%) brightness(1.1) contrast(1.04) !important;
   border: 1px solid rgba(255, 255, 255, 0.35) !important;
   border-radius: 12px !important;
   padding: 24px !important;
@@ -700,9 +779,9 @@ body {
 
 /* ---- 通知 Notification（轻量玻璃） ---- */
 .el-notification {
-  background: rgba(255, 255, 255, 0.78) !important;
-  backdrop-filter: blur(18px) saturate(160%) !important;
-  -webkit-backdrop-filter: blur(18px) saturate(160%) !important;
+  background: rgba(255, 255, 255, 0.53) !important;
+  backdrop-filter: blur(18px) saturate(200%) brightness(1.12) contrast(1.05) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(200%) brightness(1.12) contrast(1.05) !important;
   border: 1px solid rgba(255, 255, 255, 0.6) !important;
   border-radius: 12px !important;
   box-shadow:
@@ -713,8 +792,8 @@ body {
 /* ---- 气泡 Popover（轻量玻璃） ---- */
 .el-popover {
   background: rgba(255, 255, 255, 0.8) !important;
-  backdrop-filter: blur(18px) saturate(170%) !important;
-  -webkit-backdrop-filter: blur(18px) saturate(170%) !important;
+  backdrop-filter: blur(18px) saturate(200%) brightness(1.12) contrast(1.05) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(200%) brightness(1.12) contrast(1.05) !important;
   border: 1px solid rgba(255, 255, 255, 0.6) !important;
   border-radius: 12px !important;
   box-shadow:
@@ -725,8 +804,8 @@ body {
 /* ---- 工具提示 Tooltip（轻量玻璃） ---- */
 .el-tooltip__popper {
   background: rgba(30, 30, 35, 0.85) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
+  backdrop-filter: blur(12px) saturate(180%) brightness(1.1) contrast(1.04) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(180%) brightness(1.1) contrast(1.04) !important;
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
   border-radius: 8px !important;
   color: #fff !important;
@@ -743,9 +822,9 @@ body {
 
 /* ---- 日期/时间选择器面板（轻量玻璃） ---- */
 .el-picker-panel {
-  background: rgba(255, 255, 255, 0.82) !important;
-  backdrop-filter: blur(20px) saturate(170%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(170%) !important;
+  background: rgba(255, 255, 255, 0.37) !important;
+  backdrop-filter: blur(20px) saturate(200%) brightness(1.12) contrast(1.05) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(200%) brightness(1.12) contrast(1.05) !important;
   border: 1px solid rgba(255, 255, 255, 0.6) !important;
   border-radius: 12px !important;
   box-shadow:
@@ -758,7 +837,7 @@ body {
   background: rgba(255, 255, 255, 0.8) !important;
   backdrop-filter: blur(18px) !important;
   -webkit-backdrop-filter: blur(18px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.55) !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
   border-radius: 12px !important;
 }
 

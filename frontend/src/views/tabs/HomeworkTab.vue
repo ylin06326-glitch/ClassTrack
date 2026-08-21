@@ -813,9 +813,9 @@ onBeforeUnmount(() => {
   align-items: flex-start;
 }
 .hw-group-column {
-  flex: 1 1 360px;
-  min-width: 340px;
-  max-width: 460px;
+  flex: 1 1 380px;
+  min-width: 360px;
+  max-width: 480px;
 }
 .hw-group-column { padding: 0 16px 14px; overflow: hidden; }
 .hw-group-header {
@@ -838,8 +838,8 @@ onBeforeUnmount(() => {
 }
 .hw-student-row .grade-segmented {
   flex-shrink: 0;
-  min-width: 290px;
-  width: 290px;
+  min-width: 310px;
+  width: 310px;
 }
 .hw-avatar { font-size: 20px; width: 30px; text-align: center; flex-shrink: 0; }
 .hw-student-name { font-size: 14px; color: #3a4a5a; flex: 0 1 auto; max-width: 90px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
