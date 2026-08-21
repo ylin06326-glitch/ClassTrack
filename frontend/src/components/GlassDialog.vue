@@ -1,32 +1,12 @@
-<template>
+﻿<template>
   <Teleport to="body">
     <Transition name="glass-dialog-fade">
       <div v-if="modelValue" class="glass-dialog-overlay" @click.self="onOverlayClick">
-        <Transition name="glass-dialog-zoom" appear @enter="onEnter">
-          <div v-if="modelValue" class="glass-dialog-container interactive-glass" :style="containerStyle">
-            <LiquidGlassPanel
-              :width="560"
-              :border-radius="32"
-              :bezel-width="40"
-              :glass-thickness="120"
-              :refractive-index="1.5"
-              :blur="1"
-              :scale-ratio="0.4"
-              :specular-opacity="0.4"
-              :specular-saturation="8"
-              :background-color="'rgba(255, 255, 255, 0.15)'"
-              :background-opacity="1"
-              :shadow="'0 30px 80px rgba(90, 110, 140, 0.4), 0 12px 32px rgba(90, 110, 140, 0.25)'"
-              :border-width="2"
-              :border-color="'rgba(255, 255, 255, 0.9)'"
-              :content-padding="'0'"
-              :center-blur-amount="3"
-              :gradient-blur-size="60"
-              :hover-light="true"
-              class="glass-dialog-panel"
-            >
+        <Transition name="glass-dialog-zoom" appear>
+          <div v-if="modelValue" class="glass-dialog-container" :style="containerStyle">
+            <div class="glass-dialog-panel">
               <div class="glass-dialog-inner">
-                <!-- 标题栏 -->
+                <!-- 鏍囬鏍?-->
                 <div class="glass-dialog-header" v-if="title || showClose">
                   <h3 class="glass-dialog-title">{{ title }}</h3>
                   <button v-if="showClose" class="glass-dialog-close" @click="close">
@@ -37,17 +17,17 @@
                   </button>
                 </div>
 
-                <!-- 内容区 -->
+                <!-- 鍐呭鍖?-->
                 <div class="glass-dialog-body">
                   <slot></slot>
                 </div>
 
-                <!-- 底部按钮区 -->
+                <!-- 搴曢儴鎸夐挳鍖?-->
                 <div v-if="$slots.footer" class="glass-dialog-footer">
                   <slot name="footer"></slot>
                 </div>
               </div>
-            </LiquidGlassPanel>
+            </div>
           </div>
         </Transition>
       </div>
@@ -56,8 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick } from 'vue'
-import { LiquidGlassPanel } from '@sapryniukt/vue-liquid-glass'
+import { computed } from 'vue'
 
 
 interface Props {
@@ -105,17 +84,6 @@ function close() {
   emit('close')
 }
 
-function onEnter(el: Element) {
-  // 强制刷新 LiquidGlassPanel 的尺寸检测
-  nextTick(() => {
-    const panel = el.querySelector('.glass-dialog-panel') as HTMLElement | null
-    if (panel) {
-      // 触发 reflow，确保 offsetWidth > 0
-      void panel.offsetWidth
-    }
-  })
-}
-
 function onOverlayClick() {
   if (props.closeOnClickModal) {
     close()
@@ -147,16 +115,17 @@ function onOverlayClick() {
   max-height: calc(100vh - 40px);
 }
 
-/* 确保 LiquidGlassPanel 有明确尺寸，不会被尺寸检测隐藏 */
+/* 纭繚 LiquidGlassPanel 鏈夋槑纭昂瀵革紝涓嶄細琚昂瀵告娴嬮殣钘?*/
 .glass-dialog-panel {
-  width: 100% !important;
-  min-height: 200px !important;
-  display: block !important;
-  visibility: visible !important;
-}
-
-.glass-dialog-panel :deep(*) {
-  visibility: visible !important;
+  width: 100%;
+  min-height: 200px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 30px 80px rgba(90, 110, 140, 0.35), 0 12px 32px rgba(90, 110, 140, 0.2);
+  overflow: hidden;
 }
 
 .glass-dialog-inner {
@@ -232,18 +201,18 @@ function onOverlayClick() {
   transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
 }
 
-/* 交互变形：悬停时轻微上浮放大 */
+/* 浜や簰鍙樺舰锛氭偓鍋滄椂杞诲井涓婃诞鏀惧ぇ */
 .interactive-glass:hover .glass-dialog-panel {
   transform: translateY(-4px) scale(1.01);
 }
 
-/* 交互变形：点击/按下时挤压变形 */
+/* 浜や簰鍙樺舰锛氱偣鍑?鎸変笅鏃舵尋鍘嬪彉褰?*/
 .interactive-glass:active .glass-dialog-panel {
   transform: scale(0.98) translateY(2px);
   transition: transform 0.1s ease-out;
 }
 
-/* 动画 */
+/* 鍔ㄧ敾 */
 .glass-dialog-fade-enter-active,
 .glass-dialog-fade-leave-active {
   transition: opacity 0.3s ease;
@@ -265,3 +234,4 @@ function onOverlayClick() {
   transform: scale(0.9) translateY(20px);
 }
 </style>
+
