@@ -126,6 +126,14 @@
         </div>
         <p class="donate-tip">📱 微信扫一扫，感谢你的支持！</p>
         <p class="donate-author">—— 杨润林 (YRL)</p>
+        <div class="donate-divider"></div>
+        <p class="donate-feedback-title">🐛 反馈 Bug / 建议</p>
+        <p class="donate-email">
+          📧 <a href="mailto:ylin06326@gmail.com" class="donate-email-link">ylin06326@gmail.com</a>
+        </p>
+        <p class="donate-email">
+          📧 <a href="mailto:yrl666hello@qq.com" class="donate-email-link">yrl666hello@qq.com</a>
+        </p>
       </div>
     </GlassDialog>
 
@@ -584,6 +592,11 @@ function exportStudentReport(): void {
 .donate-qr-img { width: 100%; height: auto; display: block; border-radius: 4px; }
 .donate-tip { font-size: 13px; color: #888; margin: 0 0 8px; }
 .donate-author { font-size: 12px; color: #aaa; margin: 0; font-style: italic; }
+.donate-divider { height: 1px; background: rgba(150, 160, 175, 0.2); margin: 16px 0 12px; }
+.donate-feedback-title { font-size: 13px; color: #666; margin: 0 0 8px; font-weight: 600; }
+.donate-email { font-size: 12px; color: #888; margin: 4px 0; }
+.donate-email-link { color: #6ba3c7; text-decoration: none; }
+.donate-email-link:hover { text-decoration: underline; }
 
 /* 详情列表 */
 .detail-summary { color: #5a6775; font-size: 13px; margin-bottom: 10px; }
