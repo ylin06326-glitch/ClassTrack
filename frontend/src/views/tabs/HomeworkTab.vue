@@ -5,7 +5,7 @@
       <div class="hw-control-row">
         <div class="date-picker-area">
           <span class="control-label">📅 登记日期：</span>
-          <GlassButton class="date-nav-btn" title="前一天" @click="changeDate(-1)">◀</GlassButton>
+          <GlassButton size="small" title="前一天" @click="changeDate(-1)">◀</GlassButton>
           <el-date-picker
             v-model="hwDate"
             type="date"
@@ -14,13 +14,13 @@
             placeholder="选择日期"
             class="date-input"
           />
-          <GlassButton class="date-nav-btn" title="后一天" @click="changeDate(1)">▶</GlassButton>
-          <GlassButton class="btn-today" @click="setToday">📌 今天</GlassButton>
+          <GlassButton size="small" title="后一天" @click="changeDate(1)">▶</GlassButton>
+          <GlassButton type="primary" @click="setToday">📌 今天</GlassButton>
           <span class="control-label label-gap">📋 作业种类：</span>
           <el-select v-model="store.currentHomeworkTypeId" class="type-select">
             <el-option v-for="t in store.homeworkTypes" :key="t.id" :label="t.name" :value="t.id" />
           </el-select>
-          <GlassButton class="btn-manage" title="管理作业种类" @click="typesDialogVisible = true">⚙️</GlassButton>
+          <GlassButton size="small" title="管理作业种类" @click="typesDialogVisible = true">⚙️</GlassButton>
         </div>
         <div class="batch-area">
           <span class="batch-label">批量：</span>
@@ -30,22 +30,19 @@
             @update:model-value="onBatchGradeChange"
           />
         </div>
-        <GlassButton class="btn-reminder" @click="reminderVisible = true">🔔 催交通知</GlassButton>
+        <GlassButton type="warning" @click="reminderVisible = true">🔔 催交通知</GlassButton>
       </div>
     </div>
 
     <!-- ============ 登记方式子Tab ============ -->
     <div class="hw-subtab-nav">
-      <GlassButton         class="hw-subtab-btn"
-        :class="{ active: activeSubtab === 'manual' }"
+      <GlassButton :type="activeSubtab === 'manual' ? 'primary' : 'default'"
         @click="activeSubtab = 'manual'"
       >✏️ 手动登记</GlassButton>
-      <GlassButton         class="hw-subtab-btn"
-        :class="{ active: activeSubtab === 'pcscan' }"
+      <GlassButton :type="activeSubtab === 'pcscan' ? 'primary' : 'default'"
         @click="activeSubtab = 'pcscan'"
       >📷 电脑扫码</GlassButton>
-      <GlassButton         class="hw-subtab-btn"
-        :class="{ active: activeSubtab === 'mobile' }"
+      <GlassButton :type="activeSubtab === 'mobile' ? 'primary' : 'default'"
         @click="activeSubtab = 'mobile'"
       >📱 手机扫码</GlassButton>
     </div>
@@ -110,7 +107,7 @@
         <el-select v-model="store.currentHomeworkTypeId" class="type-select">
           <el-option v-for="t in store.homeworkTypes" :key="t.id" :label="t.name" :value="t.id" />
         </el-select>
-        <GlassButton class="btn-manage" title="管理作业种类" @click="typesDialogVisible = true">⚙️</GlassButton>
+        <GlassButton size="small" title="管理作业种类" @click="typesDialogVisible = true">⚙️</GlassButton>
       </div>
       <div v-if="pcScanMode === 'batch'" class="grade-buttons-row">
         <span class="control-label">档位：</span>
