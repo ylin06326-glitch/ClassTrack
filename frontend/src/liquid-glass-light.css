@@ -1416,3 +1416,234 @@ body {
 
 /* 全局滚动条药丸形（已经是圆角） */
 
+
+
+/* ============================================================
+ * 弹窗超强液态玻璃效果
+ * ============================================================ */
+
+/* 弹窗主体：超强通透 + 超强折射 */
+.el-dialog {
+  background: rgba(255, 255, 255, 0.35) !important;
+  backdrop-filter: blur(50px) saturate(350%) brightness(1.35) contrast(1.2) hue-rotate(15deg) !important;
+  -webkit-backdrop-filter: blur(50px) saturate(350%) brightness(1.35) contrast(1.2) hue-rotate(15deg) !important;
+  border: 2px solid rgba(255, 255, 255, 0.85) !important;
+  border-radius: 32px !important;
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.25),
+    0 10px 30px rgba(0, 0, 0, 0.15),
+    0 2px 8px rgba(0, 0, 0, 0.08),
+    inset 0 2px 2px rgba(255, 255, 255, 1),
+    inset 0 -2px 2px rgba(255, 255, 255, 0.5),
+    inset 2px 0 2px rgba(255, 255, 255, 0.6),
+    inset -2px 0 2px rgba(255, 255, 255, 0.6) !important;
+  overflow: hidden !important;
+  position: relative !important;
+}
+
+/* 弹窗顶部超强高光层 */
+.el-dialog::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 60% !important;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(255, 255, 255, 0.25) 30%,
+    rgba(255, 255, 255, 0.1) 60%,
+    transparent 100%
+  ) !important;
+  border-radius: 32px 32px 0 0 !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+
+/* 弹窗底部超强反光层 */
+.el-dialog::after {
+  content: '' !important;
+  position: absolute !important;
+  bottom: 0 !important;
+  left: 5% !important;
+  right: 5% !important;
+  height: 40% !important;
+  background: linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.35) 0%,
+    rgba(255, 255, 255, 0.15) 40%,
+    transparent 100%
+  ) !important;
+  border-radius: 0 0 32px 32px !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+
+/* 弹窗左侧色散高光（模拟光线折射） */
+.el-dialog > .dialog-left-refraction {
+  content: '';
+  position: absolute;
+  top: 10%;
+  left: 0;
+  width: 30%;
+  height: 80%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 200, 200, 0.15) 0%,
+    rgba(200, 220, 255, 0.1) 30%,
+    rgba(200, 255, 220, 0.08) 60%,
+    transparent 100%
+  );
+  border-radius: 32px 0 0 32px;
+  pointer-events: none;
+  z-index: 1;
+  filter: blur(10px);
+}
+
+/* 弹窗内容在高光层之上 */
+.el-dialog__header,
+.el-dialog__body,
+.el-dialog__footer {
+  position: relative !important;
+  z-index: 2 !important;
+  background: transparent !important;
+}
+
+/* 弹窗头部：透明 + 底部细线 */
+.el-dialog__header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4) !important;
+  padding: 24px 28px 16px !important;
+  margin-right: 0 !important;
+}
+
+/* 弹窗标题：增强对比度 */
+.el-dialog__title {
+  color: #1d1d1f !important;
+  font-weight: 800 !important;
+  font-size: 20px !important;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8) !important;
+}
+
+/* 弹窗关闭按钮：玻璃质感 */
+.el-dialog__headerbtn {
+  background: rgba(255, 255, 255, 0.5) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  border-radius: 999px !important;
+  width: 36px !important;
+  height: 36px !important;
+  top: 18px !important;
+  right: 20px !important;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.el-dialog__headerbtn:hover {
+  background: rgba(255, 100, 100, 0.3) !important;
+  transform: scale(1.2) rotate(90deg) !important;
+}
+
+.el-dialog__headerbtn:active {
+  transform: scale(0.9) rotate(90deg) !important;
+}
+
+.el-dialog__close {
+  color: #1d1d1f !important;
+  font-size: 18px !important;
+  font-weight: 800 !important;
+}
+
+/* 弹窗主体：透明背景 */
+.el-dialog__body {
+  padding: 20px 28px !important;
+  color: #2c3440 !important;
+  font-size: 15px !important;
+  line-height: 1.6 !important;
+}
+
+/* 弹窗底部：透明 + 顶部细线 */
+.el-dialog__footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.4) !important;
+  padding: 16px 28px 24px !important;
+  gap: 12px !important;
+}
+
+/* 弹窗遮罩：超强模糊 */
+.el-overlay {
+  background: rgba(0, 0, 0, 0.25) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+
+/* 弹窗进入动画：玻璃材质化 */
+.el-dialog-fade-enter-active {
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.el-dialog-fade-leave-active {
+  transition: all 0.3s ease-in !important;
+}
+
+.el-dialog-fade-enter-from {
+  opacity: 0 !important;
+  transform: scale(0.85) translateY(30px) !important;
+  backdrop-filter: blur(0px) !important;
+  -webkit-backdrop-filter: blur(0px) !important;
+}
+
+.el-dialog-fade-leave-to {
+  opacity: 0 !important;
+  transform: scale(0.9) translateY(-20px) !important;
+  backdrop-filter: blur(0px) !important;
+  -webkit-backdrop-filter: blur(0px) !important;
+}
+
+/* 弹窗内的表单元素：适配玻璃背景 */
+.el-dialog .el-form-item__label {
+  color: #1d1d1f !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6) !important;
+}
+
+.el-dialog .el-input__wrapper,
+.el-dialog .el-textarea__inner,
+.el-dialog .el-select__wrapper {
+  background: rgba(255, 255, 255, 0.5) !important;
+  backdrop-filter: blur(15px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(15px) saturate(200%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.7) !important;
+  box-shadow:
+    inset 0 1px 2px rgba(255, 255, 255, 0.8),
+    0 2px 6px rgba(0, 0, 0, 0.06) !important;
+}
+
+.el-dialog .el-input__wrapper:hover,
+.el-dialog .el-textarea__inner:hover,
+.el-dialog .el-select__wrapper:hover {
+  background: rgba(255, 255, 255, 0.65) !important;
+  border-color: rgba(107, 163, 199, 0.5) !important;
+  box-shadow:
+    0 0 0 3px rgba(107, 163, 199, 0.15),
+    inset 0 1px 2px rgba(255, 255, 255, 0.8) !important;
+}
+
+/* 弹窗内的按钮：超强玻璃 */
+.el-dialog .el-button {
+  background: rgba(255, 255, 255, 0.5) !important;
+  backdrop-filter: blur(15px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(15px) saturate(200%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.7) !important;
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.1),
+    inset 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+}
+
+.el-dialog .el-button--primary {
+  background: linear-gradient(135deg, rgba(107, 163, 199, 0.85), rgba(127, 181, 214, 0.85)) !important;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  box-shadow:
+    0 6px 16px rgba(107, 163, 199, 0.4),
+    inset 0 1px 1px rgba(255, 255, 255, 0.5) !important;
+}
+
