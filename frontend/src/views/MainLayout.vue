@@ -20,7 +20,7 @@
           >
             <el-option v-for="c in store.classes" :key="c.id" :label="c.name" :value="c.id" />
           </el-select>
-          <GlassButton title="管理班级" @click="classVisible = true">⚙️</GlassButton>
+          <GlassButton title="管理班级" class="header-icon-btn" @click="classVisible = true">⚙️</GlassButton>
         </div>
 
         <!-- Tab 导航（液态玻璃） -->
@@ -32,16 +32,12 @@
             active-color="#6ba3c7"
           />
         </div>
-        <GlassButton title="支持作者" @click="donateVisible = true">
-          <span>❤️</span><span>打赏</span>
-        </GlassButton>
+        <GlassButton title="支持作者" class="header-icon-btn" @click="donateVisible = true">❤️</GlassButton>
 
         <!-- 姓名显示模式 -->
         <el-dropdown trigger="click" @command="onDisplayMode">
-          <GlassButton title="切换姓名显示模式">
-            <span>{{ DM_CONFIG[store.displayMode].icon }}</span>
-            <span>{{ DM_CONFIG[store.displayMode].label }}</span>
-            <span class="display-mode-arrow">▾</span>
+          <GlassButton title="切换姓名显示模式" class="header-icon-btn">
+            {{ DM_CONFIG[store.displayMode].icon }}
           </GlassButton>
           <template #dropdown>
             <el-dropdown-menu>
@@ -54,7 +50,7 @@
         </el-dropdown>
 
         <a class="btn-print-qr" href="#/print" target="_blank" title="打印学生二维码">🖨️</a>
-        <GlassButton title="退出程序" @click="onExit">⏻</GlassButton>
+        <GlassButton title="退出程序" class="header-icon-btn" @click="onExit">⏻</GlassButton>
       </div>
     </header>
 
@@ -382,7 +378,7 @@ function exportStudentReport(): void {
   padding: 12px 20px;
 }
 .header-inner {
-  display: flex; align-items: center; gap: 12px;
+  display: flex; align-items: center; gap: 8px;
   max-width: 100%; margin: 0 auto; padding: 10px 18px;
   flex-wrap: nowrap;
   overflow-x: hidden;
@@ -392,6 +388,21 @@ function exportStudentReport(): void {
 }
 .header-inner::-webkit-scrollbar { height: 4px; }
 .header-inner::-webkit-scrollbar-thumb { background: rgba(150,160,175,0.3); border-radius: 2px; }
+
+/* 顶部栏小药丸形图标按钮 */
+.header-icon-btn {
+  min-width: 40px !important;
+  width: 40px !important;
+  height: 40px !important;
+  padding: 0 !important;
+  font-size: 18px !important;
+}
+.header-icon-btn :deep(.lg-button) {
+  min-width: 40px !important;
+  width: 40px !important;
+  height: 40px !important;
+  padding: 0 !important;
+}
 .logo-area { display: flex; align-items: center; gap: 8px; }
 .logo-icon { font-size: 26px; }
 .app-title { font-size: 20px; margin: 0; color: #3a4a5a; }
