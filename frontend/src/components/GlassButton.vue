@@ -12,12 +12,16 @@
     :bezel-width="3"
     :glass-thickness="4"
     :hover-light="true"
+    :text-color="textColor"
+    :background-color="bgColor"
     @click="handleClick"
     class="glass-button-wrapper"
-    :class="{ 'glass-button-loading': loading }"
+    :class="[`glass-button-type-${type}`, { 'glass-button-loading': loading }]"
   >
     <span v-if="loading" class="glass-button-spinner"></span>
-    <slot></slot>
+    <span class="glass-button-content">
+      <slot></slot>
+    </span>
   </LiquidGlassButton>
 </template>
 
@@ -66,6 +70,42 @@ const lgVariant = computed(() => {
   return 'default'
 })
 
+// 根据按钮类型设置文字颜色（确保可读性）
+const textColor = computed(() => {
+  switch (props.type) {
+    case 'primary':
+    case 'success':
+    case 'danger':
+    case 'warning':
+      return '#ffffff' // 深色背景用白色文字
+    case 'default':
+    case 'info':
+    case 'text':
+    default:
+      return '#1d1d1f' // 浅色背景用深色文字
+  }
+})
+
+// 根据按钮类型设置背景颜色（半透明，确保玻璃效果）
+const bgColor = computed(() => {
+  switch (props.type) {
+    case 'primary':
+      return 'rgba(106, 162, 196, 0.6)' // 蓝色
+    case 'success':
+      return 'rgba(111, 174, 131, 0.6)' // 绿色
+    case 'danger':
+      return 'rgba(216, 137, 168, 0.6)' // 红色
+    case 'warning':
+      return 'rgba(224, 180, 92, 0.6)' // 黄色
+    case 'info':
+      return 'rgba(159, 140, 201, 0.6)' // 紫色
+    case 'default':
+    case 'text':
+    default:
+      return 'rgba(255, 255, 255, 0.5)' // 半透明白色
+  }
+})
+
 function handleClick(event: MouseEvent) {
   if (!props.disabled && !props.loading) {
     emit('click', event)
@@ -86,6 +126,26 @@ function handleClick(event: MouseEvent) {
   font-family: inherit !important;
   font-weight: 600 !important;
   letter-spacing: 0.02em !important;
+}
+
+/* 确保 slot 内容的文字颜色正确 */
+.glass-button-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.glass-button-type-default .glass-button-content,
+.glass-button-type-info .glass-button-content,
+.glass-button-type-text .glass-button-content {
+  color: #1d1d1f !important;
+}
+
+.glass-button-type-primary .glass-button-content,
+.glass-button-type-success .glass-button-content,
+.glass-button-type-danger .glass-button-content,
+.glass-button-type-warning .glass-button-content {
+  color: #ffffff !important;
 }
 
 .glass-button-loading {
