@@ -2,17 +2,17 @@
   <Teleport to="body">
     <Transition name="glass-message-box">
       <div v-if="visible" class="glass-message-box-overlay" @click.self="onCancel">
-        <div class="glass-message-box-wrapper">
+        <div class="glass-message-box-wrapper interactive-glass">
           <LiquidGlassPanel
             :border-radius="28"
             :bezel-width="3"
             :glass-thickness="5"
-            :refractive-index="1.5"
-            :blur="70"
+            :refractive-index="2.0"
+            :blur="80"
             :scale-ratio="1.2"
             :specular-opacity="0.9"
-            :specular-saturation="3.5"
-            :background-opacity="0.8"
+            :specular-saturation="4.0"
+            :background-opacity="0.6"
             :shadow="'0 30px 80px rgba(90, 110, 140, 0.4), 0 12px 32px rgba(90, 110, 140, 0.25)'"
             :border-width="2"
             :border-color="'rgba(255, 255, 255, 0.9)'"
@@ -276,6 +276,21 @@ function onCancel() {
 
 .gm-btns :deep(.glass-button-wrapper) {
   flex: 1;
+}
+
+.glass-message-box-panel {
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+}
+
+/* 交互变形：悬停时轻微上浮放大 */
+.interactive-glass:hover .glass-message-box-panel {
+  transform: translateY(-4px) scale(1.01);
+}
+
+/* 交互变形：点击/按下时挤压变形 */
+.interactive-glass:active .glass-message-box-panel {
+  transform: scale(0.98) translateY(2px);
+  transition: transform 0.1s ease-out;
 }
 
 /* 动画 */

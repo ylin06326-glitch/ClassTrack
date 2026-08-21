@@ -3,23 +3,23 @@
     <Transition name="glass-dialog-fade">
       <div v-if="modelValue" class="glass-dialog-overlay" @click.self="onOverlayClick">
         <Transition name="glass-dialog-zoom" appear>
-          <div v-if="modelValue" class="glass-dialog-container" :style="containerStyle">
+          <div v-if="modelValue" class="glass-dialog-container interactive-glass" :style="containerStyle">
             <LiquidGlassPanel
               :border-radius="28"
               :bezel-width="4"
               :glass-thickness="8"
-              :refractive-index="1.8"
-              :blur="15"
-              :scale-ratio="1.2"
-              :specular-opacity="0.9"
-              :specular-saturation="2.5"
-              :background-color="'rgba(255, 255, 255, 0.6)'"
+              :refractive-index="2.2"
+              :blur="25"
+              :scale-ratio="1.8"
+              :specular-opacity="1.0"
+              :specular-saturation="3.5"
+              :background-color="'rgba(255, 255, 255, 0.35)'"
               :background-opacity="1"
               :shadow="'0 30px 80px rgba(90, 110, 140, 0.4), 0 12px 32px rgba(90, 110, 140, 0.25)'"
               :border-width="2"
               :border-color="'rgba(255, 255, 255, 0.9)'"
               :content-padding="'0'"
-              :center-blur-amount="12"
+              :center-blur-amount="20"
               :gradient-blur-size="50"
               :hover-light="true"
               class="glass-dialog-panel"
@@ -133,12 +133,6 @@ function onOverlayClick() {
   max-height: calc(100vh - 40px);
 }
 
-.glass-dialog-panel {
-  width: 100%;
-  min-height: 200px;
-  overflow: hidden !important;
-}
-
 .glass-dialog-inner {
   position: relative;
   z-index: 2;
@@ -200,6 +194,24 @@ function onOverlayClick() {
   justify-content: flex-end;
   padding: 16px 24px 22px;
   border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.glass-dialog-panel {
+  width: 100%;
+  min-height: 200px;
+  overflow: hidden !important;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+}
+
+/* 交互变形：悬停时轻微上浮放大 */
+.interactive-glass:hover .glass-dialog-panel {
+  transform: translateY(-4px) scale(1.01);
+}
+
+/* 交互变形：点击/按下时挤压变形 */
+.interactive-glass:active .glass-dialog-panel {
+  transform: scale(0.98) translateY(2px);
+  transition: transform 0.1s ease-out;
 }
 
 /* 动画 */
