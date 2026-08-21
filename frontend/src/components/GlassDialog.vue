@@ -14,7 +14,7 @@
               :specular-opacity="glassStore.effectiveSpecularOpacity"
               :specular-saturation="3.5"
               :background-color="glassStore.backgroundColor"
-              :background-opacity="1"
+              :background-opacity="0.35"
               :shadow="'0 30px 80px rgba(90, 110, 140, 0.4), 0 12px 32px rgba(90, 110, 140, 0.25)'"
               :border-width="2"
               :border-color="'rgba(255, 255, 255, 0.9)'"
@@ -142,6 +142,9 @@ function onOverlayClick() {
   display: flex;
   flex-direction: column;
   width: 100%;
+  background: transparent !important;
+  border-radius: 28px !important;
+  overflow: hidden !important;
 }
 
 .glass-dialog-header {
@@ -150,6 +153,7 @@ function onOverlayClick() {
   justify-content: space-between;
   padding: 20px 24px 16px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  background: transparent !important;
 }
 
 .glass-dialog-title {
@@ -188,6 +192,7 @@ function onOverlayClick() {
   font-size: 15px;
   line-height: 1.6;
   overflow-y: auto;
+  background: transparent !important;
   max-height: calc(100vh - 200px);
 }
 

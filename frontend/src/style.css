@@ -302,3 +302,61 @@ body {
 .lg-bottom-nav * {
   backface-visibility: hidden;
 }
+
+
+/* ========== 全页面 GPU 优化：所有元素提升到 GPU 合成层 ========== */
+/* 全局 GPU 加速：给所有元素添加 GPU 合成层提示 */
+* {
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-perspective: 1000px;
+  perspective: 1000px;
+}
+
+/* 所有可交互元素添加 will-change */
+a, button, [role="button"], input, select, textarea,
+[class*="button"], [class*="btn"], [class*="tab"], [class*="nav"],
+[class*="dialog"], [class*="modal"], [class*="popup"], [class*="card"],
+[class*="panel"], [class*="glass"], [class*="slider"], [class*="thumb"] {
+  will-change: transform, opacity, filter;
+}
+
+/* 所有动画元素添加 GPU 优化 */
+[class*="enter"], [class*="leave"], [class*="active"], [class*="hover"],
+[class*="transition"], [class*="animation"], [class*="animate"] {
+  will-change: transform, opacity;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+/* 页面容器 GPU 优化 */
+#app, .main-layout, .app-container, .page-container {
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* 表格和列表 GPU 优化 */
+table, .el-table, [class*="list"], [class*="grid"], [class*="row"] {
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+/* 图片和媒体 GPU 优化 */
+img, video, canvas, svg {
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* 减少重绘：固定定位元素 */
+[style*="position: fixed"], [style*="position: sticky"],
+.position-fixed, .position-sticky, .fixed, .sticky {
+  will-change: transform;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
