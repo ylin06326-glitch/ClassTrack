@@ -1,55 +1,61 @@
 <template>
-  <el-dialog
-    :model-value="modelValue"
-    :title="title"
-    :width="width"
-    :top="top"
-    :modal="modal"
-    :close-on-click-modal="closeOnClickModal"
-    :close-on-press-escape="closeOnPressEscape"
-    :show-close="showClose"
-    :center="center"
-    :align-center="alignCenter"
-    :destroy-on-close="destroyOnClose"
-    @update:model-value="(val: boolean) => emit('update:modelValue', val)"
-    @open="emit('open')"
-    @opened="emit('opened')"
-    @close="emit('close')"
-    @closed="emit('closed')"
-    class="glass-dialog-wrapper"
-  >
-    <LiquidGlassPanel
-      :border-radius="28"
-      :bezel-width="4"
-      :glass-thickness="8"
-      :refractive-index="1.8"
-      :blur="15"
-      :scale-ratio="1.2"
-      :specular-opacity="0.9"
-      :specular-saturation="2.5"
-      :background-color="'rgba(255, 255, 255, 0.55)'"
-      :background-opacity="1"
-      :shadow="'0 30px 80px rgba(90, 110, 140, 0.35), 0 12px 32px rgba(90, 110, 140, 0.2)'"
-      :border-width="2"
-      :border-color="'rgba(255, 255, 255, 0.85)'"
-      :content-padding="'0'"
-      :center-blur-amount="12"
-      :gradient-blur-size="50"
-      :hover-light="true"
-      class="glass-dialog-panel"
-    >
-      <div class="glass-dialog-content">
-        <slot></slot>
-      </div>
-    </LiquidGlassPanel>
+  <Teleport to="body">
+    <Transition name="glass-dialog-fade">
+      <div v-if="modelValue" class="glass-dialog-overlay" @click.self="onOverlayClick">
+        <Transition name="glass-dialog-zoom" appear>
+          <div v-if="modelValue" class="glass-dialog-container" :style="containerStyle">
+            <LiquidGlassPanel
+              :border-radius="28"
+              :bezel-width="4"
+              :glass-thickness="8"
+              :refractive-index="1.8"
+              :blur="15"
+              :scale-ratio="1.2"
+              :specular-opacity="0.9"
+              :specular-saturation="2.5"
+              :background-color="'rgba(255, 255, 255, 0.6)'"
+              :background-opacity="1"
+              :shadow="'0 30px 80px rgba(90, 110, 140, 0.4), 0 12px 32px rgba(90, 110, 140, 0.25)'"
+              :border-width="2"
+              :border-color="'rgba(255, 255, 255, 0.9)'"
+              :content-padding="'0'"
+              :center-blur-amount="12"
+              :gradient-blur-size="50"
+              :hover-light="true"
+              class="glass-dialog-panel"
+            >
+              <div class="glass-dialog-inner">
+                <!-- 标题栏 -->
+                <div class="glass-dialog-header" v-if="title || showClose">
+                  <h3 class="glass-dialog-title">{{ title }}</h3>
+                  <button v-if="showClose" class="glass-dialog-close" @click="close">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                  </button>
+                </div>
 
-    <template #footer v-if="$slots.footer">
-      <slot name="footer"></slot>
-    </template>
-  </el-dialog>
+                <!-- 内容区 -->
+                <div class="glass-dialog-body">
+                  <slot></slot>
+                </div>
+
+                <!-- 底部按钮区 -->
+                <div v-if="$slots.footer" class="glass-dialog-footer">
+                  <slot name="footer"></slot>
+                </div>
+              </div>
+            </LiquidGlassPanel>
+          </div>
+        </Transition>
+      </div>
+    </Transition>
+  </Teleport>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import { LiquidGlassPanel } from '@sapryniukt/vue-liquid-glass'
 
 interface Props {
@@ -68,7 +74,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   title: '',
-  width: '50%',
+  width: '560px',
   top: '15vh',
   modal: true,
   closeOnClickModal: true,
@@ -86,81 +92,135 @@ const emit = defineEmits<{
   (e: 'close'): void
   (e: 'closed'): void
 }>()
+
+const containerStyle = computed(() => ({
+  width: typeof props.width === 'number' ? `${props.width}px` : props.width,
+  marginTop: props.top,
+}))
+
+function close() {
+  emit('update:modelValue', false)
+  emit('close')
+}
+
+function onOverlayClick() {
+  if (props.closeOnClickModal) {
+    close()
+  }
+}
 </script>
 
 <style scoped>
-/* 让 el-dialog 背景透明，LiquidGlassPanel 成为实际视觉容器 */
-.glass-dialog-wrapper :deep(.el-dialog) {
-  background: transparent !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  border: none !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-  overflow: visible !important;
+.glass-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  z-index: 2000;
+  padding: 20px;
 }
 
-.glass-dialog-wrapper :deep(.el-dialog__header) {
-  background: transparent !important;
-  border-bottom: none !important;
-  padding: 0 0 12px 0 !important;
-  margin-right: 0 !important;
+.glass-dialog-container {
+  position: relative;
+  max-width: calc(100vw - 40px);
+  max-height: calc(100vh - 40px);
 }
 
-.glass-dialog-wrapper :deep(.el-dialog__title) {
-  color: #000000 !important;
-  font-weight: 900 !important;
-  font-size: 20px !important;
-  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8) !important;
-}
-
-.glass-dialog-wrapper :deep(.el-dialog__headerbtn) {
-  background: rgba(255, 255, 255, 0.6) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.7) !important;
-  border-radius: 999px !important;
-  width: 36px !important;
-  height: 36px !important;
-  top: 0 !important;
-  right: 0 !important;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
-}
-
-.glass-dialog-wrapper :deep(.el-dialog__headerbtn:hover) {
-  background: rgba(255, 100, 100, 0.35) !important;
-  transform: scale(1.15) rotate(90deg) !important;
-}
-
-.glass-dialog-wrapper :deep(.el-dialog__close) {
-  color: #1d1d1f !important;
-  font-size: 18px !important;
-  font-weight: 800 !important;
-}
-
-.glass-dialog-wrapper :deep(.el-dialog__body) {
-  background: transparent !important;
-  padding: 0 !important;
-  color: #1a1a1a !important;
-  font-size: 15px !important;
-  line-height: 1.6 !important;
-}
-
-.glass-dialog-wrapper :deep(.el-dialog__footer) {
-  background: transparent !important;
-  border-top: none !important;
-  padding: 16px 0 0 0 !important;
-  gap: 12px !important;
-}
-
-/* LiquidGlassPanel 容器 */
 .glass-dialog-panel {
+  width: 100%;
+  min-height: 200px;
   overflow: hidden !important;
 }
 
-.glass-dialog-content {
-  position: relative !important;
-  z-index: 2 !important;
-  padding: 28px !important;
+.glass-dialog-inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.glass-dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.glass-dialog-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 900;
+  color: #000000;
+  letter-spacing: -0.02em;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.glass-dialog-close {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #1d1d1f;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.glass-dialog-close:hover {
+  background: rgba(255, 100, 100, 0.35);
+  transform: scale(1.15) rotate(90deg);
+}
+
+.glass-dialog-body {
+  padding: 20px 24px;
+  color: #1a1a1a;
+  font-size: 15px;
+  line-height: 1.6;
+  overflow-y: auto;
+  max-height: calc(100vh - 200px);
+}
+
+.glass-dialog-footer {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  padding: 16px 24px 22px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* 动画 */
+.glass-dialog-fade-enter-active,
+.glass-dialog-fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.glass-dialog-fade-enter-from,
+.glass-dialog-fade-leave-to {
+  opacity: 0;
+}
+
+.glass-dialog-zoom-enter-active,
+.glass-dialog-zoom-leave-active {
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.glass-dialog-zoom-enter-from,
+.glass-dialog-zoom-leave-to {
+  opacity: 0;
+  transform: scale(0.9) translateY(20px);
 }
 </style>
