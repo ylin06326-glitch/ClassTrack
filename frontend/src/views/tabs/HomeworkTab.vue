@@ -24,13 +24,11 @@
         </div>
         <div class="batch-area">
           <span class="batch-label">批量：</span>
-          <button
-            v-for="gv in GRADE_OPTIONS"
-            :key="gv"
-            class="grade-batch-btn"
-            :class="`grade-${gv.toLowerCase()}`"
-            @click="batchSetGrade(gv)"
-          >全部 {{ gradeDisplayLabel(gv) }}</button>
+          <GradeSegmented
+            :model-value="batchGrade"
+            :items="batchGradeItems"
+            @update:model-value="onBatchGradeChange"
+          />
         </div>
         <button class="btn-reminder" @click="reminderVisible = true">🔔 催交通知</button>
       </div>
@@ -290,6 +288,16 @@ interface StudentSection {
 
 // ============ 作业控制 ============
 const GRADE_OPTIONS: Grade[] = [...VALID_GRADES]
+
+// 批量等级液态玻璃滑轨
+const batchGradeItems = GRADE_OPTIONS.map(g => ({ value: g, label: `全部${gradeDisplayLabel(g)}` }))
+const batchGrade = ref<Grade>('A')
+
+function onBatchGradeChange(g: string) {
+  const grade = g as Grade
+  batchGrade.value = grade
+  batchSetGrade(grade)
+}
 
 const PC_GRADE_LABELS: Record<Grade, string> = {
   A: '🟢 A 优秀',
