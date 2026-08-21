@@ -91,14 +91,11 @@
       </div>
       <div class="scan-mode-row">
         <span class="control-label">模式：</span>
-        <GlassButton 
- :class="{ active: pcScanMode === 'batch' }"
- @click="pcScanMode = 'batch'"
->📦 批量分堆</GlassButton>
-        <GlassButton 
- :class="{ active: pcScanMode === 'single' }"
- @click="pcScanMode = 'single'"
->👤 单点选择</GlassButton>
+        <GlassSegmented
+          v-model="pcScanMode"
+          :items="scanModeItems"
+          size="small"
+        />
         <span class="control-label label-gap">📋 种类：</span>
         <el-select v-model="store.currentHomeworkTypeId" class="type-select">
           <el-option v-for="t in store.homeworkTypes" :key="t.id" :label="t.name" :value="t.id" />
@@ -107,12 +104,11 @@
       </div>
       <div v-if="pcScanMode === 'batch'" class="grade-buttons-row">
         <span class="control-label">档位：</span>
-        <GlassButton v-for="gv in GRADE_OPTIONS"
- :key="gv"
- 
- :class="[`grade-${gv.toLowerCase()}`, { active: pcScanGrade === gv }]"
- @click="pcScanGrade = gv"
->{{ PC_GRADE_LABELS[gv] }}</GlassButton>
+        <GlassSegmented
+          v-model="pcScanGrade"
+          :items="pcGradeItems"
+          size="small"
+        />
       </div>
       <div class="camera-box">
         <div id="pc-scan-region" class="pc-scan-region">
@@ -147,12 +143,11 @@
       </div>
       <div class="mobile-grade-row">
         <span class="batch-label">批量档位：</span>
-        <GlassButton v-for="gv in GRADE_OPTIONS"
- :key="gv"
- 
- :class="[`grade-${gv.toLowerCase()}`, { active: mobileScanGrade === gv }]"
- @click="mobileScanGrade = gv"
->{{ gradeDisplayLabel(gv) }}</GlassButton>
+        <GlassSegmented
+          v-model="mobileScanGrade"
+          :items="mobileGradeItems"
+          size="small"
+        />
       </div>
       <div class="mobile-actions">
         <GlassButton @click="refreshMobile">🔄 刷新扫码记录</GlassButton>
@@ -285,13 +280,6 @@ function onBatchGradeChange(g: string) {
   batchSetGrade(grade)
 }
 
-const PC_GRADE_LABELS: Record<Grade, string> = {
-  A: '🟢 A 优秀',
-  B: '🔵 B 中等',
-  C: '🟡 C 待改进',
-  L: '🌿 请假',
-  X: '🩷 未交',
-}
 const activeSubtab = ref<'manual' | 'pcscan' | 'mobile'>('manual')
 const subtabItems = [
   { id: 'manual', label: '✏️ 手动登记' },
@@ -535,7 +523,18 @@ async function confirmScans(): Promise<void> {
 
 // ============ 电脑扫码(html5-qrcode,后置摄像头) ============
 const pcScanMode = ref<'batch' | 'single'>('batch')
+const scanModeItems = [
+  { id: 'batch', label: '📦 批量分堆' },
+  { id: 'single', label: '👤 单点选择' },
+]
 const pcScanGrade = ref<Grade>('A')
+const pcGradeItems = [
+  { id: 'A', label: '🟢 A 优秀', color: '#6fae83' },
+  { id: 'B', label: '🔵 B 中等', color: '#6aa2c4' },
+  { id: 'C', label: '🟡 C 待改进', color: '#e0b45c' },
+  { id: 'L', label: '🌿 请假', color: '#9f8cc9' },
+  { id: 'X', label: '🩷 未交', color: '#d889a8' },
+]
 const scannerRunning = ref(false)
 let html5Qr: Html5Qrcode | null = null
 const DEDUP_MS = 3000
@@ -647,6 +646,13 @@ async function promptSingleGrade(s: ScanStudent, displayName: string, code: stri
 
 // ============ 手机扫码联动 ============
 const mobileScanGrade = ref<Grade>('A')
+const mobileGradeItems = [
+  { id: 'A', label: '🟢 A', color: '#6fae83' },
+  { id: 'B', label: '🔵 B', color: '#6aa2c4' },
+  { id: 'C', label: '🟡 C', color: '#e0b45c' },
+  { id: 'L', label: '🌿 请假', color: '#9f8cc9' },
+  { id: 'X', label: '🩷 未交', color: '#d889a8' },
+]
 const mobileStatus = ref('🔴 未连接')
 const pairUrl = ref('')
 const pairQrDataUrl = ref('')
