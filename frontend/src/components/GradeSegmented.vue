@@ -60,7 +60,7 @@ function onChange(value: string) {
 }
 
 .grade-segmented--compact {
-  transform: scale(0.85);
+  transform: scale(1.0);
   transform-origin: left center;
 }
 
@@ -74,9 +74,9 @@ function onChange(value: string) {
   background: rgba(0, 0, 0, 0.03) !important;
   backdrop-filter: none !important;
   border: 1px solid rgba(0, 0, 0, 0.06) !important;
-  border-radius: 12px !important;
+  border-radius: 14px !important;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.04) !important;
-  padding: 3px !important;
+  padding: 5px !important;
 }
 
 /* 强制覆盖文字颜色 - 用多层选择器提高优先级 */
@@ -86,14 +86,18 @@ function onChange(value: string) {
 .grade-segmented :deep(.lg-nav-item .lg-nav-label) {
   color: #3c4655 !important;
   opacity: 1 !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  padding: 6px 10px !important;
 }
 
 .grade-segmented :deep(.lg-nav-item.active),
 .grade-segmented :deep(.lg-nav-item.active span),
 .grade-segmented :deep(.lg-nav-item.active .lg-nav-label) {
   color: #1d1d1f !important;
-  font-weight: 600 !important;
+  font-weight: 700 !important;
   opacity: 1 !important;
+  font-size: 15px !important;
 }
 
 .grade-segmented :deep(.lg-nav-item:hover),

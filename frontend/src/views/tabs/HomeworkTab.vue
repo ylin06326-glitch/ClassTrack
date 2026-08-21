@@ -805,7 +805,18 @@ onBeforeUnmount(() => {
 /* ---- 手动登记 ---- */
 .empty-state { text-align: center; padding: 40px 16px; color: #8a97a8; }
 .empty-icon { font-size: 40px; display: block; margin-bottom: 8px; }
-.hw-sections { display: flex; flex-direction: column; gap: 14px; }
+.hw-sections {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: flex-start;
+}
+.hw-group-column {
+  flex: 1 1 280px;
+  min-width: 260px;
+  max-width: 360px;
+}
 .hw-group-column { padding: 0 16px 14px; overflow: hidden; }
 .hw-group-header {
   display: flex; align-items: center; gap: 8px;

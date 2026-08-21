@@ -247,6 +247,221 @@ body {
   border-radius: 6px !important;
 }
 
+
+/* ============================================================
+ * 自定义按钮液态玻璃样式
+ * ============================================================ */
+
+/* ---- 通用自定义按钮 ---- */
+.date-nav-btn,
+.btn-today,
+.btn-manage,
+.btn-reminder,
+.btn-add,
+.btn-save,
+.btn-edit,
+.btn-delete,
+.btn-export,
+.btn-import,
+.btn-refresh,
+.btn-search,
+.btn-clear,
+.btn-confirm,
+.btn-cancel,
+.tab-btn-donate,
+.action-btn {
+  background: rgba(255, 255, 255, 0.7) !important;
+  backdrop-filter: blur(8px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(8px) saturate(140%) !important;
+  border: 1px solid rgba(150, 160, 175, 0.25) !important;
+  border-radius: 10px !important;
+  box-shadow:
+    0 2px 8px rgba(90, 110, 140, 0.08),
+    inset 0 1px 1px rgba(255, 255, 255, 0.7) !important;
+  transition: all 0.2s ease !important;
+  cursor: pointer !important;
+}
+
+.date-nav-btn:hover,
+.btn-today:hover,
+.btn-manage:hover,
+.btn-reminder:hover,
+.btn-add:hover,
+.btn-save:hover,
+.btn-edit:hover,
+.btn-delete:hover,
+.btn-export:hover,
+.btn-import:hover,
+.btn-refresh:hover,
+.btn-search:hover,
+.btn-clear:hover,
+.btn-confirm:hover,
+.btn-cancel:hover,
+.tab-btn-donate:hover,
+.action-btn:hover {
+  background: rgba(255, 255, 255, 0.85) !important;
+  border-color: rgba(107, 163, 199, 0.4) !important;
+  transform: translateY(-1px) !important;
+  box-shadow:
+    0 4px 12px rgba(90, 110, 140, 0.12),
+    inset 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+}
+
+.date-nav-btn:active,
+.btn-today:active,
+.btn-manage:active,
+.btn-reminder:active,
+.btn-add:active,
+.btn-save:active,
+.btn-edit:active,
+.btn-delete:active,
+.btn-export:active,
+.btn-import:active,
+.btn-refresh:active,
+.btn-search:active,
+.btn-clear:active,
+.btn-confirm:active,
+.btn-cancel:active,
+.tab-btn-donate:active,
+.action-btn:active {
+  transform: translateY(0) scale(0.97) !important;
+}
+
+/* ---- 子Tab按钮 ---- */
+.hw-subtab-btn {
+  background: rgba(255, 255, 255, 0.6) !important;
+  backdrop-filter: blur(10px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(150%) !important;
+  border: 1px solid rgba(150, 160, 175, 0.2) !important;
+  border-radius: 10px !important;
+  box-shadow:
+    0 2px 6px rgba(90, 110, 140, 0.06),
+    inset 0 1px 1px rgba(255, 255, 255, 0.6) !important;
+  transition: all 0.2s ease !important;
+}
+
+.hw-subtab-btn:hover {
+  background: rgba(255, 255, 255, 0.8) !important;
+  border-color: rgba(107, 163, 199, 0.35) !important;
+}
+
+.hw-subtab-btn.active {
+  background: linear-gradient(135deg, rgba(107, 163, 199, 0.9), rgba(127, 181, 214, 0.9)) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+  box-shadow:
+    0 3px 10px rgba(107, 163, 199, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.3) !important;
+}
+
+/* ---- 批量等级按钮 ---- */
+.grade-batch-btn {
+  background: rgba(255, 255, 255, 0.65) !important;
+  backdrop-filter: blur(8px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(8px) saturate(140%) !important;
+  border: 1px solid rgba(150, 160, 175, 0.25) !important;
+  border-radius: 10px !important;
+  box-shadow:
+    0 2px 6px rgba(90, 110, 140, 0.08),
+    inset 0 1px 1px rgba(255, 255, 255, 0.7) !important;
+  transition: all 0.2s ease !important;
+}
+
+.grade-batch-btn:hover {
+  transform: translateY(-1px) !important;
+  box-shadow:
+    0 4px 10px rgba(90, 110, 140, 0.12),
+    inset 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+}
+
+.grade-batch-btn:active {
+  transform: translateY(0) scale(0.96) !important;
+}
+
+/* 等级按钮颜色 */
+.grade-batch-btn.grade-a { border-left: 3px solid #6fae83 !important; }
+.grade-batch-btn.grade-b { border-left: 3px solid #6aa2c4 !important; }
+.grade-batch-btn.grade-c { border-left: 3px solid #e0b45c !important; }
+.grade-batch-btn.grade-l { border-left: 3px solid #9f8cc9 !important; }
+.grade-batch-btn.grade-x { border-left: 3px solid #d889a8 !important; }
+
+/* ---- 学生行（作业登记） ---- */
+.hw-student-row {
+  background: rgba(255, 255, 255, 0.55) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  border-radius: 10px !important;
+  transition: all 0.2s ease !important;
+}
+
+.hw-student-row:hover {
+  background: rgba(255, 255, 255, 0.7) !important;
+  border-color: rgba(107, 163, 199, 0.3) !important;
+  transform: translateX(2px) !important;
+}
+
+/* ---- 分组学生卡片（班级分组页） ---- */
+.group-student-card,
+.student-item,
+.draggable-student {
+  background: rgba(255, 255, 255, 0.65) !important;
+  backdrop-filter: blur(10px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(150%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  border-radius: 12px !important;
+  box-shadow:
+    0 3px 10px rgba(90, 110, 140, 0.1),
+    inset 0 1px 1px rgba(255, 255, 255, 0.7) !important;
+  transition: all 0.2s ease !important;
+  cursor: grab !important;
+}
+
+.group-student-card:hover,
+.student-item:hover,
+.draggable-student:hover {
+  transform: translateY(-2px) scale(1.02) !important;
+  box-shadow:
+    0 6px 16px rgba(90, 110, 140, 0.15),
+    inset 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+}
+
+/* 拖拽中的学生卡片：变形效果 */
+.group-student-card.dragging,
+.student-item.dragging,
+.draggable-student.dragging {
+  cursor: grabbing !important;
+  transform: scale(1.08) rotate(2deg) !important;
+  box-shadow:
+    0 12px 32px rgba(90, 110, 140, 0.25),
+    0 4px 12px rgba(90, 110, 140, 0.15),
+    inset 0 1px 1px rgba(255, 255, 255, 0.9) !important;
+  z-index: 1000 !important;
+}
+
+/* ---- 分组列容器 ---- */
+.group-column,
+.drag-group {
+  background: rgba(255, 255, 255, 0.45) !important;
+  backdrop-filter: blur(12px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(140%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  border-radius: 14px !important;
+  box-shadow:
+    0 4px 14px rgba(90, 110, 140, 0.08),
+    inset 0 1px 1px rgba(255, 255, 255, 0.6) !important;
+}
+
+/* 拖拽悬停的分组列 */
+.group-column.drag-over,
+.drag-group.drag-over {
+  background: rgba(107, 163, 199, 0.12) !important;
+  border-color: rgba(107, 163, 199, 0.4) !important;
+  box-shadow:
+    0 0 0 3px rgba(107, 163, 199, 0.15),
+    0 4px 14px rgba(90, 110, 140, 0.08) !important;
+}
+
 /* ---- 减少透明度偏好：降级为更实的背景 ---- */
 @media (prefers-reduced-transparency: reduce) {
   .el-dialog, .el-message, .el-select-dropdown, .el-dropdown-menu,
