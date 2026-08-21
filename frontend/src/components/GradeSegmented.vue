@@ -3,7 +3,7 @@
     <LiquidGlassBottomNavBar
       :model-value="modelValue"
       :items="gradeItems"
-      :size="compact ? 'small' : 'medium'"
+      :size="'medium'"
       :active-color="activeColor"
       @update:model-value="onChange"
     />
@@ -60,7 +60,7 @@ function onChange(value: string) {
 }
 
 .grade-segmented--compact {
-  transform: scale(1.0);
+  transform: none !important;
   transform-origin: left center;
 }
 
@@ -77,28 +77,34 @@ function onChange(value: string) {
   border: 1px solid rgba(0, 0, 0, 0.06) !important;
   border-radius: 14px !important;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.04) !important;
-  padding: 5px !important;
+  padding: 8px !important;
 }
 
 /* 强制覆盖文字颜色 - 用多层选择器提高优先级 */
 .grade-segmented :deep(.lg-bottom-nav .lg-nav-item),
 .grade-segmented :deep(.lg-nav-item),
 .grade-segmented :deep(.lg-nav-item span),
-.grade-segmented :deep(.lg-nav-item .lg-nav-label) {
+.grade-segmented :deep(.lg-nav-item .lg-nav-label),
+.grade-segmented :deep(.lg-nav-item *),
+.grade-segmented :deep(.lg-bottom-nav *) {
   color: #3c4655 !important;
   opacity: 1 !important;
-  font-size: 17px !important;
-  font-weight: 600 !important;
-  padding: 8px 12px !important;
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  padding: 10px 14px !important;
+  line-height: 1.2 !important;
 }
 
 .grade-segmented :deep(.lg-nav-item.active),
 .grade-segmented :deep(.lg-nav-item.active span),
-.grade-segmented :deep(.lg-nav-item.active .lg-nav-label) {
+.grade-segmented :deep(.lg-nav-item.active .lg-nav-label),
+.grade-segmented :deep(.lg-nav-item.active *),
+.grade-segmented :deep(.lg-bottom-nav .lg-nav-item.active *) {
   color: #1d1d1f !important;
-  font-weight: 800 !important;
+  font-weight: 900 !important;
   opacity: 1 !important;
-  font-size: 17px !important;
+  font-size: 20px !important;
+  line-height: 1.2 !important;
 }
 
 .grade-segmented :deep(.lg-nav-item:hover),
