@@ -102,7 +102,7 @@
     <GlassDialog v-model="examPreviewVisible" title="📋 考试数据预览" width="720px" append-to-body>
       <div v-if="previewData" class="preview-content" v-html="previewHtml"></div>
       <template #footer>
-        <el-button type="primary" @click="onExamApplyNow">✅ 登记成绩到系统</el-button>
+        <GlassButton type="primary" @click="onExamApplyNow">✅ 登记成绩到系统</GlassButton>
         <span class="preview-tip">💡 登记后可在 AI 对话中提问分析</span>
       </template>
     </GlassDialog>
@@ -129,9 +129,9 @@
       </div>
       <template #footer>
         <div class="apply-footer">
-          <el-button type="primary" :disabled="applying" @click="onExamApplyConfirm">
+          <GlassButton type="primary" :disabled="applying" @click="onExamApplyConfirm">
             {{ applying ? '⏳ 登记中...' : '✅ 确认登记' }}
-          </el-button>
+          </GlassButton>
           <span class="apply-status" v-html="applyStatusHtml"></span>
         </div>
       </template>

@@ -78,9 +78,9 @@
             <el-tag v-if="c.id === store.currentClassId" size="small" type="success">当前</el-tag>
           </span>
           <span class="class-actions">
-            <el-button v-if="c.id !== store.currentClassId" size="small" type="primary" plain @click="onActivateClass(c.id)">切换</el-button>
-            <el-button size="small" @click="onRenameClass(c)">重命名</el-button>
-            <el-button size="small" type="danger" plain @click="onDeleteClass(c)">删除</el-button>
+            <GlassButton v-if="c.id !== store.currentClassId" size="small" type="primary" plain @click="onActivateClass(c.id)">切换</GlassButton>
+            <GlassButton size="small" @click="onRenameClass(c)">重命名</GlassButton>
+            <GlassButton size="small" type="danger" plain @click="onDeleteClass(c)">删除</GlassButton>
           </span>
         </div>
       </div>

@@ -231,9 +231,9 @@
       <div class="smart-controls">
         <span class="control-label">分组数量：</span>
         <el-input-number v-model="smartGroupCount" :min="2" :max="20" size="small" style="width: 110px" />
-        <el-button type="primary" plain :loading="smartLoading" @click="onSmartPreview">
+        <GlassButton type="primary" plain :loading="smartLoading" @click="onSmartPreview">
           {{ smartLoading ? '⏳ 计算中...' : '🔍 预览分组' }}
-        </el-button>
+        </GlassButton>
       </div>
       <div class="smart-preview">
         <div v-if="!smartResult" class="smart-placeholder">
@@ -251,10 +251,10 @@
         </template>
       </div>
       <div v-if="smartResult" class="smart-actions">
-        <el-button type="primary" :loading="smartApplying" @click="onSmartApply">
+        <GlassButton type="primary" :loading="smartApplying" @click="onSmartApply">
           {{ smartApplying ? '⏳ 应用中...' : '✅ 应用分组' }}
-        </el-button>
-        <el-button @click="smartVisible = false">取消</el-button>
+        </GlassButton>
+        <GlassButton @click="smartVisible = false">取消</GlassButton>
         <span class="smart-balance">⚖️ 均衡度: {{ smartResult.balance_score }}（越小越均衡）</span>
       </div>
     </GlassDialog>

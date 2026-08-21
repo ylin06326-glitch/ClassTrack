@@ -100,7 +100,7 @@
         </div>
         <div class="comment-content">{{ commentData.comment }}</div>
         <div class="comment-actions">
-          <el-button type="primary" plain @click="onCopyComment">📋 复制评语</el-button>
+          <GlassButton type="primary" plain @click="onCopyComment">📋 复制评语</GlassButton>
         </div>
       </div>
     </GlassDialog>

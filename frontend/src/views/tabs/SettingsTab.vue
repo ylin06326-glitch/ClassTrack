@@ -31,12 +31,12 @@
         <el-input v-model="form.model" placeholder="deepseek-chat" />
       </div>
       <div class="settings-actions">
-        <el-button class="btn-test" :loading="testing" :disabled="testing" @click="onTest">
+        <GlassButton class="btn-test" :loading="testing" :disabled="testing" @click="onTest">
           {{ testing ? '⏳ 测试中...' : '🔌 测试连接' }}
-        </el-button>
-        <el-button type="primary" :loading="saving" :disabled="saving" @click="onSave">
+        </GlassButton>
+        <GlassButton type="primary" :loading="saving" :disabled="saving" @click="onSave">
           {{ saving ? '⏳ 保存中...' : '💾 保存配置' }}
-        </el-button>
+        </GlassButton>
       </div>
       <div v-if="statusText" class="settings-status" :class="statusClass">{{ statusText }}</div>
     </div>

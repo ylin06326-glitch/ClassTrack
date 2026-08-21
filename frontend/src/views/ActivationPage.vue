@@ -13,9 +13,9 @@
       <div class="step-block">
         <div class="step-title">① 复制机器指纹,发送给商家</div>
         <div class="machine-code">{{ machineCode || '正在采集…' }}</div>
-        <el-button type="primary" :loading="copying" @click="copyFingerprint">
+        <GlassButton type="primary" :loading="copying" @click="copyFingerprint">
           {{ copied ? '指纹已复制,请发送给商家 ✓' : '复制机器指纹' }}
-        </el-button>
+        </GlassButton>
       </div>
 
       <!-- 步骤② 粘贴密钥验证 -->
@@ -30,9 +30,9 @@
           @keydown.ctrl.enter.prevent="verify"
         />
         <div class="btn-row">
-          <el-button type="success" :loading="verifying" @click="verify">
+          <GlassButton type="success" :loading="verifying" @click="verify">
             {{ verifying ? '⏳ 正在校验激活密钥...' : '✅ 验证激活' }}
-          </el-button>
+          </GlassButton>
         </div>
         <div class="alt-import">
           <span class="file-label" :class="{ 'drag-over': dragOver }"
