@@ -15,8 +15,8 @@
     :text-color="textColor"
     :background-color="bgColor"
     @click="handleClick"
-    class="glass-button-wrapper"
-    :class="[`glass-button-type-${type}`, { 'glass-button-loading': loading }]"
+    :class="['glass-button-wrapper', `glass-button-type-${type}`, { 'glass-button-loading': loading }, $attrs.class]"
+    :style="$attrs.style"
   >
     <span v-if="loading" class="glass-button-spinner"></span>
     <span class="glass-button-content">
@@ -77,12 +77,12 @@ const textColor = computed(() => {
     case 'success':
     case 'danger':
     case 'warning':
-      return '#ffffff' // 深色背景用白色文字
+      return '#ffffff'
     case 'default':
     case 'info':
     case 'text':
     default:
-      return '#1d1d1f' // 浅色背景用深色文字
+      return '#1d1d1f'
   }
 })
 
@@ -90,19 +90,19 @@ const textColor = computed(() => {
 const bgColor = computed(() => {
   switch (props.type) {
     case 'primary':
-      return 'rgba(106, 162, 196, 0.6)' // 蓝色
+      return 'rgba(106, 162, 196, 0.6)'
     case 'success':
-      return 'rgba(111, 174, 131, 0.6)' // 绿色
+      return 'rgba(111, 174, 131, 0.6)'
     case 'danger':
-      return 'rgba(216, 137, 168, 0.6)' // 红色
+      return 'rgba(216, 137, 168, 0.6)'
     case 'warning':
-      return 'rgba(224, 180, 92, 0.6)' // 黄色
+      return 'rgba(224, 180, 92, 0.6)'
     case 'info':
-      return 'rgba(159, 140, 201, 0.6)' // 紫色
+      return 'rgba(159, 140, 201, 0.6)'
     case 'default':
     case 'text':
     default:
-      return 'rgba(255, 255, 255, 0.5)' // 半透明白色
+      return 'rgba(255, 255, 255, 0.5)'
   }
 })
 
@@ -120,12 +120,14 @@ function handleClick(event: MouseEvent) {
   justify-content: center;
   cursor: pointer;
   position: relative;
+  box-sizing: border-box;
 }
 
 .glass-button-wrapper :deep(button) {
   font-family: inherit !important;
   font-weight: 600 !important;
   letter-spacing: 0.02em !important;
+  box-sizing: border-box !important;
 }
 
 /* 确保 slot 内容的文字颜色正确 */
