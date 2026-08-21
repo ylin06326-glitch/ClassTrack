@@ -742,3 +742,176 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+
+/* ============================================================
+ * ElMessageBox 确认对话框 - 液态玻璃效果
+ * ============================================================ */
+
+.el-message-box {
+  background: rgba(255, 255, 255, 0.45) !important;
+  backdrop-filter: blur(30px) saturate(180%) brightness(1.1) !important;
+  -webkit-backdrop-filter: blur(30px) saturate(180%) brightness(1.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  border-radius: 24px !important;
+  box-shadow: 
+    0 20px 60px rgba(90, 110, 140, 0.25),
+    0 8px 24px rgba(90, 110, 140, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+  overflow: hidden !important;
+  position: relative !important;
+}
+
+/* 顶部高光层 */
+.el-message-box::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 50% !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, transparent 100%) !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+}
+
+.el-message-box__header {
+  background: transparent !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
+  padding: 20px 24px 16px !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+.el-message-box__title {
+  color: #1d1d1f !important;
+  font-weight: 800 !important;
+  font-size: 18px !important;
+  letter-spacing: -0.01em !important;
+}
+
+.el-message-box__headerbtn {
+  background: rgba(255, 255, 255, 0.5) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  border-radius: 999px !important;
+  width: 32px !important;
+  height: 32px !important;
+  top: 16px !important;
+  right: 16px !important;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.el-message-box__headerbtn:hover {
+  background: rgba(255, 100, 100, 0.3) !important;
+  transform: scale(1.15) rotate(90deg) !important;
+}
+
+.el-message-box__close {
+  color: #1d1d1f !important;
+  font-size: 16px !important;
+  font-weight: 800 !important;
+}
+
+.el-message-box__content {
+  background: transparent !important;
+  padding: 20px 24px !important;
+  color: #2c3440 !important;
+  font-size: 15px !important;
+  line-height: 1.6 !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+.el-message-box__message {
+  color: #2c3440 !important;
+  font-size: 15px !important;
+  line-height: 1.6 !important;
+}
+
+.el-message-box__message p {
+  margin: 0 !important;
+  color: #2c3440 !important;
+}
+
+.el-message-box__input {
+  margin-top: 16px !important;
+}
+
+.el-message-box__input input {
+  background: rgba(255, 255, 255, 0.6) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  border-radius: 12px !important;
+  color: #1d1d1f !important;
+  font-size: 15px !important;
+  padding: 10px 14px !important;
+}
+
+.el-message-box__btns {
+  background: transparent !important;
+  border-top: 1px solid rgba(0, 0, 0, 0.06) !important;
+  padding: 16px 24px 20px !important;
+  gap: 12px !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+.el-message-box__btns .el-button {
+  border-radius: 999px !important;
+  padding: 10px 24px !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.el-message-box__btns .el-button--primary {
+  background: linear-gradient(135deg, rgba(106, 162, 196, 0.8), rgba(127, 181, 214, 0.8)) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  box-shadow: 0 4px 12px rgba(106, 162, 196, 0.3) !important;
+}
+
+.el-message-box__btns .el-button--primary:hover {
+  transform: translateY(-2px) scale(1.02) !important;
+  box-shadow: 0 8px 20px rgba(106, 162, 196, 0.4) !important;
+}
+
+.el-message-box__btns .el-button--default {
+  background: rgba(255, 255, 255, 0.5) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  color: #1d1d1f !important;
+}
+
+.el-message-box__btns .el-button--default:hover {
+  background: rgba(255, 255, 255, 0.7) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* 遮罩层 */
+.el-overlay {
+  background: rgba(0, 0, 0, 0.3) !important;
+  backdrop-filter: blur(4px) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+}
+
+/* 弹窗进入/离开动画 */
+.el-message-box {
+  animation: messageBoxEnter 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+@keyframes messageBoxEnter {
+  from {
+    opacity: 0 !important;
+    transform: scale(0.9) translateY(20px) !important;
+  }
+  to {
+    opacity: 1 !important;
+    transform: scale(1) translateY(0) !important;
+  }
+}
