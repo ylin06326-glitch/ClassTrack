@@ -19,29 +19,29 @@
           min="1"
           max="999"
         >
-        <button class="btn btn-sm btn-export" @click="onCreateOrSwitch">+ 新建/切换</button>
+        <GlassButton class="btn btn-sm btn-export" @click="onCreateOrSwitch">+ 新建/切换</GlassButton>
       </div>
 
       <div class="date-picker-area">
         <span class="control-label">📅 考试日期：</span>
-        <button class="date-nav-btn" title="前一天" @click="navigateExamDate(-1)">◀</button>
+        <GlassButton class="date-nav-btn" title="前一天" @click="navigateExamDate(-1)">◀</GlassButton>
         <input v-model="examDate" type="date" class="date-input" @change="onExamDateChange">
-        <button class="date-nav-btn" title="后一天" @click="navigateExamDate(1)">▶</button>
-        <button class="btn btn-sm btn-today" @click="onExamToday">📌 今天</button>
+        <GlassButton class="date-nav-btn" title="后一天" @click="navigateExamDate(1)">▶</GlassButton>
+        <GlassButton class="btn btn-sm btn-today" @click="onExamToday">📌 今天</GlassButton>
       </div>
 
       <div class="batch-area">
         <span class="batch-label">批量：</span>
-        <button class="grade-batch-btn grade-a" @click="onBatch(100)">满分</button>
-        <button class="grade-batch-btn grade-b" @click="onBatch(85)">85分</button>
-        <button class="grade-batch-btn grade-c" @click="onBatch(70)">70分</button>
-        <button class="grade-batch-btn grade-x" @click="onBatch(60)">60分</button>
-        <button class="btn btn-sm btn-outline" @click="onCustomBatch">自定义...</button>
+        <GlassButton class="grade-batch-btn grade-a" @click="onBatch(100)">满分</GlassButton>
+        <GlassButton class="grade-batch-btn grade-b" @click="onBatch(85)">85分</GlassButton>
+        <GlassButton class="grade-batch-btn grade-c" @click="onBatch(70)">70分</GlassButton>
+        <GlassButton class="grade-batch-btn grade-x" @click="onBatch(60)">60分</GlassButton>
+        <GlassButton class="btn btn-sm btn-outline" @click="onCustomBatch">自定义...</GlassButton>
       </div>
 
       <div class="exam-action-row">
-        <button class="btn btn-sm btn-export" @click="onImportClick">📂 导入考试Excel</button>
-        <button class="btn btn-sm btn-outline" @click="onExportScores">📥 导出成绩</button>
+        <GlassButton class="btn btn-sm btn-export" @click="onImportClick">📂 导入考试Excel</GlassButton>
+        <GlassButton class="btn btn-sm btn-outline" @click="onExportScores">📥 导出成绩</GlassButton>
         <span class="exam-count-info">{{ countInfo }}</span>
       </div>
 
@@ -59,15 +59,14 @@
     <div v-if="examList.length > 0" class="ct-card exam-list-card">
       <div class="card-header"><span class="card-icon">📋</span><h3>已有考试</h3></div>
       <div class="exam-list">
-        <button
-          v-for="e in examList"
+        <GlassButton           v-for="e in examList"
           :key="`${e.exam_name}_${e.date}`"
           class="exam-list-btn"
           :class="{ active: isActiveExam(e) }"
           @click="onChipClick(e)"
         >
           {{ e.exam_name }} <small>{{ e.date }}</small>
-        </button>
+        </GlassButton>
       </div>
     </div>
 

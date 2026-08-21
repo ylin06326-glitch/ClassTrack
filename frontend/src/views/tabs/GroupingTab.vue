@@ -27,16 +27,14 @@
         <span class="card-icon">📥</span>
         <h3>导入学生名单</h3>
         <div class="import-mode-switch">
-          <button
-            class="import-mode-btn"
+          <GlassButton             class="import-mode-btn"
             :class="{ active: importMode === 'excel' }"
             @click="importMode = 'excel'"
-          >📂 Excel导入</button>
-          <button
-            class="import-mode-btn"
+          >📂 Excel导入</GlassButton>
+          <GlassButton             class="import-mode-btn"
             :class="{ active: importMode === 'text' }"
             @click="importMode = 'text'"
-          >📝 文字导入</button>
+          >📝 文字导入</GlassButton>
         </div>
       </div>
       <div class="card-body">
@@ -69,7 +67,7 @@
           <div class="import-text-actions">
             <span v-if="!textImportText" class="import-text-count">已识别 0 个姓名</span>
             <span v-else class="import-text-count" v-html="parsedPreviewHtml"></span>
-            <button class="btn btn-sm btn-export" @click="onConfirmTextImport">✓ 确认导入</button>
+            <GlassButton class="btn btn-sm btn-export" @click="onConfirmTextImport">✓ 确认导入</GlassButton>
           </div>
         </div>
         <span class="import-status" :class="importStatusColor">{{ importStatus }}</span>
@@ -82,14 +80,13 @@
         <div class="control-left">
           <label class="control-label">分组数量：</label>
           <div class="group-count-picker">
-            <button
-              v-for="n in [5, 6, 8]"
+            <GlassButton               v-for="n in [5, 6, 8]"
               :key="n"
               class="count-btn"
               :class="{ active: store.selectedCount === n }"
               :disabled="store.isLocked"
               @click="store.selectedCount = n"
-            >{{ n }}组</button>
+            >{{ n }}组</GlassButton>
             <input
               v-model="customCount"
               class="count-input"
@@ -100,21 +97,21 @@
               :disabled="store.isLocked"
               @keydown.enter="onApplyCount"
             >
-            <button class="count-btn count-btn-apply" :disabled="store.isLocked" @click="onApplyCount">✓ 应用</button>
+            <GlassButton class="count-btn count-btn-apply" :disabled="store.isLocked" @click="onApplyCount">✓ 应用</GlassButton>
           </div>
         </div>
         <div class="control-center">
           <span v-if="selectedCount > 0" class="selection-info">
             已选 <strong>{{ selectedCount }}</strong> 人
-            <button class="btn btn-sm btn-outline" @click="deselectAll">取消全选</button>
+            <GlassButton class="btn btn-sm btn-outline" @click="deselectAll">取消全选</GlassButton>
           </span>
         </div>
         <div class="control-right">
-          <button class="btn btn-outline" :disabled="store.isLocked" @click="onResetGroups">🔄 重新分组</button>
-          <button class="btn btn-export" @click="onExportGroups">📥 导出分组名单</button>
-          <button v-if="!store.isLocked" class="btn btn-primary btn-lock" @click="onLockGroups">🔒 确定锁定</button>
-          <button v-else class="btn btn-outline btn-lock" @click="onUnlockGroups">🔓 解锁分组</button>
-          <button class="btn btn-export" title="AI智能均衡分组" :disabled="store.isLocked" @click="smartVisible = true">🧠 AI智能分组</button>
+          <GlassButton class="btn btn-outline" :disabled="store.isLocked" @click="onResetGroups">🔄 重新分组</GlassButton>
+          <GlassButton class="btn btn-export" @click="onExportGroups">📥 导出分组名单</GlassButton>
+          <GlassButton v-if="!store.isLocked" class="btn btn-primary btn-lock" @click="onLockGroups">🔒 确定锁定</GlassButton>
+          <GlassButton v-else class="btn btn-outline btn-lock" @click="onUnlockGroups">🔓 解锁分组</GlassButton>
+          <GlassButton class="btn btn-export" title="AI智能均衡分组" :disabled="store.isLocked" @click="smartVisible = true">🧠 AI智能分组</GlassButton>
         </div>
       </div>
       <div class="lock-status">
@@ -125,9 +122,9 @@
 
     <!-- ========== 全选工具栏 ========== -->
     <div v-if="selectedCount > 0" class="select-toolbar">
-      <button class="btn btn-sm btn-outline" @click="selectAll">☑ 全选所有</button>
-      <button class="btn btn-sm btn-outline" @click="deselectAll">☐ 取消全选</button>
-      <button class="btn btn-sm btn-danger" @click="onDeleteSelected">🗑 删除选中</button>
+      <GlassButton class="btn btn-sm btn-outline" @click="selectAll">☑ 全选所有</GlassButton>
+      <GlassButton class="btn btn-sm btn-outline" @click="deselectAll">☐ 取消全选</GlassButton>
+      <GlassButton class="btn btn-sm btn-danger" @click="onDeleteSelected">🗑 删除选中</GlassButton>
     </div>
 
     <!-- ========== 分组展示区 ========== -->
@@ -172,7 +169,7 @@
             <div class="student-avatar" :style="{ background: cardColor(s) }">{{ animalAvatar(s.name) }}</div>
             <span v-if="!showCodes && s.student_code" class="student-code">{{ s.student_code }}</span>
             <span class="student-name" :class="{ 'privacy-mode': showCodes }">{{ displayName(s) }}</span>
-            <button class="btn-delete-student" title="删除学生" @click.stop="onDeleteStudent(s)">✕</button>
+            <GlassButton class="btn-delete-student" title="删除学生" @click.stop="onDeleteStudent(s)">✕</GlassButton>
           </div>
         </div>
       </div>
@@ -184,7 +181,7 @@
         <span class="card-icon">📋</span>
         <h3>未分组学生名单池</h3>
         <span class="pool-count">{{ unassignedStudents.length }}人</span>
-        <button class="btn btn-sm btn-danger" title="一键清除未分组学生" @click="onClearPool">🗑 清空名单池</button>
+        <GlassButton class="btn btn-sm btn-danger" title="一键清除未分组学生" @click="onClearPool">🗑 清空名单池</GlassButton>
       </div>
       <div
         class="unassigned-pool"
@@ -221,7 +218,7 @@
           <div class="student-avatar" :style="{ background: cardColor(s) }">{{ animalAvatar(s.name) }}</div>
           <span v-if="!showCodes && s.student_code" class="student-code">{{ s.student_code }}</span>
           <span class="student-name" :class="{ 'privacy-mode': showCodes }">{{ displayName(s) }}</span>
-          <button class="btn-delete-student" title="删除学生" @click.stop="onDeleteStudent(s)">✕</button>
+          <GlassButton class="btn-delete-student" title="删除学生" @click.stop="onDeleteStudent(s)">✕</GlassButton>
         </div>
       </div>
     </div>

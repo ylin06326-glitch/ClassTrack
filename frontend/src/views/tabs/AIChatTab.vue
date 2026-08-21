@@ -9,12 +9,11 @@
             <div class="ai-msg ai-msg-ai" v-html="m.html"></div>
             <div v-if="m.followUps.length" class="ai-follow-ups">
               <span class="follow-label">💬 你可能还想问：</span>
-              <button
-                v-for="(f, i) in m.followUps"
+              <GlassButton                 v-for="(f, i) in m.followUps"
                 :key="i"
                 class="ai-quick-btn follow-chip"
                 @click="onFollowUp(f.text)"
-              >{{ (f.icon || '') + ' ' + f.text }}</button>
+              >{{ (f.icon || '') + ' ' + f.text }}</GlassButton>
             </div>
           </template>
         </template>
@@ -24,12 +23,11 @@
       <div class="ai-quick-questions">
         <span v-if="suggestionsLoading" class="suggestions-loading">⏳ 加载建议中...</span>
         <template v-else>
-          <button
-            v-for="(s, i) in suggestions"
+          <GlassButton             v-for="(s, i) in suggestions"
             :key="i"
             class="ai-quick-btn"
             @click="onQuickAsk(s.text)"
-          >{{ (s.icon || '') + ' ' + (s.label || s.text) }}</button>
+          >{{ (s.icon || '') + ' ' + (s.label || s.text) }}</GlassButton>
         </template>
       </div>
 
@@ -37,8 +35,8 @@
       <div v-if="examBarData" class="ai-exam-bar">
         <span class="ai-exam-icon">📋</span>
         <span class="ai-exam-info">{{ examBarText }}</span>
-        <button class="exam-btn exam-btn-outline" @click="onClearExam">✕ 清除</button>
-        <button class="exam-btn exam-btn-export" @click="showExamApplyModal">✅ 登记成绩</button>
+        <GlassButton class="exam-btn exam-btn-outline" @click="onClearExam">✕ 清除</GlassButton>
+        <GlassButton class="exam-btn exam-btn-export" @click="showExamApplyModal">✅ 登记成绩</GlassButton>
       </div>
 
       <div class="ai-chat-input-area">
@@ -65,7 +63,7 @@
           :disabled="sending"
           @keydown.enter.exact.prevent="onSend"
         />
-        <button class="ai-send-btn" :disabled="sending" @click="onSend">发送 ✈</button>
+        <GlassButton class="ai-send-btn" :disabled="sending" @click="onSend">发送 ✈</GlassButton>
       </div>
     </div>
 
@@ -88,12 +86,12 @@
           <p class="placeholder-sub">AI 会根据你的问题自动生成可视化面板</p>
         </div>
         <div v-if="exportData" class="ai-export-bar">
-          <button class="exp-btn" :disabled="exporting === 'word'" @click="onExportExcel">
+          <GlassButton class="exp-btn" :disabled="exporting === 'word'" @click="onExportExcel">
             {{ exporting === 'excel' ? '⏳ 生成中...' : '📥 导出Excel' }}
-          </button>
-          <button class="exp-btn" :disabled="exporting === 'excel'" @click="onExportWord">
+          </GlassButton>
+          <GlassButton class="exp-btn" :disabled="exporting === 'excel'" @click="onExportWord">
             {{ exporting === 'word' ? '⏳ 生成中...' : '📄 导出Word' }}
-          </button>
+          </GlassButton>
         </div>
       </div>
     </div>
