@@ -421,40 +421,21 @@ function exportStudentReport(): void {
 .main-layout { min-height: 100vh; display: flex; flex-direction: column; }
 .app-header {
   position: sticky; top: 0; z-index: 100;
-  background: transparent;
-  border-bottom: none;
-  box-shadow: none;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
   padding: 12px 20px;
-  /* 覆盖全局 * { transform: translateZ(0); perspective: 1000px; } */
-  transform: none !important;
-  -webkit-transform: none !important;
-  perspective: none !important;
-  -webkit-perspective: none !important;
-  backface-visibility: visible !important;
-  -webkit-backface-visibility: visible !important;
-  contain: layout style;
-}
-/* 覆盖所有子元素的全局 transform 和 perspective */
-.app-header * {
-  transform: none !important;
-  -webkit-transform: none !important;
-  perspective: none !important;
-  -webkit-perspective: none !important;
-  backface-visibility: visible !important;
-  -webkit-backface-visibility: visible !important;
-}
-/* 主布局也需要移除 transform，否则会影响 sticky 和 backdrop-filter */
-.main-layout {
-  transform: none !important;
-  -webkit-transform: none !important;
-  perspective: none !important;
-  -webkit-perspective: none !important;
 }
 .header-inner {
   display: flex; align-items: center; gap: 8px;
   max-width: 100%; margin: 0 auto; padding: 10px 18px;
   flex-wrap: nowrap;
-  overflow: visible;
+  overflow-x: hidden;
+  overflow-y: visible;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
 }
 .header-inner::-webkit-scrollbar { height: 4px; }
 .header-inner::-webkit-scrollbar-thumb { background: rgba(150,160,175,0.3); border-radius: 2px; }
@@ -493,19 +474,7 @@ function exportStudentReport(): void {
   align-items: center !important;
   justify-content: center !important;
 }
-.logo-area {
-  display: flex; align-items: center; gap: 8px;
-  position: relative;
-  z-index: 1;
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(64px) saturate(200%) brightness(1.2) contrast(110%);
-  -webkit-backdrop-filter: blur(64px) saturate(200%) brightness(1.2) contrast(110%);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 20px;
-  padding: 6px 14px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5);
-  will-change: backdrop-filter;
-}
+.logo-area { display: flex; align-items: center; gap: 8px; }
 .logo-icon { font-size: 26px; }
 .app-title { font-size: 20px; margin: 0; color: #3a4a5a; }
 .brand-badge {
@@ -513,19 +482,7 @@ function exportStudentReport(): void {
   color: #fff; font-size: 11px; font-weight: 700;
   padding: 2px 8px; border-radius: 10px; cursor: pointer;
 }
-.class-selector {
-  display: flex; align-items: center; gap: 4px;
-  position: relative;
-  z-index: 1;
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(64px) saturate(200%) brightness(1.2) contrast(110%);
-  -webkit-backdrop-filter: blur(64px) saturate(200%) brightness(1.2) contrast(110%);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 20px;
-  padding: 6px 12px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5);
-  will-change: backdrop-filter;
-}
+.class-selector { display: flex; align-items: center; gap: 4px; }
 .class-select { width: 130px; }
 .btn-class-manage {
   border: 1px solid rgba(150, 160, 175, 0.3); background: #fff;
@@ -535,16 +492,6 @@ function exportStudentReport(): void {
 .tab-nav-wrapper {
   display: flex;
   align-items: center;
-  position: relative;
-  z-index: 1;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(72px) saturate(200%) brightness(1.2) contrast(110%);
-  -webkit-backdrop-filter: blur(72px) saturate(200%) brightness(1.2) contrast(110%);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 28px;
-  padding: 5px 10px;
-  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.45);
-  will-change: backdrop-filter;
   /* 覆盖液态玻璃导航栏的默认白色文字，适配浅色背景 */
   --lg-nav-text: rgba(60, 70, 85, 0.7);
   --lg-nav-active: #1d1d1f;
@@ -605,27 +552,9 @@ function exportStudentReport(): void {
 }
 .display-mode-arrow { font-size: 10px; color: #9aa8b5; }
 .btn-print-qr {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 40px; height: 40px;
-  position: relative;
-  z-index: 1;
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(64px) saturate(200%) brightness(1.2) contrast(110%);
-  -webkit-backdrop-filter: blur(64px) saturate(200%) brightness(1.2) contrast(110%);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  font-size: 18px;
-  text-decoration: none;
-  color: inherit;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5);
-  transition: all 0.2s ease;
-  flex-shrink: 0;
-  will-change: backdrop-filter;
-}
-.btn-print-qr:hover {
-  background: rgba(255, 255, 255, 0.15);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 28px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  text-decoration: none; font-size: 17px;
+  border: 1px solid rgba(150, 160, 175, 0.3); background: #fff;
+  border-radius: 10px; padding: 4px 10px; line-height: 1.4;
 }
 .btn-print-qr:hover { background: #f0f6fa; }
 .btn-exit {
