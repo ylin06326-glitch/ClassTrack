@@ -361,53 +361,57 @@ img, video, canvas, svg {
   transform: translateZ(0);
 }
 
-/* ========== 呼吸灯背景动画 ========== */
-@keyframes breathing-bg {
+/* ========== 流畅流动的呼吸灯背景 ========== */
+@keyframes flowing-bg {
   0% {
-    background: linear-gradient(135deg, 
-      rgba(173, 216, 230, 0.4) 0%, 
-      rgba(221, 160, 221, 0.3) 50%, 
-      rgba(255, 218, 185, 0.4) 100%);
-  }
-  25% {
-    background: linear-gradient(135deg, 
-      rgba(176, 224, 230, 0.45) 0%, 
-      rgba(221, 160, 221, 0.35) 50%, 
-      rgba(255, 228, 196, 0.45) 100%);
+    background-position: 0% 50%;
   }
   50% {
-    background: linear-gradient(135deg, 
-      rgba(152, 251, 152, 0.35) 0%, 
-      rgba(173, 216, 230, 0.4) 50%, 
-      rgba(221, 160, 221, 0.35) 100%);
-  }
-  75% {
-    background: linear-gradient(135deg, 
-      rgba(255, 218, 185, 0.4) 0%, 
-      rgba(255, 192, 203, 0.35) 50%, 
-      rgba(221, 160, 221, 0.4) 100%);
+    background-position: 100% 50%;
   }
   100% {
-    background: linear-gradient(135deg, 
-      rgba(173, 216, 230, 0.4) 0%, 
-      rgba(221, 160, 221, 0.3) 50%, 
-      rgba(255, 218, 185, 0.4) 100%);
+    background-position: 0% 50%;
   }
 }
 
-/* 呼吸光晕动画 */
-@keyframes breathing-glow {
+@keyframes flowing-glow-1 {
   0%, 100% {
-    opacity: 0.6;
-    transform: scale(1);
+    transform: translate(0, 0) scale(1);
+    opacity: 0.5;
+  }
+  33% {
+    transform: translate(10%, -5%) scale(1.1);
+    opacity: 0.7;
+  }
+  66% {
+    transform: translate(-5%, 10%) scale(0.95);
+    opacity: 0.4;
+  }
+}
+
+@keyframes flowing-glow-2 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.4;
   }
   50% {
-    opacity: 1;
-    transform: scale(1.05);
+    transform: translate(-15%, 8%) scale(1.15);
+    opacity: 0.65;
   }
 }
 
-/* 应用呼吸灯背景到页面 */
+@keyframes flowing-glow-3 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1.05);
+    opacity: 0.35;
+  }
+  50% {
+    transform: translate(8%, -12%) scale(0.9);
+    opacity: 0.55;
+  }
+}
+
+/* 主背景层：大尺寸渐变，缓慢流动 */
 .breathing-background {
   position: fixed;
   top: 0;
@@ -415,11 +419,20 @@ img, video, canvas, svg {
   width: 100%;
   height: 100%;
   z-index: -1;
-  animation: breathing-bg 8s ease-in-out infinite;
-  transition: background 2s ease-in-out;
+  background: linear-gradient(
+    120deg,
+    rgba(173, 216, 230, 0.35) 0%,
+    rgba(221, 160, 221, 0.3) 20%,
+    rgba(255, 218, 185, 0.35) 40%,
+    rgba(152, 251, 152, 0.25) 60%,
+    rgba(176, 224, 230, 0.35) 80%,
+    rgba(255, 192, 203, 0.3) 100%
+  );
+  background-size: 400% 400%;
+  animation: flowing-bg 20s ease infinite;
 }
 
-/* 呼吸光晕层 */
+/* 光晕层1：蓝色光晕，缓慢漂浮 */
 .breathing-glow-layer {
   position: fixed;
   top: -20%;
@@ -427,23 +440,63 @@ img, video, canvas, svg {
   width: 140%;
   height: 140%;
   z-index: -1;
-  background: radial-gradient(ellipse at 30% 40%, 
-    rgba(135, 206, 250, 0.3) 0%, 
-    transparent 50%),
-    radial-gradient(ellipse at 70% 60%, 
-    rgba(221, 160, 221, 0.25) 0%, 
-    transparent 50%),
-    radial-gradient(ellipse at 50% 80%, 
-    rgba(255, 218, 185, 0.2) 0%, 
-    transparent 50%);
-  animation: breathing-glow 6s ease-in-out infinite;
-  filter: blur(40px);
+  pointer-events: none;
+}
+
+.breathing-glow-layer::before {
+  content: '';
+  position: absolute;
+  top: 10%;
+  left: 15%;
+  width: 50%;
+  height: 50%;
+  background: radial-gradient(ellipse at center,
+    rgba(135, 206, 250, 0.4) 0%,
+    transparent 70%);
+  border-radius: 50%;
+  filter: blur(60px);
+  animation: flowing-glow-1 15s ease-in-out infinite;
+}
+
+.breathing-glow-layer::after {
+  content: '';
+  position: absolute;
+  top: 40%;
+  right: 10%;
+  width: 45%;
+  height: 45%;
+  background: radial-gradient(ellipse at center,
+    rgba(221, 160, 221, 0.35) 0%,
+    transparent 70%);
+  border-radius: 50%;
+  filter: blur(70px);
+  animation: flowing-glow-2 18s ease-in-out infinite;
+}
+
+/* 第三个光晕：桃色，单独的元素 */
+.breathing-glow-3 {
+  position: fixed;
+  bottom: -10%;
+  left: 30%;
+  width: 50%;
+  height: 50%;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center,
+    rgba(255, 218, 185, 0.4) 0%,
+    transparent 70%);
+  border-radius: 50%;
+  filter: blur(80px);
+  animation: flowing-glow-3 22s ease-in-out infinite;
 }
 
 /* 减少动画偏好 */
 @media (prefers-reduced-motion: reduce) {
   .breathing-background,
-  .breathing-glow-layer {
+  .breathing-glow-layer,
+  .breathing-glow-3,
+  .breathing-glow-layer::before,
+  .breathing-glow-layer::after {
     animation: none;
   }
 }
