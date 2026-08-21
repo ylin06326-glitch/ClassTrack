@@ -70,7 +70,8 @@ function onChange(value: string) {
   bottom: auto !important;
   left: auto !important;
   right: auto !important;
-  width: auto !important;
+  width: 100% !important;
+  min-width: 260px !important;
   background: rgba(0, 0, 0, 0.03) !important;
   backdrop-filter: none !important;
   border: 1px solid rgba(0, 0, 0, 0.06) !important;
@@ -86,22 +87,29 @@ function onChange(value: string) {
 .grade-segmented :deep(.lg-nav-item .lg-nav-label) {
   color: #3c4655 !important;
   opacity: 1 !important;
-  font-size: 15px !important;
-  font-weight: 500 !important;
-  padding: 6px 10px !important;
+  font-size: 17px !important;
+  font-weight: 600 !important;
+  padding: 8px 12px !important;
 }
 
 .grade-segmented :deep(.lg-nav-item.active),
 .grade-segmented :deep(.lg-nav-item.active span),
 .grade-segmented :deep(.lg-nav-item.active .lg-nav-label) {
   color: #1d1d1f !important;
-  font-weight: 700 !important;
+  font-weight: 800 !important;
   opacity: 1 !important;
-  font-size: 15px !important;
+  font-size: 17px !important;
 }
 
 .grade-segmented :deep(.lg-nav-item:hover),
 .grade-segmented :deep(.lg-nav-item:hover span) {
   color: #2c3440 !important;
+}
+
+/* 确保滑块颜色根据等级明显变化 */
+.grade-segmented :deep(.lg-nav-thumb),
+.grade-segmented :deep(.lg-bottom-nav-thumb),
+.grade-segmented :deep(.lg-thumb) {
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
 }
 </style>

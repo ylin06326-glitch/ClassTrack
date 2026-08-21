@@ -813,9 +813,9 @@ onBeforeUnmount(() => {
   align-items: flex-start;
 }
 .hw-group-column {
-  flex: 1 1 280px;
-  min-width: 260px;
-  max-width: 360px;
+  flex: 1 1 340px;
+  min-width: 320px;
+  max-width: 440px;
 }
 .hw-group-column { padding: 0 16px 14px; overflow: hidden; }
 .hw-group-header {
@@ -834,9 +834,14 @@ onBeforeUnmount(() => {
   display: flex; align-items: center; gap: 10px;
   padding: 6px 10px; border-radius: 10px;
   background: rgba(246, 248, 250, 0.7);
+  /* 确保等级滑块有足够空间 */
+}
+.hw-student-row .grade-segmented {
+  flex-shrink: 0;
+  min-width: 260px;
 }
 .hw-avatar { font-size: 20px; width: 30px; text-align: center; flex-shrink: 0; }
-.hw-student-name { font-size: 14px; color: #3a4a5a; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hw-student-name { font-size: 14px; color: #3a4a5a; flex: 0 1 auto; max-width: 100px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .student-code-label { font-family: 'SF Mono', Consolas, monospace; color: #8a97a8; font-size: 12px; margin-right: 4px; }
 .hw-student-row.privacy-row .hw-student-name { font-family: 'SF Mono', Consolas, monospace; letter-spacing: 1px; }
 .grade-quick-select { display: flex; gap: 6px; }
