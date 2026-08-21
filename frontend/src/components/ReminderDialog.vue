@@ -22,9 +22,9 @@
       </label>
     </div>
     <template #footer>
-      <el-button type="success" @click="copyReminder">📋 复制名单</el-button>
-      <el-button type="primary" @click="printReminder">🖨️ 打印通知单</el-button>
-      <el-button @click="exportReminder">📥 导出催交名单</el-button>
+      <GlassButton type="success" @click="copyReminder">📋 复制名单</GlassButton>
+      <GlassButton type="primary" @click="printReminder">🖨️ 打印通知单</GlassButton>
+      <GlassButton @click="exportReminder">📥 导出催交名单</GlassButton>
     </template>
   </GlassDialog>
 </template>

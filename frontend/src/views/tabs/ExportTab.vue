@@ -9,7 +9,7 @@
           <input v-model="startDate" type="date" class="date-input">
           <label class="filter-label">结束：</label>
           <input v-model="endDate" type="date" class="date-input">
-          <GlassButton class="btn btn-sm btn-query" @click="queryRecords">🔍 查询</GlassButton>
+          <GlassButton @click="queryRecords">🔍 查询</GlassButton>
         </div>
         <div class="filter-result">
           <span class="result-text">共 <strong>{{ resultTotal }}</strong> 条</span>
@@ -39,8 +39,8 @@
                 :value="o.value"
               />
             </el-select>
-            <GlassButton class="btn btn-export" @click="exportStudent"><span>📥</span> 导出</GlassButton>
-            <GlassButton class="btn btn-primary btn-ai" :disabled="aiLoading" @click="onGenerateComment">
+            <GlassButton @click="exportStudent"><span>📥</span> 导出</GlassButton>
+            <GlassButton :disabled="aiLoading" @click="onGenerateComment">
               <span>{{ aiLoading ? '⏳ 生成中...' : '🤖 AI 生成评语' }}</span>
             </GlassButton>
           </div>
@@ -52,7 +52,7 @@
             <p>导出全班学生在日期区间内的所有记录及统计</p>
           </div>
           <div class="export-option-action">
-            <GlassButton class="btn btn-export btn-export-all" @click="exportClass"><span>📥</span> 导出全班汇总</GlassButton>
+            <GlassButton @click="exportClass"><span>📥</span> 导出全班汇总</GlassButton>
           </div>
         </div>
       </div>

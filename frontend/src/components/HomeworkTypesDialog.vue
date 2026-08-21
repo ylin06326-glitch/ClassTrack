@@ -13,14 +13,14 @@
           <el-tag v-if="t.id === store.currentHomeworkTypeId" size="small" type="success">当前</el-tag>
         </span>
         <span class="type-actions">
-          <el-button size="small" @click="onRename(t)">重命名</el-button>
-          <el-button size="small" type="danger" plain @click="onDelete(t)">删除</el-button>
+          <GlassButton size="small" @click="onRename(t)">重命名</GlassButton>
+          <GlassButton size="small" type="danger" plain @click="onDelete(t)">删除</GlassButton>
         </span>
       </div>
     </div>
     <div class="type-add-row">
       <el-input v-model="newTypeName" placeholder="输入新作业种类名称" maxlength="20" @keyup.enter="onAdd" />
-      <el-button type="success" @click="onAdd">+ 新增</el-button>
+      <GlassButton type="success" @click="onAdd">+ 新增</GlassButton>
     </div>
   </GlassDialog>
 </template>

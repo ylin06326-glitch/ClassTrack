@@ -37,14 +37,14 @@
     <!-- ============ 登记方式子Tab ============ -->
     <div class="hw-subtab-nav">
       <GlassButton :type="activeSubtab === 'manual' ? 'primary' : 'default'"
-        @click="activeSubtab = 'manual'"
-      >✏️ 手动登记</GlassButton>
+ @click="activeSubtab = 'manual'"
+>✏️ 手动登记</GlassButton>
       <GlassButton :type="activeSubtab === 'pcscan' ? 'primary' : 'default'"
-        @click="activeSubtab = 'pcscan'"
-      >📷 电脑扫码</GlassButton>
+ @click="activeSubtab = 'pcscan'"
+>📷 电脑扫码</GlassButton>
       <GlassButton :type="activeSubtab === 'mobile' ? 'primary' : 'default'"
-        @click="activeSubtab = 'mobile'"
-      >📱 手机扫码</GlassButton>
+ @click="activeSubtab = 'mobile'"
+>📱 手机扫码</GlassButton>
     </div>
 
     <!-- ============ 手动登记面板 ============ -->
@@ -95,14 +95,14 @@
       </div>
       <div class="scan-mode-row">
         <span class="control-label">模式：</span>
-        <GlassButton           class="scan-type-btn"
-          :class="{ active: pcScanMode === 'batch' }"
-          @click="pcScanMode = 'batch'"
-        >📦 批量分堆</GlassButton>
-        <GlassButton           class="scan-type-btn"
-          :class="{ active: pcScanMode === 'single' }"
-          @click="pcScanMode = 'single'"
-        >👤 单点选择</GlassButton>
+        <GlassButton 
+ :class="{ active: pcScanMode === 'batch' }"
+ @click="pcScanMode = 'batch'"
+>📦 批量分堆</GlassButton>
+        <GlassButton 
+ :class="{ active: pcScanMode === 'single' }"
+ @click="pcScanMode = 'single'"
+>👤 单点选择</GlassButton>
         <span class="control-label label-gap">📋 种类：</span>
         <el-select v-model="store.currentHomeworkTypeId" class="type-select">
           <el-option v-for="t in store.homeworkTypes" :key="t.id" :label="t.name" :value="t.id" />
@@ -111,12 +111,12 @@
       </div>
       <div v-if="pcScanMode === 'batch'" class="grade-buttons-row">
         <span class="control-label">档位：</span>
-        <GlassButton           v-for="gv in GRADE_OPTIONS"
-          :key="gv"
-          class="grade-preset-btn"
-          :class="[`grade-${gv.toLowerCase()}`, { active: pcScanGrade === gv }]"
-          @click="pcScanGrade = gv"
-        >{{ PC_GRADE_LABELS[gv] }}</GlassButton>
+        <GlassButton v-for="gv in GRADE_OPTIONS"
+ :key="gv"
+ 
+ :class="[`grade-${gv.toLowerCase()}`, { active: pcScanGrade === gv }]"
+ @click="pcScanGrade = gv"
+>{{ PC_GRADE_LABELS[gv] }}</GlassButton>
       </div>
       <div class="camera-box">
         <div id="pc-scan-region" class="pc-scan-region">
@@ -125,8 +125,8 @@
         <div v-if="scannerRunning" class="camera-guide"></div>
       </div>
       <div class="scan-actions">
-        <GlassButton v-if="!scannerRunning" class="btn-start" @click="startPcScan">▶ 开始扫描</GlassButton>
-        <GlassButton v-else class="btn-stop" @click="stopPcScan">⏹ 停止</GlassButton>
+        <GlassButton v-if="!scannerRunning" @click="startPcScan">▶ 开始扫描</GlassButton>
+        <GlassButton v-else @click="stopPcScan">⏹ 停止</GlassButton>
       </div>
     </div>
 
@@ -142,7 +142,7 @@
         <div class="mobile-step"><span class="step-num">3</span> 手机微信/浏览器扫码即可接入</div>
       </div>
       <div class="mobile-pair-row">
-        <GlassButton class="btn-pair" @click="generatePairQr">📱 生成连接二维码</GlassButton>
+        <GlassButton @click="generatePairQr">📱 生成连接二维码</GlassButton>
         <span class="mobile-status">{{ mobileStatus }}</span>
         <span class="mobile-url">{{ pairUrl }}</span>
       </div>
@@ -151,16 +151,16 @@
       </div>
       <div class="mobile-grade-row">
         <span class="batch-label">批量档位：</span>
-        <GlassButton           v-for="gv in GRADE_OPTIONS"
-          :key="gv"
-          class="grade-preset-btn"
-          :class="[`grade-${gv.toLowerCase()}`, { active: mobileScanGrade === gv }]"
-          @click="mobileScanGrade = gv"
-        >{{ gradeDisplayLabel(gv) }}</GlassButton>
+        <GlassButton v-for="gv in GRADE_OPTIONS"
+ :key="gv"
+ 
+ :class="[`grade-${gv.toLowerCase()}`, { active: mobileScanGrade === gv }]"
+ @click="mobileScanGrade = gv"
+>{{ gradeDisplayLabel(gv) }}</GlassButton>
       </div>
       <div class="mobile-actions">
-        <GlassButton class="btn-refresh" @click="refreshMobile">🔄 刷新扫码记录</GlassButton>
-        <GlassButton class="btn-clear" @click="clearMobile">🗑 清空</GlassButton>
+        <GlassButton @click="refreshMobile">🔄 刷新扫码记录</GlassButton>
+        <GlassButton @click="clearMobile">🗑 清空</GlassButton>
         <span v-if="mobileScanCount > 0" class="mobile-scan-count">本次: {{ mobileScanCount }} 条</span>
       </div>
     </div>
@@ -184,12 +184,12 @@
           <span class="pi-name" :class="{ privacy: store.displayMode === 'code' }">{{ pendingDisplayName(p) }}</span>
           <span v-if="p.external" class="pi-external">⚠ 非本班</span>
           <span class="grade-badge" :class="`grade-${(p.grade || 'x').toLowerCase()}`">{{ gradeDisplayLabel(p.grade) }}</span>
-          <GlassButton class="pi-del" title="移除" @click="pendingScans.splice(i, 1)">✕</GlassButton>
+          <GlassButton title="移除" @click="pendingScans.splice(i, 1)">✕</GlassButton>
         </div>
       </div>
       <div class="pending-actions">
-        <GlassButton class="btn-confirm" @click="confirmScans">✅ 确认保存</GlassButton>
-        <GlassButton class="btn-clear" @click="pendingScans = []">🗑 清空列表</GlassButton>
+        <GlassButton @click="confirmScans">✅ 确认保存</GlassButton>
+        <GlassButton @click="pendingScans = []">🗑 清空列表</GlassButton>
         <span class="pending-hint">提示：保存后自动刷新台账和图表</span>
       </div>
     </div>

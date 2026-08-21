@@ -17,7 +17,7 @@
       <div v-else class="cert-hint-done">✅ 证书已信任，无需重复操作</div>
       <div class="cert-hint-actions">
         <a class="cert-download-btn" href="/api/cert/download">📥 下载证书</a>
-        <GlassButton class="cert-dismiss-btn" @click="onCertDismiss">我知道了，先试用</GlassButton>
+        <GlassButton @click="onCertDismiss">我知道了，先试用</GlassButton>
       </div>
       <details class="cert-details">
         <summary>📱 各平台详细步骤</summary>
@@ -36,10 +36,10 @@
 
     <!-- 控制按钮 -->
     <div class="controls">
-      <GlassButton class="btn btn-start" :disabled="starting" @click="startScan">
+      <GlassButton :disabled="starting" @click="startScan">
         {{ starting ? '⏳ 启动中...' : '▶ 开始扫描' }}
       </GlassButton>
-      <GlassButton v-show="scanning" class="btn btn-stop" @click="stopScan">⏹ 停止扫描</GlassButton>
+      <GlassButton v-show="scanning" @click="stopScan">⏹ 停止扫描</GlassButton>
     </div>
 
     <!-- 日志区 -->

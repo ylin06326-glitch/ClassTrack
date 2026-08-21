@@ -13,8 +13,8 @@
         <option :value="3">3列</option>
         <option :value="5">5列</option>
       </select>
-      <GlassButton class="btn-print" @click="onPrint">🖨️ 打印</GlassButton>
-      <GlassButton class="btn-print" @click="refreshGrid">🔄 刷新</GlassButton>
+      <GlassButton @click="onPrint">🖨️ 打印</GlassButton>
+      <GlassButton @click="refreshGrid">🔄 刷新</GlassButton>
       <span v-if="phase === 'done'" class="print-count">共 {{ students.length }} 名学生</span>
     </div>
 

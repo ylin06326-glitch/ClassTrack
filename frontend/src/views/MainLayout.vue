@@ -20,7 +20,7 @@
           >
             <el-option v-for="c in store.classes" :key="c.id" :label="c.name" :value="c.id" />
           </el-select>
-          <GlassButton class="btn-class-manage" title="管理班级" @click="classVisible = true">⚙️</GlassButton>
+          <GlassButton title="管理班级" @click="classVisible = true">⚙️</GlassButton>
         </div>
 
         <!-- Tab 导航（液态玻璃） -->
@@ -32,13 +32,13 @@
             active-color="#6ba3c7"
           />
         </div>
-        <GlassButton class="tab-btn-donate" title="支持作者" @click="donateVisible = true">
+        <GlassButton title="支持作者" @click="donateVisible = true">
           <span>❤️</span><span>打赏</span>
         </GlassButton>
 
         <!-- 姓名显示模式 -->
         <el-dropdown trigger="click" @command="onDisplayMode">
-          <GlassButton class="display-mode-btn" title="切换姓名显示模式">
+          <GlassButton title="切换姓名显示模式">
             <span>{{ DM_CONFIG[store.displayMode].icon }}</span>
             <span>{{ DM_CONFIG[store.displayMode].label }}</span>
             <span class="display-mode-arrow">▾</span>
@@ -54,7 +54,7 @@
         </el-dropdown>
 
         <a class="btn-print-qr" href="#/print" target="_blank" title="打印学生二维码">🖨️</a>
-        <GlassButton class="btn-exit" title="退出程序" @click="onExit">⏻</GlassButton>
+        <GlassButton title="退出程序" @click="onExit">⏻</GlassButton>
       </div>
     </header>
 

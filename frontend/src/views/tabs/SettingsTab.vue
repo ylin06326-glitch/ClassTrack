@@ -31,7 +31,7 @@
         <el-input v-model="form.model" placeholder="deepseek-chat" />
       </div>
       <div class="settings-actions">
-        <GlassButton class="btn-test" :loading="testing" :disabled="testing" @click="onTest">
+        <GlassButton :loading="testing" :disabled="testing" @click="onTest">
           {{ testing ? '⏳ 测试中...' : '🔌 测试连接' }}
         </GlassButton>
         <GlassButton type="primary" :loading="saving" :disabled="saving" @click="onSave">

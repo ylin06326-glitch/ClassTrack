@@ -13,15 +13,15 @@
     <!-- ========== 控制卡:统计日期 + 作业种类 ========== -->
     <div class="ct-card analytics-control-card">
       <span class="control-label">📅 统计日期：</span>
-      <GlassButton class="date-nav-btn" @click="shiftDate(-1)">◀</GlassButton>
+      <GlassButton @click="shiftDate(-1)">◀</GlassButton>
       <input v-model="date" type="date" class="date-input" />
-      <GlassButton class="date-nav-btn" @click="shiftDate(1)">▶</GlassButton>
-      <GlassButton class="btn-today" @click="setToday">📌 今天</GlassButton>
+      <GlassButton @click="shiftDate(1)">▶</GlassButton>
+      <GlassButton @click="setToday">📌 今天</GlassButton>
       <span class="control-label type-label">📋 作业种类：</span>
       <el-select v-model="store.currentHomeworkTypeId" class="type-select" size="small">
         <el-option v-for="t in store.homeworkTypes" :key="t.id" :label="t.name" :value="t.id" />
       </el-select>
-      <GlassButton class="btn-manage-types" title="管理作业种类" @click="typesDialogVisible = true">⚙️</GlassButton>
+      <GlassButton title="管理作业种类" @click="typesDialogVisible = true">⚙️</GlassButton>
       <span class="class-info">{{ analyticsClassInfo }}</span>
     </div>
 
@@ -85,14 +85,14 @@
       <div class="card-header">
         <span class="card-icon">📉</span><h3>环比趋势对比</h3>
         <div class="compare-btns">
-          <GlassButton             class="compare-period-btn"
-            :class="{ active: comparePeriod === 'week' }"
-            @click="onComparePeriod('week')"
-          >本周vs上周</GlassButton>
-          <GlassButton             class="compare-period-btn"
-            :class="{ active: comparePeriod === 'month' }"
-            @click="onComparePeriod('month')"
-          >本月vs上月</GlassButton>
+          <GlassButton 
+ :class="{ active: comparePeriod === 'week' }"
+ @click="onComparePeriod('week')"
+>本周vs上周</GlassButton>
+          <GlassButton 
+ :class="{ active: comparePeriod === 'month' }"
+ @click="onComparePeriod('month')"
+>本月vs上月</GlassButton>
         </div>
       </div>
       <div ref="compareRef" class="chart-body"></div>
@@ -137,14 +137,14 @@
       >🎉 目前没有需要特别关注的学生</div>
       <template v-else>
         <div class="alerts-tabs">
-          <GlassButton             class="alerts-tab-btn tab-risk"
-            :class="{ active: alertsTab === 'risk' }"
-            @click="alertsTab = 'risk'"
-          >⚠️ 需关注 ({{ alertsData.at_risk.length }})</GlassButton>
-          <GlassButton             class="alerts-tab-btn tab-improve"
-            :class="{ active: alertsTab === 'improve' }"
-            @click="alertsTab = 'improve'"
-          >🌟 进步中 ({{ alertsData.improving.length }})</GlassButton>
+          <GlassButton 
+ :class="{ active: alertsTab === 'risk' }"
+ @click="alertsTab = 'risk'"
+>⚠️ 需关注 ({{ alertsData.at_risk.length }})</GlassButton>
+          <GlassButton 
+ :class="{ active: alertsTab === 'improve' }"
+ @click="alertsTab = 'improve'"
+>🌟 进步中 ({{ alertsData.improving.length }})</GlassButton>
         </div>
         <div v-show="alertsTab === 'risk'">
           <div v-if="alertsData.at_risk.length === 0" class="alerts-empty">✅ 暂无连续未交的学生</div>
