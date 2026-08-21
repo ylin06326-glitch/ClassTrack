@@ -24,11 +24,11 @@
       </div>
       <div class="settings-row">
         <label>Base URL</label>
-        <el-input v-model="form.baseUrl" placeholder="https://api.deepseek.com/v1" />
+        <GlassInput v-model="form.baseUrl" placeholder="https://api.deepseek.com/v1" />
       </div>
       <div class="settings-row">
         <label>模型名称</label>
-        <el-input v-model="form.model" placeholder="deepseek-chat" />
+        <GlassInput v-model="form.model" placeholder="deepseek-chat" />
       </div>
       <div class="settings-actions">
         <GlassButton :loading="testing" :disabled="testing" @click="onTest">

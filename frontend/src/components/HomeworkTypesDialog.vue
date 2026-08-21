@@ -19,7 +19,7 @@
       </div>
     </div>
     <div class="type-add-row">
-      <el-input v-model="newTypeName" placeholder="输入新作业种类名称" maxlength="20" @keyup.enter="onAdd" />
+      <GlassInput v-model="newTypeName" placeholder="输入新作业种类名称" @keyup.enter="onAdd" />
       <GlassButton type="success" @click="onAdd">+ 新增</GlassButton>
     </div>
   </GlassDialog>
