@@ -28,7 +28,7 @@
           <LiquidGlassBottomNavBar
             v-model="activeTab"
             :items="tabItems"
-            size="small"
+            size="medium"
             active-color="#6ba3c7"
           />
         </div>
@@ -75,7 +75,7 @@
         <div v-for="c in store.classes" :key="c.id" class="class-row">
           <span class="class-name">
             {{ c.name }}
-            <el-tag v-if="c.id === store.currentClassId" size="small" type="success">当前</el-tag>
+            <el-tag v-if="c.id === store.currentClassId" size="medium" type="success">当前</el-tag>
           </span>
           <span class="class-actions">
             <GlassButton v-if="c.id !== store.currentClassId" size="small" type="primary" plain @click="onActivateClass(c.id)">切换</GlassButton>
@@ -150,7 +150,7 @@
           </span>
         </div>
         <div class="report-table-wrapper">
-          <el-table :data="reportData?.records || []" size="small" height="320">
+          <el-table :data="reportData?.records || []" size="medium" height="320">
             <el-table-column prop="date" label="日期" width="140" />
             <el-table-column label="等级" width="140">
               <template #default="{ row }">
@@ -382,8 +382,8 @@ function exportStudentReport(): void {
   padding: 12px 20px;
 }
 .header-inner {
-  display: flex; align-items: center; gap: 6px;
-  max-width: 100%; margin: 0 auto; padding: 6px 12px;
+  display: flex; align-items: center; gap: 12px;
+  max-width: 100%; margin: 0 auto; padding: 10px 18px;
   flex-wrap: nowrap;
   overflow-x: hidden;
   overflow-y: visible;
