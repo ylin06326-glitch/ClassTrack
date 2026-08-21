@@ -8,12 +8,12 @@
               :border-radius="28"
               :bezel-width="4"
               :glass-thickness="8"
-              :refractive-index="2.2"
-              :blur="25"
-              :scale-ratio="1.8"
-              :specular-opacity="1.0"
+              :refractive-index="glassStore.effectiveRefractiveIndex"
+              :blur="glassStore.effectiveBlur"
+              :scale-ratio="glassStore.effectiveScaleRatio"
+              :specular-opacity="glassStore.effectiveSpecularOpacity"
               :specular-saturation="3.5"
-              :background-color="'rgba(255, 255, 255, 0.35)'"
+              :background-color="glassStore.backgroundColor"
               :background-opacity="1"
               :shadow="'0 30px 80px rgba(90, 110, 140, 0.4), 0 12px 32px rgba(90, 110, 140, 0.25)'"
               :border-width="2"
@@ -57,6 +57,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { LiquidGlassPanel } from '@sapryniukt/vue-liquid-glass'
+import { useGlassStore } from '@/stores/glass'
+
+const glassStore = useGlassStore()
 
 interface Props {
   modelValue: boolean

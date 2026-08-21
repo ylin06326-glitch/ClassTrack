@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <Teleport to="body">
     <Transition name="glass-message-box">
       <div v-if="visible" class="glass-message-box-overlay" @click.self="onCancel">
@@ -8,11 +8,11 @@
             :bezel-width="3"
             :glass-thickness="5"
             :refractive-index="2.0"
-            :blur="80"
+            :blur="glassStore.effectiveBlur"
             :scale-ratio="1.2"
             :specular-opacity="0.9"
             :specular-saturation="4.0"
-            :background-opacity="0.6"
+            :background-opacity="glassStore.opacity"
             :shadow="'0 30px 80px rgba(90, 110, 140, 0.4), 0 12px 32px rgba(90, 110, 140, 0.25)'"
             :border-width="2"
             :border-color="'rgba(255, 255, 255, 0.9)'"
@@ -21,7 +21,7 @@
             class="glass-message-box-panel"
           >
             <div class="glass-message-box-content">
-              <!-- 标题栏 -->
+              <!-- 鏍囬鏍?-->
               <div class="gm-header">
                 <span class="gm-title">{{ title }}</span>
                 <button class="gm-close-btn" @click="onCancel">
@@ -32,7 +32,7 @@
                 </button>
               </div>
 
-              <!-- 内容区 -->
+              <!-- 鍐呭鍖?-->
               <div class="gm-body">
                 <div v-if="icon" class="gm-icon">{{ icon }}</div>
                 <div class="gm-message">
@@ -40,7 +40,7 @@
                 </div>
               </div>
 
-              <!-- 输入框（prompt 模式） -->
+              <!-- 杈撳叆妗嗭紙prompt 妯″紡锛?-->
               <div v-if="mode === 'prompt'" class="gm-input-wrapper">
                 <input
                   ref="inputRef"
@@ -52,7 +52,7 @@
                 />
               </div>
 
-              <!-- 按钮区 - 使用 GlassButton（开源库 LiquidGlassButton） -->
+              <!-- 鎸夐挳鍖?- 浣跨敤 GlassButton锛堝紑婧愬簱 LiquidGlassButton锛?-->
               <div class="gm-btns">
                 <GlassButton
                   v-if="mode !== 'alert'"
@@ -82,6 +82,9 @@
 import { ref, computed, nextTick, watch } from 'vue'
 import { LiquidGlassPanel } from '@sapryniukt/vue-liquid-glass'
 import GlassButton from './GlassButton.vue'
+import { useGlassStore } from '@/stores/glass'
+
+const glassStore = useGlassStore()
 
 export type MessageBoxMode = 'confirm' | 'prompt' | 'alert'
 
@@ -104,7 +107,7 @@ const props = withDefaults(defineProps<Props>(), {
   icon: '',
   inputValue: '',
   inputPlaceholder: '请输入',
-  confirmButtonText: '确定',
+  confirmButtonText: '纭畾',
   cancelButtonText: '取消',
 })
 
@@ -147,7 +150,7 @@ function onCancel() {
 </script>
 
 <style scoped>
-/* 只保留布局相关的 CSS，样式完全依赖开源库 */
+/* 鍙繚鐣欏竷灞€鐩稿叧鐨?CSS锛屾牱寮忓畬鍏ㄤ緷璧栧紑婧愬簱 */
 .glass-message-box-overlay {
   position: fixed;
   top: 0;
@@ -282,18 +285,18 @@ function onCancel() {
   transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
 }
 
-/* 交互变形：悬停时轻微上浮放大 */
+/* 浜や簰鍙樺舰锛氭偓鍋滄椂杞诲井涓婃诞鏀惧ぇ */
 .interactive-glass:hover .glass-message-box-panel {
   transform: translateY(-4px) scale(1.01);
 }
 
-/* 交互变形：点击/按下时挤压变形 */
+/* 浜や簰鍙樺舰锛氱偣鍑?鎸変笅鏃舵尋鍘嬪彉褰?*/
 .interactive-glass:active .glass-message-box-panel {
   transform: scale(0.98) translateY(2px);
   transition: transform 0.1s ease-out;
 }
 
-/* 动画 */
+/* 鍔ㄧ敾 */
 .glass-message-box-enter-active,
 .glass-message-box-leave-active {
   transition: opacity 0.3s ease;
@@ -315,3 +318,4 @@ function onCancel() {
   transform: scale(0.9) translateY(20px);
 }
 </style>
+

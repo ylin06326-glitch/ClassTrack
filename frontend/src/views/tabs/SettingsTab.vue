@@ -41,6 +41,39 @@
       <div v-if="statusText" class="settings-status" :class="statusClass">{{ statusText }}</div>
     </div>
 
+    <!-- ========== 液态玻璃效果调节 ========== -->
+    <div class="settings-card">
+      <h3>🔮 液态玻璃效果调节</h3>
+      <div class="settings-row">
+        <label>启用液态玻璃</label>
+        <el-switch v-model="glassStore.enabled" @change="onGlassChange" />
+      </div>
+      <div class="settings-row">
+        <label>整体强度: {{ glassStore.intensity }}%</label>
+        <el-slider v-model="glassStore.intensity" :min="0" :max="100" @change="onGlassChange" />
+      </div>
+      <div class="settings-row">
+        <label>背景透明度: {{ (glassStore.opacity * 100).toFixed(0) }}%</label>
+        <el-slider v-model="glassStore.opacity" :min="0.05" :max="0.9" :step="0.05" @change="onGlassChange" />
+      </div>
+      <div class="settings-row">
+        <label>模糊程度: {{ glassStore.blur }}px</label>
+        <el-slider v-model="glassStore.blur" :min="0" :max="50" @change="onGlassChange" />
+      </div>
+      <div class="settings-row">
+        <label>折射率: {{ glassStore.refractiveIndex.toFixed(1) }}</label>
+        <el-slider v-model="glassStore.refractiveIndex" :min="1.0" :max="3.0" :step="0.1" @change="onGlassChange" />
+      </div>
+      <div class="settings-row">
+        <label>高光强度: {{ (glassStore.specularOpacity * 100).toFixed(0) }}%</label>
+        <el-slider v-model="glassStore.specularOpacity" :min="0" :max="1" :step="0.1" @change="onGlassChange" />
+      </div>
+      <div class="settings-actions">
+        <GlassButton @click="onResetGlass">🔄 恢复默认</GlassButton>
+      </div>
+      <p class="glass-hint">💡 调节后所有弹窗、按钮、Tab栏的液态玻璃效果会实时变化，设置自动保存。</p>
+    </div>
+
     <!-- ========== 使用说明 ========== -->
     <div class="settings-card">
       <h3>📋 使用说明</h3>
@@ -64,6 +97,7 @@ import { ref, reactive, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import axios from 'axios'
 import { loadAIConfig, saveAIConfig, testAIConfig } from '@/api'
+import { useGlassStore } from '@/stores/glass'
 
 /** 各服务商默认 Base URL 与模型（与旧版 ai.js defaults 一致） */
 const PROVIDER_DEFAULTS: Record<string, { url: string; model: string }> = {
@@ -93,6 +127,17 @@ const testing = ref(false)
 const saving = ref(false)
 const statusText = ref('')
 const statusClass = ref<'success' | 'error' | ''>('')
+
+// 液态玻璃设置
+const glassStore = useGlassStore()
+
+function onGlassChange() {
+  glassStore.saveToStorage()
+}
+
+function onResetGlass() {
+  glassStore.resetDefaults()
+}
 
 /** 切换服务商时自动填充默认 Base URL / 模型（自定义不填） */
 function onProviderChange(provider: string): void {
