@@ -813,11 +813,11 @@ onBeforeUnmount(() => {
   align-items: flex-start;
 }
 .hw-group-column {
-  flex: 1 1 380px;
-  min-width: 360px;
-  max-width: 480px;
+  flex: 1 1 500px;
+  min-width: 480px;
+  max-width: 620px;
 }
-.hw-group-column { padding: 0 16px 14px; overflow: hidden; }
+.hw-group-column { padding: 0 16px 14px; overflow: visible; }
 .hw-group-header {
   display: flex; align-items: center; gap: 8px;
   border-left: 4px solid transparent;
@@ -834,15 +834,19 @@ onBeforeUnmount(() => {
   display: flex; align-items: center; gap: 10px;
   padding: 6px 10px; border-radius: 10px;
   background: rgba(246, 248, 250, 0.7);
+  flex-wrap: nowrap;
+  overflow: visible;
   /* 确保等级滑块有足够空间 */
 }
 .hw-student-row .grade-segmented {
   flex-shrink: 0;
+  flex-grow: 0;
   min-width: 310px;
   width: 310px;
+  max-width: 310px;
 }
-.hw-avatar { font-size: 20px; width: 30px; text-align: center; flex-shrink: 0; }
-.hw-student-name { font-size: 14px; color: #3a4a5a; flex: 0 1 auto; max-width: 90px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hw-avatar { font-size: 18px; width: 24px; text-align: center; flex-shrink: 0; }
+.hw-student-name { font-size: 13px; color: #3a4a5a; flex: 0 1 auto; max-width: 70px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .student-code-label { font-family: 'SF Mono', Consolas, monospace; color: #8a97a8; font-size: 12px; margin-right: 4px; }
 .hw-student-row.privacy-row .hw-student-name { font-family: 'SF Mono', Consolas, monospace; letter-spacing: 1px; }
 .grade-quick-select { display: flex; gap: 6px; }
