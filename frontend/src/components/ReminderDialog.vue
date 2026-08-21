@@ -1,5 +1,5 @@
 <template>
-  <el-dialog
+  <GlassDialog
     :model-value="modelValue"
     title="🔔 催交通知"
     width="600px"
@@ -26,10 +26,11 @@
       <el-button type="primary" @click="printReminder">🖨️ 打印通知单</el-button>
       <el-button @click="exportReminder">📥 导出催交名单</el-button>
     </template>
-  </el-dialog>
+  </GlassDialog>
 </template>
 
 <script setup lang="ts">
+import GlassDialog from '@/components/GlassDialog.vue'
 import { ref, computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useAppStore } from '@/stores/app'

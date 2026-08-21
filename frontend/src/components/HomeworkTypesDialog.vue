@@ -1,5 +1,5 @@
 <template>
-  <el-dialog
+  <GlassDialog
     :model-value="modelValue"
     title="⚙️ 管理作业种类"
     width="420px"
@@ -22,10 +22,11 @@
       <el-input v-model="newTypeName" placeholder="输入新作业种类名称" maxlength="20" @keyup.enter="onAdd" />
       <el-button type="success" @click="onAdd">+ 新增</el-button>
     </div>
-  </el-dialog>
+  </GlassDialog>
 </template>
 
 <script setup lang="ts">
+import GlassDialog from '@/components/GlassDialog.vue'
 import { ref } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useAppStore } from '@/stores/app'

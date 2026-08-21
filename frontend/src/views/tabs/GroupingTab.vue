@@ -227,7 +227,7 @@
     </div>
 
     <!-- ========== AI 智能分组弹窗 ========== -->
-    <el-dialog v-model="smartVisible" title="🧠 AI 智能分组" width="640px" append-to-body>
+    <GlassDialog v-model="smartVisible" title="🧠 AI 智能分组" width="640px" append-to-body>
       <div class="smart-controls">
         <span class="control-label">分组数量：</span>
         <el-input-number v-model="smartGroupCount" :min="2" :max="20" size="small" style="width: 110px" />
@@ -257,11 +257,12 @@
         <el-button @click="smartVisible = false">取消</el-button>
         <span class="smart-balance">⚖️ 均衡度: {{ smartResult.balance_score }}（越小越均衡）</span>
       </div>
-    </el-dialog>
+    </GlassDialog>
   </div>
 </template>
 
 <script setup lang="ts">
+import GlassDialog from '@/components/GlassDialog.vue'
 import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useAppStore } from '@/stores/app'

@@ -70,7 +70,7 @@
     </main>
 
     <!-- ========== 班级管理 ========== -->
-    <el-dialog v-model="classVisible" title="🏫 班级管理" width="460px" append-to-body>
+    <GlassDialog v-model="classVisible" title="🏫 班级管理" width="460px" append-to-body>
       <div class="class-list">
         <div v-for="c in store.classes" :key="c.id" class="class-row">
           <span class="class-name">
@@ -88,10 +88,10 @@
         <el-input v-model="newClassName" placeholder="输入新班级名称" maxlength="20" @keyup.enter="onAddClass" />
         <el-button type="success" @click="onAddClass">+ 新建班级</el-button>
       </div>
-    </el-dialog>
+    </GlassDialog>
 
     <!-- ========== 关于 ========== -->
-    <el-dialog v-model="aboutVisible" title="🏷️ 关于 ClassTrack" width="380px" append-to-body>
+    <GlassDialog v-model="aboutVisible" title="🏷️ 关于 ClassTrack" width="380px" append-to-body>
       <div class="brand-info">
         <div class="brand-logo">🎒</div>
         <h2 class="brand-name">ClassTrack</h2>
@@ -103,10 +103,10 @@
         <p class="brand-legal">© 2024-2026 保留所有权利</p>
         <p class="brand-legal">禁止反编译、破解、逆向工程</p>
       </div>
-    </el-dialog>
+    </GlassDialog>
 
     <!-- ========== 打赏 ========== -->
-    <el-dialog v-model="donateVisible" title="❤️ 支持作者" width="360px" append-to-body>
+    <GlassDialog v-model="donateVisible" title="❤️ 支持作者" width="360px" append-to-body>
       <div class="donate-modal-body">
         <p class="donate-intro">如果 ClassTrack 对你有帮助，欢迎请作者喝杯咖啡！</p>
         <div class="donate-qr-wrapper">
@@ -115,10 +115,10 @@
         <p class="donate-tip">📱 微信扫一扫，感谢你的支持！</p>
         <p class="donate-author">—— 杨润林 (YRL)</p>
       </div>
-    </el-dialog>
+    </GlassDialog>
 
     <!-- ========== 详情列表(已交/未交/全班名单等) ========== -->
-    <el-dialog v-model="detailVisible" :title="detailTitle" width="560px" append-to-body>
+    <GlassDialog v-model="detailVisible" :title="detailTitle" width="560px" append-to-body>
       <div class="detail-summary" v-html="detailSummary"></div>
       <div class="detail-list">
         <div
@@ -137,10 +137,10 @@
           >{{ item.gradeLabel || item.grade }}</span>
         </div>
       </div>
-    </el-dialog>
+    </GlassDialog>
 
     <!-- ========== 学生个人作业报表 ========== -->
-    <el-dialog v-model="reportVisible" :title="reportTitle" width="560px" append-to-body>
+    <GlassDialog v-model="reportVisible" :title="reportTitle" width="560px" append-to-body>
       <div v-if="reportLoading" class="report-loading">⏳ 加载中...</div>
       <div v-else-if="reportError" class="report-loading" style="color:#8a4a5a">加载失败</div>
       <template v-else>
@@ -164,11 +164,12 @@
           <span class="report-total">共 {{ reportData?.total || 0 }} 条记录</span>
         </div>
       </template>
-    </el-dialog>
+    </GlassDialog>
   </div>
 </template>
 
 <script setup lang="ts">
+import GlassDialog from '@/components/GlassDialog.vue'
 import { ref, onMounted, provide } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useAppStore } from '@/stores/app'

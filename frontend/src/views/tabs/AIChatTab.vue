@@ -99,16 +99,16 @@
     </div>
 
     <!-- ========== 考试数据预览弹窗 ========== -->
-    <el-dialog v-model="examPreviewVisible" title="📋 考试数据预览" width="720px" append-to-body>
+    <GlassDialog v-model="examPreviewVisible" title="📋 考试数据预览" width="720px" append-to-body>
       <div v-if="previewData" class="preview-content" v-html="previewHtml"></div>
       <template #footer>
         <el-button type="primary" @click="onExamApplyNow">✅ 登记成绩到系统</el-button>
         <span class="preview-tip">💡 登记后可在 AI 对话中提问分析</span>
       </template>
-    </el-dialog>
+    </GlassDialog>
 
     <!-- ========== 登记考试成绩弹窗 ========== -->
-    <el-dialog v-model="examApplyVisible" title="✅ 登记考试成绩" width="480px" append-to-body>
+    <GlassDialog v-model="examApplyVisible" title="✅ 登记考试成绩" width="480px" append-to-body>
       <p class="apply-desc">系统将根据学号或姓名自动匹配学生，将考试等第登记到作业记录中。</p>
       <div class="apply-row">
         <label>登记日期</label>
@@ -135,7 +135,7 @@
           <span class="apply-status" v-html="applyStatusHtml"></span>
         </div>
       </template>
-    </el-dialog>
+    </GlassDialog>
   </div>
 </template>
 
@@ -144,6 +144,7 @@
  * AI 助手 Tab：聊天流 + 可视化 iframe + 考试数据上传/登记 + 导出
  * 行为契约与旧版 static/js/ai.js setupAIChatTab 全部流程一致，msg 文案逐字保留
  */
+import GlassDialog from '@/components/GlassDialog.vue'
 import { ref, computed, watch, nextTick, onMounted, onBeforeUnmount } from 'vue'
 import { ElMessage } from 'element-plus'
 import axios from 'axios'

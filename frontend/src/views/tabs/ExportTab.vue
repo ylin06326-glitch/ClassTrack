@@ -87,7 +87,7 @@
     </div>
 
     <!-- ========== AI 评语弹窗(照旧 ai.js showCommentModal) ========== -->
-    <el-dialog v-model="commentVisible" title="🤖 AI 评语" width="520px" append-to-body>
+    <GlassDialog v-model="commentVisible" title="🤖 AI 评语" width="520px" append-to-body>
       <div v-if="commentData" class="comment-body">
         <div class="comment-stats">
           <div class="comment-stat"><strong>{{ commentData.student_name }}</strong></div>
@@ -103,7 +103,7 @@
           <el-button type="primary" plain @click="onCopyComment">📋 复制评语</el-button>
         </div>
       </div>
-    </el-dialog>
+    </GlassDialog>
   </div>
 </template>
 
@@ -112,6 +112,7 @@
  * 报表导出 Tab — 日期区间查询 / 单学生台账 / 全班汇总 / AI 评语 / 数据预览。
  * 对应旧版 app.js prepareExportTab~exportClass(1764-1817)与 templates/index.html tabExport(567-614)。
  */
+import GlassDialog from '@/components/GlassDialog.vue'
 import { ref, computed, watch, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useAppStore } from '@/stores/app'
