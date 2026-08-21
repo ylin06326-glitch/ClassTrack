@@ -1,337 +1,343 @@
 /* ============================================================
- * ClassTrack 全局液态玻璃样式
- * 覆盖导航栏、表格、输入框、弹窗、按钮等所有元素
- * 遵循苹果 HIG：不同层级用不同重量的玻璃
+ * ClassTrack 液态玻璃主题 - 遵循苹果官方 HIG 设计原则
+ * 
+ * 核心原则：
+ * 1. 内容透过玻璃发光（Content infuses and shines through）
+ * 2. 谨慎使用颜色（Be judicious with color）
+ * 3. 大圆角设计（Large corner radius）
+ * 4. Edge-to-edge 内容体验
+ * 5. 层次结构（Hierarchy）- 不同层级用不同模糊程度
+ * 6. 流动感（Fluidity）- 流畅的动画和过渡
  * ============================================================ */
 
-/* ---- 全局背景：轻微渐变，让玻璃效果更明显 ---- */
+/* ---- 全局背景：丰富的渐变，让玻璃效果更明显 ---- */
 body {
-  background: linear-gradient(135deg, #e8ecf2 0%, #dde3ec 50%, #e2e8f0 100%) !important;
+  background: linear-gradient(135deg, #e8ecf2 0%, #dde3ec 25%, #e2e8f0 50%, #dce4ed 75%, #e5ebf3 100%) !important;
   background-attachment: fixed !important;
   min-height: 100vh;
+  color: #1d1d1f !important;
+}
+
+/* ---- 全局选中文本 ---- */
+::selection {
+  background: rgba(107, 163, 199, 0.25) !important;
+  color: #1d1d1f !important;
+}
+
+/* ---- 全局滚动条：玻璃质感 ---- */
+::-webkit-scrollbar {
+  width: 10px !important;
+  height: 10px !important;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.2) !important;
+  border-radius: 5px !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(150, 160, 175, 0.35) !important;
+  border-radius: 5px !important;
+  border: 2px solid transparent !important;
+  background-clip: padding-box !important;
+  transition: all 0.3s ease !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(107, 163, 199, 0.5) !important;
+  background-clip: padding-box !important;
 }
 
 /* ============================================================
- * 增强版液态玻璃 - 更强的光线折射效果
+ * 导航层（Navigation）- 中等重量玻璃
+ * 苹果原则：导航元素自动获得液态玻璃外观
  * ============================================================ */
-:root {
-  --glass-refraction-strength: 1.2;
-  --glass-highlight-intensity: 0.8;
-  --glass-shadow-depth: 1.3;
-}
 
-/* 全局玻璃元素通用增强：顶部高光层 */
-.el-dialog::before,
-.el-card::before,
-.ct-card::before,
-.el-message::before,
-.el-select-dropdown::before,
-.el-dropdown-menu::before,
-.el-popover::before,
-.el-notification::before,
-.el-picker-panel::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 50%;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.25) 0%,
-    rgba(255, 255, 255, 0.08) 50%,
-    transparent 100%
-  );
-  border-radius: inherit;
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* 全局玻璃元素通用增强：底部反光层 */
-.el-dialog::after,
-.el-card::after,
-.ct-card::after,
-.el-message::after,
-.el-select-dropdown::after,
-.el-dropdown-menu::after,
-.el-popover::after,
-.el-notification::after,
-.el-picker-panel::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 10%;
-  right: 10%;
-  height: 30%;
-  background: linear-gradient(
-    0deg,
-    rgba(255, 255, 255, 0.15) 0%,
-    transparent 100%
-  );
-  border-radius: inherit;
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* 确保玻璃元素内容在高光层之上 */
-.el-dialog > *,
-.el-card > *,
-.ct-card > *,
-.el-message > *,
-.el-select-dropdown > *,
-.el-dropdown-menu > *,
-.el-popover > *,
-.el-notification > *,
-.el-picker-panel > * {
-  position: relative;
-  z-index: 2;
-}
-
-
-
-/* ---- 顶部导航栏（中等重量玻璃） ---- */
 .ct-header,
 .app-header,
 .main-header {
   background: rgba(255, 255, 255, 0.45) !important;
-  backdrop-filter: blur(39px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(50px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
+  backdrop-filter: blur(24px) saturate(180%) brightness(1.1) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) brightness(1.1) !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.5) !important;
   box-shadow:
-    0 2px 12px rgba(90, 110, 140, 0.08),
-    inset 0 1px 1px rgba(255, 255, 255, 0.7) !important;
+    0 4px 16px rgba(90, 110, 140, 0.08),
+    inset 0 1px 1px rgba(255, 255, 255, 0.6) !important;
 }
 
-/* ---- 侧边栏 / 标签页容器（轻量玻璃） ---- */
+/* 侧边栏 - 中等重量玻璃 */
 .ct-sidebar,
-.app-sidebar,
-.el-tabs__header,
-.el-tabs__nav-wrap {
-  background: rgba(255, 255, 255, 0.35) !important;
-  backdrop-filter: blur(31px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(36.0px) saturate(250%) brightness(1.2) contrast(1.1) hue-rotate(5deg);
-  border: 1px solid rgba(255, 255, 255, 0.60) !important;
+.app-sidebar {
+  background: rgba(255, 255, 255, 0.4) !important;
+  backdrop-filter: blur(22px) saturate(170%) brightness(1.08) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(170%) brightness(1.08) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.45) !important;
 }
 
-/* ---- 主内容区域卡片（轻量玻璃） ---- */
+/* ============================================================
+ * 卡片层（Cards）- 轻量玻璃
+ * 苹果原则：内容透过玻璃发光
+ * ============================================================ */
+
 .ct-card,
 .el-card,
 .settings-card,
 .homework-card,
 .student-card,
 .stats-card {
-  background: rgba(255, 255, 255, 0.6) !important;
-  backdrop-filter: blur(31px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(36.0px) saturate(250%) brightness(1.2) contrast(1.1) hue-rotate(5deg);
-  border: 1px solid rgba(255, 255, 255, 0.5) !important;
-  border-radius: 14px !important;
+  background: rgba(255, 255, 255, 0.4) !important;
+  backdrop-filter: blur(20px) saturate(160%) brightness(1.08) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(160%) brightness(1.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  border-radius: 24px !important;
   box-shadow:
-    0 6px 20px rgba(90, 110, 140, 0.1),
+    0 8px 24px rgba(90, 110, 140, 0.1),
     0 2px 6px rgba(90, 110, 140, 0.06),
+    inset 0 1px 1px rgba(255, 255, 255, 0.6) !important;
+  overflow: hidden !important;
+  position: relative !important;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+/* 卡片顶部高光层 */
+.ct-card::before,
+.el-card::before,
+.settings-card::before,
+.homework-card::before,
+.student-card::before,
+.stats-card::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 50% !important;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.35) 0%,
+    rgba(255, 255, 255, 0.15) 50%,
+    transparent 100%
+  ) !important;
+  border-radius: 24px 24px 0 0 !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+
+/* 卡片内容在高光层之上 */
+.ct-card > *,
+.el-card > *,
+.settings-card > *,
+.homework-card > *,
+.student-card > *,
+.stats-card > * {
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+/* 卡片 hover 变形 */
+.ct-card:hover,
+.el-card:hover,
+.settings-card:hover,
+.homework-card:hover,
+.student-card:hover,
+.stats-card:hover {
+  transform: translateY(-4px) scale(1.01) !important;
+  box-shadow:
+    0 16px 40px rgba(90, 110, 140, 0.15),
+    0 4px 12px rgba(90, 110, 140, 0.1),
     inset 0 1px 1px rgba(255, 255, 255, 0.7) !important;
 }
 
-/* ---- 表格（纯色为主，表头轻微玻璃） ---- */
-.el-table {
-  background: rgba(255, 255, 255, 0.7) !important;
-  backdrop-filter: blur(23px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(27.0px) saturate(250%) brightness(1.2) contrast(1.1) hue-rotate(5deg);
-  border-radius: 12px !important;
-  overflow: hidden !important;
-  box-shadow:
-    0 4px 16px rgba(90, 110, 140, 0.08),
-    inset 0 1px 1px rgba(255, 255, 255, 0.6) !important;
-}
+/* ============================================================
+ * 弹窗层（Modals/Dialogs）- 较重重量玻璃
+ * 苹果原则：模态框用较重玻璃，建立层次
+ * ============================================================ */
 
-.el-table th.el-table__cell {
-  background: rgba(245, 248, 252, 0.85) !important;
-  backdrop-filter: blur(19px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(22.5px) saturate(250%) brightness(1.2) contrast(1.1) hue-rotate(5deg);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
-}
-
-.el-table tr {
-  background: transparent !important;
-}
-
-.el-table--striped .el-table__body tr.el-table__row--striped td.el-table__cell {
-  background: rgba(248, 250, 253, 0.5) !important;
-}
-
-.el-table__body tr:hover > td.el-table__cell {
-  background: rgba(107, 163, 199, 0.08) !important;
-}
-
-/* ---- 输入框（轻微玻璃效果） ---- */
-.el-input__wrapper,
-.el-textarea__inner,
-.el-select__wrapper {
-  background: rgba(255, 255, 255, 0.50) !important;
-  backdrop-filter: blur(19px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(22.5px) saturate(250%) brightness(1.2) contrast(1.1) hue-rotate(5deg);
-  border: 1px solid rgba(150, 160, 175, 0.25) !important;
-  border-radius: 10px !important;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03) !important;
-  transition: all 0.2s ease !important;
-}
-
-.el-input__wrapper:hover,
-.el-textarea__inner:hover,
-.el-select__wrapper:hover {
-  border-color: rgba(107, 163, 199, 0.4) !important;
-  box-shadow: 0 0 0 3px rgba(107, 163, 199, 0.1), inset 0 1px 2px rgba(0, 0, 0, 0.03) !important;
-}
-
-.el-input__wrapper.is-focus,
-.el-textarea__inner:focus,
-.el-select__wrapper.is-focused {
-  border-color: rgba(107, 163, 199, 0.6) !important;
-  box-shadow: 0 0 0 3px rgba(107, 163, 199, 0.15), inset 0 1px 2px rgba(0, 0, 0, 0.03) !important;
-}
-
-/* ---- 弹窗 / 对话框（较重重量玻璃） ---- */
 .el-dialog {
-  background: rgba(255, 255, 255, 0.47) !important;
-  backdrop-filter: blur(50px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(50px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  border: 1px solid rgba(255, 255, 255, 0.6) !important;
-  border-radius: 16px !important;
+  background: rgba(255, 255, 255, 0.35) !important;
+  backdrop-filter: blur(40px) saturate(200%) brightness(1.15) !important;
+  -webkit-backdrop-filter: blur(40px) saturate(200%) brightness(1.15) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.6) !important;
+  border-radius: 32px !important;
   box-shadow:
-    0 20px 56px rgba(0, 0, 0, 0.16),
-    0 6px 20px rgba(0, 0, 0, 0.1),
-    inset 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+    0 24px 64px rgba(0, 0, 0, 0.2),
+    0 8px 24px rgba(0, 0, 0, 0.12),
+    inset 0 1.5px 1.5px rgba(255, 255, 255, 0.8),
+    inset 0 -1.5px 1.5px rgba(255, 255, 255, 0.4) !important;
+  overflow: hidden !important;
+  position: relative !important;
+}
+
+/* 弹窗顶部高光层 */
+.el-dialog::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 55% !important;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(255, 255, 255, 0.2) 40%,
+    transparent 100%
+  ) !important;
+  border-radius: 32px 32px 0 0 !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+
+/* 弹窗底部反光层 */
+.el-dialog::after {
+  content: '' !important;
+  position: absolute !important;
+  bottom: 0 !important;
+  left: 8% !important;
+  right: 8% !important;
+  height: 35% !important;
+  background: linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.25) 0%,
+    transparent 100%
+  ) !important;
+  border-radius: 0 0 32px 32px !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+
+/* 弹窗内容在高光层之上 */
+.el-dialog__header,
+.el-dialog__body,
+.el-dialog__footer {
+  position: relative !important;
+  z-index: 2 !important;
+  background: transparent !important;
 }
 
 .el-dialog__header {
-  background: transparent !important;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.35) !important;
+  padding: 24px 28px 16px !important;
+}
+
+.el-dialog__title {
+  color: #1d1d1f !important;
+  font-weight: 800 !important;
+  font-size: 20px !important;
+}
+
+.el-dialog__body {
+  padding: 20px 28px !important;
+  color: #2c3440 !important;
+  font-size: 15px !important;
+  line-height: 1.6 !important;
 }
 
 .el-dialog__footer {
-  background: transparent !important;
-  border-top: 1px solid rgba(0, 0, 0, 0.06) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.35) !important;
+  padding: 16px 28px 24px !important;
 }
 
-/* 弹窗遮罩：轻微模糊 */
+/* 弹窗关闭按钮 - 玻璃质感 */
+.el-dialog__headerbtn {
+  background: rgba(255, 255, 255, 0.4) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  border-radius: 999px !important;
+  width: 36px !important;
+  height: 36px !important;
+  top: 18px !important;
+  right: 20px !important;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.el-dialog__headerbtn:hover {
+  background: rgba(255, 100, 100, 0.25) !important;
+  transform: scale(1.15) rotate(90deg) !important;
+}
+
+.el-dialog__close {
+  color: #1d1d1f !important;
+  font-size: 18px !important;
+  font-weight: 800 !important;
+}
+
+/* 弹窗遮罩 */
 .el-overlay {
   background: rgba(0, 0, 0, 0.2) !important;
-  backdrop-filter: blur(5px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(6.0px) saturate(250%) brightness(1.2) contrast(1.1) hue-rotate(5deg);
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
 }
 
-/* ---- 消息提示（轻量玻璃） ---- */
-.el-message {
-  background: rgba(255, 255, 255, 0.53) !important;
-  backdrop-filter: blur(31px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(36.0px) saturate(250%) brightness(1.2) contrast(1.1) hue-rotate(5deg);
-  border: 1px solid rgba(255, 255, 255, 0.6) !important;
-  border-radius: 12px !important;
+/* 弹窗进入/离开动画 - 玻璃材质化 */
+.el-dialog-fade-enter-active {
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.el-dialog-fade-leave-active {
+  transition: all 0.3s ease-in !important;
+}
+
+.el-dialog-fade-enter-from {
+  opacity: 0 !important;
+  transform: scale(0.85) translateY(30px) !important;
+}
+
+.el-dialog-fade-leave-to {
+  opacity: 0 !important;
+  transform: scale(0.9) translateY(-20px) !important;
+}
+
+/* ============================================================
+ * 按钮层（Buttons）- 轻微玻璃
+ * 苹果原则：控件是胶囊形状，有玻璃质感
+ * ============================================================ */
+
+.el-button {
+  border-radius: 999px !important;
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+  background: rgba(255, 255, 255, 0.45) !important;
+  backdrop-filter: blur(12px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(150%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
   box-shadow:
-    0 8px 24px rgba(0, 0, 0, 0.12),
-    inset 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+    0 3px 10px rgba(90, 110, 140, 0.1),
+    inset 0 1px 1px rgba(255, 255, 255, 0.6) !important;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+  color: #1d1d1f !important;
+  font-weight: 600 !important;
 }
 
-/* ---- 下拉菜单（轻量玻璃） ---- */
-.el-select-dropdown,
-.el-dropdown-menu,
-.el-popper {
-  background: rgba(255, 255, 255, 0.8) !important;
-  backdrop-filter: blur(39px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(50px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  border: 1px solid rgba(255, 255, 255, 0.6) !important;
-  border-radius: 12px !important;
+.el-button:hover {
+  transform: translateY(-2px) scale(1.06) !important;
+  background: rgba(255, 255, 255, 0.6) !important;
   box-shadow:
-    0 12px 32px rgba(0, 0, 0, 0.14),
-    0 4px 12px rgba(0, 0, 0, 0.08),
-    inset 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+    0 6px 16px rgba(90, 110, 140, 0.15),
+    inset 0 1px 1px rgba(255, 255, 255, 0.7) !important;
 }
 
-/* ---- 主要按钮（轻微玻璃效果，保持纯色为主） ---- */
+.el-button:active {
+  transform: translateY(0) scale(0.94) !important;
+}
+
+/* 主要按钮 - 渐变玻璃 */
 .el-button--primary {
-  background: linear-gradient(135deg, rgba(107, 163, 199, 0.9), rgba(127, 181, 214, 0.9)) !important;
-  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  background: linear-gradient(135deg, rgba(107, 163, 199, 0.8), rgba(127, 181, 214, 0.8)) !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
   box-shadow:
-    0 3px 10px rgba(107, 163, 199, 0.3),
-    inset 0 1px 1px rgba(255, 255, 255, 0.3) !important;
-  backdrop-filter: blur(15px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(18.0px) saturate(250%) brightness(1.2) contrast(1.1) hue-rotate(5deg);
-  transition: all 0.2s ease !important;
+    0 4px 12px rgba(107, 163, 199, 0.35),
+    inset 0 1px 1px rgba(255, 255, 255, 0.4) !important;
+  color: #fff !important;
 }
 
 .el-button--primary:hover {
-  transform: translateY(-1px) !important;
   box-shadow:
-    0 5px 14px rgba(107, 163, 199, 0.35),
-    inset 0 1px 1px rgba(255, 255, 255, 0.4) !important;
+    0 6px 18px rgba(107, 163, 199, 0.45),
+    inset 0 1px 1px rgba(255, 255, 255, 0.5) !important;
 }
 
-.el-button--primary:active {
-  transform: translateY(0) scale(0.98) !important;
-}
-
-/* 普通按钮（轻微玻璃） */
-.el-button--default {
-  background: rgba(255, 255, 255, 0.7) !important;
-  backdrop-filter: blur(15px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(18.0px) saturate(250%) brightness(1.2) contrast(1.1) hue-rotate(5deg);
-  border: 1px solid rgba(150, 160, 175, 0.25) !important;
-  border-radius: 10px !important;
-  transition: all 0.2s ease !important;
-}
-
-.el-button--default:hover {
-  background: rgba(255, 255, 255, 0.85) !important;
-  border-color: rgba(107, 163, 199, 0.4) !important;
-}
-
-/* ---- 标签 / 徽章（轻量玻璃） ---- */
-.el-tag {
-  background: rgba(255, 255, 255, 0.7) !important;
-  backdrop-filter: blur(11px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(13.5px) saturate(250%) brightness(1.2) contrast(1.1) hue-rotate(5deg);
-  border: 1px solid rgba(150, 160, 175, 0.2) !important;
-  border-radius: 8px !important;
-}
-
-/* ---- 分页（轻量玻璃） ---- */
-.el-pagination {
-  background: rgba(255, 255, 255, 0.6) !important;
-  backdrop-filter: blur(23px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(27.0px) saturate(250%) brightness(1.2) contrast(1.1) hue-rotate(5deg);
-  border: 1px solid rgba(255, 255, 255, 0.60) !important;
-  border-radius: 12px !important;
-  padding: 8px 12px !important;
-}
-
-.el-pagination .btn-prev,
-.el-pagination .btn-next,
-.el-pagination .el-pager li {
-  background: rgba(255, 255, 255, 0.7) !important;
-  border: 1px solid rgba(150, 160, 175, 0.2) !important;
-  border-radius: 8px !important;
-  margin: 0 2px !important;
-}
-
-.el-pagination .el-pager li.is-active {
-  background: linear-gradient(135deg, rgba(107, 163, 199, 0.9), rgba(127, 181, 214, 0.9)) !important;
-  color: #fff !important;
-  border-color: transparent !important;
-}
-
-/* ---- 进度条（轻微玻璃） ---- */
-.el-progress-bar__outer {
-  background: rgba(0, 0, 0, 0.06) !important;
-  backdrop-filter: blur(7px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(9.0px) saturate(250%) brightness(1.2) contrast(1.1) hue-rotate(5deg);
-  border-radius: 6px !important;
-}
-
-
-/* ============================================================
- * 自定义按钮液态玻璃样式
- * ============================================================ */
-
-/* ---- 通用自定义按钮 ---- */
+/* 自定义按钮 */
 .date-nav-btn,
 .btn-today,
 .btn-manage,
@@ -349,15 +355,19 @@ body {
 .btn-cancel,
 .tab-btn-donate,
 .action-btn {
-  background: rgba(255, 255, 255, 0.7) !important;
-  backdrop-filter: blur(19px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(22.5px) saturate(250%) brightness(1.2) contrast(1.1) hue-rotate(5deg);
-  border: 1px solid rgba(150, 160, 175, 0.25) !important;
-  border-radius: 10px !important;
+  border-radius: 999px !important;
+  padding-left: 16px !important;
+  padding-right: 16px !important;
+  background: rgba(255, 255, 255, 0.45) !important;
+  backdrop-filter: blur(12px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(150%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
   box-shadow:
-    0 2px 8px rgba(90, 110, 140, 0.08),
-    inset 0 1px 1px rgba(255, 255, 255, 0.7) !important;
-  transition: all 0.2s ease !important;
+    0 3px 10px rgba(90, 110, 140, 0.1),
+    inset 0 1px 1px rgba(255, 255, 255, 0.6) !important;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+  color: #1d1d1f !important;
+  font-weight: 600 !important;
   cursor: pointer !important;
 }
 
@@ -378,12 +388,8 @@ body {
 .btn-cancel:hover,
 .tab-btn-donate:hover,
 .action-btn:hover {
-  background: rgba(255, 255, 255, 0.85) !important;
-  border-color: rgba(107, 163, 199, 0.4) !important;
-  transform: translateY(-1px) !important;
-  box-shadow:
-    0 4px 12px rgba(90, 110, 140, 0.12),
-    inset 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+  transform: translateY(-2px) scale(1.08) !important;
+  background: rgba(255, 255, 255, 0.6) !important;
 }
 
 .date-nav-btn:active,
@@ -403,483 +409,319 @@ body {
 .btn-cancel:active,
 .tab-btn-donate:active,
 .action-btn:active {
-  transform: translateY(0) scale(0.97) !important;
+  transform: translateY(0) scale(0.92) !important;
 }
 
-/* ---- 子Tab按钮 ---- */
-.hw-subtab-btn {
-  background: rgba(255, 255, 255, 0.6) !important;
-  backdrop-filter: blur(19px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(22.5px) saturate(250%) brightness(1.2) contrast(1.1) hue-rotate(5deg);
-  border: 1px solid rgba(150, 160, 175, 0.2) !important;
-  border-radius: 10px !important;
-  box-shadow:
-    0 2px 6px rgba(90, 110, 140, 0.06),
-    inset 0 1px 1px rgba(255, 255, 255, 0.6) !important;
+/* ============================================================
+ * 输入框层（Inputs）- 轻微玻璃
+ * ============================================================ */
+
+.el-input__wrapper,
+.el-textarea__inner,
+.el-select__wrapper {
+  background: rgba(255, 255, 255, 0.5) !important;
+  backdrop-filter: blur(10px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(140%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  border-radius: 999px !important;
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.6) !important;
   transition: all 0.2s ease !important;
 }
 
-.hw-subtab-btn:hover {
-  background: rgba(255, 255, 255, 0.8) !important;
-  border-color: rgba(107, 163, 199, 0.35) !important;
+.el-input__wrapper:hover,
+.el-textarea__inner:hover,
+.el-select__wrapper:hover {
+  background: rgba(255, 255, 255, 0.6) !important;
+  border-color: rgba(107, 163, 199, 0.4) !important;
+  box-shadow:
+    0 0 0 3px rgba(107, 163, 199, 0.1),
+    inset 0 1px 2px rgba(255, 255, 255, 0.6) !important;
 }
 
-.hw-subtab-btn.active {
-  background: linear-gradient(135deg, rgba(107, 163, 199, 0.9), rgba(127, 181, 214, 0.9)) !important;
+.el-input__wrapper.is-focus,
+.el-textarea__inner:focus,
+.el-select__wrapper.is-focused {
+  background: rgba(255, 255, 255, 0.65) !important;
+  border-color: rgba(107, 163, 199, 0.5) !important;
+  box-shadow:
+    0 0 0 4px rgba(107, 163, 199, 0.15),
+    inset 0 1px 2px rgba(255, 255, 255, 0.6) !important;
+}
+
+.el-textarea__inner {
+  border-radius: 20px !important;
+}
+
+/* ============================================================
+ * 表格层（Tables）- 轻量玻璃
+ * ============================================================ */
+
+.el-table {
+  background: rgba(255, 255, 255, 0.45) !important;
+  backdrop-filter: blur(16px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(150%) !important;
+  border-radius: 20px !important;
+  overflow: hidden !important;
+  box-shadow:
+    0 6px 18px rgba(90, 110, 140, 0.1),
+    inset 0 1px 1px rgba(255, 255, 255, 0.5) !important;
+}
+
+.el-table th.el-table__cell {
+  background: rgba(245, 248, 252, 0.7) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
+}
+
+.el-table tr {
+  background: transparent !important;
+}
+
+.el-table--striped .el-table__body tr.el-table__row--striped td.el-table__cell {
+  background: rgba(248, 250, 253, 0.4) !important;
+}
+
+.el-table__body tr:hover > td.el-table__cell {
+  background: rgba(107, 163, 199, 0.1) !important;
+}
+
+/* ============================================================
+ * 下拉菜单/消息提示 - 轻量玻璃
+ * ============================================================ */
+
+.el-message,
+.el-select-dropdown,
+.el-dropdown-menu,
+.el-popper,
+.el-popover,
+.el-notification,
+.el-picker-panel,
+.el-cascader-panel {
+  background: rgba(255, 255, 255, 0.55) !important;
+  backdrop-filter: blur(20px) saturate(160%) brightness(1.08) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(160%) brightness(1.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.55) !important;
+  border-radius: 20px !important;
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.14),
+    0 4px 12px rgba(0, 0, 0, 0.08),
+    inset 0 1px 1px rgba(255, 255, 255, 0.7) !important;
+  overflow: hidden !important;
+}
+
+.el-message {
+  border-radius: 999px !important;
+  padding-left: 24px !important;
+  padding-right: 24px !important;
+}
+
+/* ============================================================
+ * 标签页/分页/标签 - 轻量玻璃
+ * ============================================================ */
+
+.el-tabs {
+  background: rgba(255, 255, 255, 0.4) !important;
+  backdrop-filter: blur(16px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(150%) !important;
+  border-radius: 20px !important;
+  padding: 8px 12px !important;
+}
+
+.el-tabs__item {
+  border-radius: 999px !important;
+  padding-left: 18px !important;
+  padding-right: 18px !important;
+  background: rgba(255, 255, 255, 0.4) !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.el-tabs__item:hover {
+  transform: translateY(-2px) scale(1.05) !important;
+  background: rgba(255, 255, 255, 0.55) !important;
+}
+
+.el-tabs__item.is-active {
+  background: linear-gradient(135deg, rgba(107, 163, 199, 0.8), rgba(127, 181, 214, 0.8)) !important;
   color: #fff !important;
   border-color: transparent !important;
-  box-shadow:
-    0 3px 10px rgba(107, 163, 199, 0.3),
-    inset 0 1px 1px rgba(255, 255, 255, 0.3) !important;
+  transform: scale(1.05) !important;
+  box-shadow: 0 3px 10px rgba(107, 163, 199, 0.3) !important;
 }
 
-/* ---- 批量等级按钮 ---- */
-.grade-batch-btn {
-  background: rgba(255, 255, 255, 0.45) !important;
-  backdrop-filter: blur(19px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(22.5px) saturate(250%) brightness(1.2) contrast(1.1) hue-rotate(5deg);
-  border: 1px solid rgba(150, 160, 175, 0.25) !important;
-  border-radius: 10px !important;
-  box-shadow:
-    0 2px 6px rgba(90, 110, 140, 0.08),
-    inset 0 1px 1px rgba(255, 255, 255, 0.7) !important;
-  transition: all 0.2s ease !important;
-}
-
-.grade-batch-btn:hover {
-  transform: translateY(-1px) !important;
-  box-shadow:
-    0 4px 10px rgba(90, 110, 140, 0.12),
-    inset 0 1px 1px rgba(255, 255, 255, 0.8) !important;
-}
-
-.grade-batch-btn:active {
-  transform: translateY(0) scale(0.96) !important;
-}
-
-/* 等级按钮颜色 */
-.grade-batch-btn.grade-a { border-left: 3px solid #6fae83 !important; }
-.grade-batch-btn.grade-b { border-left: 3px solid #6aa2c4 !important; }
-.grade-batch-btn.grade-c { border-left: 3px solid #e0b45c !important; }
-.grade-batch-btn.grade-l { border-left: 3px solid #9f8cc9 !important; }
-.grade-batch-btn.grade-x { border-left: 3px solid #d889a8 !important; }
-
-/* ---- 学生行（作业登记） ---- */
-.hw-student-row {
-  background: rgba(255, 255, 255, 0.35) !important;
-  backdrop-filter: blur(15px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(18.0px) saturate(250%) brightness(1.2) contrast(1.1) hue-rotate(5deg);
+.el-pagination {
+  background: rgba(255, 255, 255, 0.4) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
   border: 1px solid rgba(255, 255, 255, 0.4) !important;
-  border-radius: 10px !important;
-  transition: all 0.2s ease !important;
+  border-radius: 999px !important;
+  padding: 8px 16px !important;
+}
+
+.el-pagination .btn-prev,
+.el-pagination .btn-next,
+.el-pagination .el-pager li {
+  border-radius: 999px !important;
+  min-width: 36px !important;
+  height: 36px !important;
+  line-height: 34px !important;
+  background: rgba(255, 255, 255, 0.5) !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.el-pagination .btn-prev:hover,
+.el-pagination .btn-next:hover,
+.el-pagination .el-pager li:hover {
+  transform: scale(1.15) !important;
+}
+
+.el-pagination .el-pager li.is-active {
+  background: linear-gradient(135deg, rgba(107, 163, 199, 0.8), rgba(127, 181, 214, 0.8)) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+  transform: scale(1.1) !important;
+}
+
+.el-tag {
+  border-radius: 999px !important;
+  padding-left: 12px !important;
+  padding-right: 12px !important;
+  background: rgba(255, 255, 255, 0.5) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+}
+
+/* ============================================================
+ * 作业登记页特定样式
+ * ============================================================ */
+
+.hw-group-column {
+  border-radius: 24px !important;
+  overflow: visible !important;
+}
+
+.hw-group-header {
+  border-radius: 999px !important;
+  padding-left: 16px !important;
+  padding-right: 16px !important;
+  background: rgba(255, 255, 255, 0.4) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+}
+
+.hw-student-row {
+  border-radius: 999px !important;
+  padding-left: 16px !important;
+  padding-right: 16px !important;
+  background: rgba(255, 255, 255, 0.4) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+  flex-wrap: nowrap !important;
+  overflow: visible !important;
 }
 
 .hw-student-row:hover {
-  background: rgba(255, 255, 255, 0.7) !important;
-  border-color: rgba(107, 163, 199, 0.3) !important;
-  transform: translateX(2px) !important;
+  transform: translateX(4px) scale(1.01) !important;
+  background: rgba(255, 255, 255, 0.55) !important;
 }
 
-/* ---- 分组学生卡片（班级分组页） ---- */
+.hw-student-row .grade-segmented {
+  flex-shrink: 0 !important;
+  flex-grow: 0 !important;
+  min-width: 310px !important;
+  width: 310px !important;
+  max-width: 310px !important;
+}
+
+.hw-subtab-btn {
+  border-radius: 999px !important;
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+  background: rgba(255, 255, 255, 0.45) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.hw-subtab-btn:hover {
+  transform: translateY(-2px) scale(1.08) !important;
+}
+
+.hw-subtab-btn.active {
+  background: linear-gradient(135deg, rgba(107, 163, 199, 0.8), rgba(127, 181, 214, 0.8)) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+  transform: scale(1.05) !important;
+  box-shadow: 0 3px 10px rgba(107, 163, 199, 0.3) !important;
+}
+
+/* ============================================================
+ * 分组学生卡片 - 玻璃质感 + 拖拽变形
+ * ============================================================ */
+
 .group-student-card,
 .student-item,
 .draggable-student {
-  background: rgba(255, 255, 255, 0.45) !important;
-  backdrop-filter: blur(19px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(22.5px) saturate(250%) brightness(1.2) contrast(1.1) hue-rotate(5deg);
+  border-radius: 999px !important;
+  padding-left: 16px !important;
+  padding-right: 16px !important;
+  background: rgba(255, 255, 255, 0.5) !important;
+  backdrop-filter: blur(14px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(150%) !important;
   border: 1px solid rgba(255, 255, 255, 0.5) !important;
-  border-radius: 12px !important;
   box-shadow:
-    0 3px 10px rgba(90, 110, 140, 0.1),
-    inset 0 1px 1px rgba(255, 255, 255, 0.7) !important;
-  transition: all 0.2s ease !important;
+    0 4px 12px rgba(90, 110, 140, 0.1),
+    inset 0 1px 1px rgba(255, 255, 255, 0.6) !important;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
   cursor: grab !important;
 }
 
 .group-student-card:hover,
 .student-item:hover,
 .draggable-student:hover {
-  transform: translateY(-2px) scale(1.02) !important;
+  transform: translateY(-4px) scale(1.05) !important;
   box-shadow:
-    0 6px 16px rgba(90, 110, 140, 0.15),
-    inset 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+    0 10px 24px rgba(90, 110, 140, 0.18),
+    inset 0 1px 1px rgba(255, 255, 255, 0.7) !important;
 }
 
-/* 拖拽中的学生卡片：变形效果 */
 .group-student-card.dragging,
 .student-item.dragging,
 .draggable-student.dragging {
   cursor: grabbing !important;
-  transform: scale(1.08) rotate(2deg) !important;
+  transform: scale(1.12) rotate(3deg) !important;
   box-shadow:
-    0 12px 32px rgba(90, 110, 140, 0.25),
-    0 4px 12px rgba(90, 110, 140, 0.15),
-    inset 0 1px 1px rgba(255, 255, 255, 0.9) !important;
+    0 16px 40px rgba(90, 110, 140, 0.25),
+    inset 0 1px 1px rgba(255, 255, 255, 0.8) !important;
   z-index: 1000 !important;
 }
 
-/* ---- 分组列容器 ---- */
 .group-column,
 .drag-group {
-  background: rgba(255, 255, 255, 0.45) !important;
-  backdrop-filter: blur(23px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(27.0px) saturate(250%) brightness(1.2) contrast(1.1) hue-rotate(5deg);
+  border-radius: 24px !important;
+  background: rgba(255, 255, 255, 0.35) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
   border: 1px solid rgba(255, 255, 255, 0.4) !important;
-  border-radius: 14px !important;
-  box-shadow:
-    0 4px 14px rgba(90, 110, 140, 0.08),
-    inset 0 1px 1px rgba(255, 255, 255, 0.6) !important;
 }
-
-/* 拖拽悬停的分组列 */
-.group-column.drag-over,
-.drag-group.drag-over {
-  background: rgba(107, 163, 199, 0.12) !important;
-  border-color: rgba(107, 163, 199, 0.4) !important;
-  box-shadow:
-    0 0 0 3px rgba(107, 163, 199, 0.15),
-    0 4px 14px rgba(90, 110, 140, 0.08) !important;
-}
-
 
 /* ============================================================
- * 系统性全局液态玻璃 - 覆盖所有 Element Plus 组件
- * 遵循苹果 HIG：不同层级用不同重量的玻璃
+ * 减少透明度偏好 - 降级为更实的背景
  * ============================================================ */
 
-/* ---- 标签页 Tabs（轻量玻璃） ---- */
-.el-tabs {
-  background: rgba(255, 255, 255, 0.5) !important;
-  backdrop-filter: blur(27px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(31.5px) saturate(250%) brightness(1.2) contrast(1.1) hue-rotate(5deg);
-  border-radius: 12px !important;
-  padding: 8px 12px !important;
-}
-
-.el-tabs__header {
-  background: transparent !important;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
-  margin-bottom: 12px !important;
-}
-
-.el-tabs__item {
-  background: rgba(255, 255, 255, 0.5) !important;
-  backdrop-filter: blur(15px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(18.0px) saturate(250%) brightness(1.2) contrast(1.1) hue-rotate(5deg);
-  border: 1px solid rgba(150, 160, 175, 0.2) !important;
-  border-radius: 8px !important;
-  margin-right: 6px !important;
-  padding: 6px 14px !important;
-  transition: all 0.2s ease !important;
-}
-
-.el-tabs__item:hover {
-  background: rgba(255, 255, 255, 0.50) !important;
-  border-color: rgba(107, 163, 199, 0.35) !important;
-}
-
-.el-tabs__item.is-active {
-  background: linear-gradient(135deg, rgba(107, 163, 199, 0.9), rgba(127, 181, 214, 0.9)) !important;
-  color: #fff !important;
-  border-color: transparent !important;
-  box-shadow: 0 3px 10px rgba(107, 163, 199, 0.3) !important;
-}
-
-/* ---- 面包屑 Breadcrumb（轻量玻璃） ---- */
-.el-breadcrumb {
-  background: rgba(255, 255, 255, 0.5) !important;
-  backdrop-filter: blur(19px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(22.5px) saturate(250%) brightness(1.2) contrast(1.1) hue-rotate(5deg);
-  border: 1px solid rgba(255, 255, 255, 0.4) !important;
-  border-radius: 10px !important;
-  padding: 8px 14px !important;
-}
-
-/* ---- 步骤条 Steps（轻量玻璃） ---- */
-.el-steps {
-  background: rgba(255, 255, 255, 0.45) !important;
-  backdrop-filter: blur(23px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(27.0px) saturate(250%) brightness(1.2) contrast(1.1) hue-rotate(5deg);
-  border: 1px solid rgba(255, 255, 255, 0.4) !important;
-  border-radius: 12px !important;
-  padding: 16px !important;
-}
-
-/* ---- 时间线 Timeline（轻量玻璃） ---- */
-.el-timeline {
-  background: rgba(255, 255, 255, 0.45) !important;
-  backdrop-filter: blur(23px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(27.0px) saturate(250%) brightness(1.2) contrast(1.1) hue-rotate(5deg);
-  border: 1px solid rgba(255, 255, 255, 0.4) !important;
-  border-radius: 12px !important;
-  padding: 16px !important;
-}
-
-.el-timeline-item__content {
-  background: rgba(255, 255, 255, 0.6) !important;
-  backdrop-filter: blur(15px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(18.0px) saturate(250%) brightness(1.2) contrast(1.1) hue-rotate(5deg);
-  border: 1px solid rgba(255, 255, 255, 0.4) !important;
-  border-radius: 10px !important;
-  padding: 10px 14px !important;
-}
-
-/* ---- 开关 Switch（轻微玻璃） ---- */
-.el-switch__core {
-  background: rgba(150, 160, 175, 0.3) !important;
-  backdrop-filter: blur(11px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(13.5px) saturate(250%) brightness(1.2) contrast(1.1) hue-rotate(5deg);
-  border: 1px solid rgba(255, 255, 255, 0.4) !important;
-}
-
-.el-switch.is-checked .el-switch__core {
-  background: linear-gradient(135deg, rgba(107, 163, 199, 0.9), rgba(127, 181, 214, 0.9)) !important;
-  border-color: transparent !important;
-}
-
-/* ---- 滑块 Slider（轻微玻璃） ---- */
-.el-slider__runway {
-  background: rgba(150, 160, 175, 0.2) !important;
-  backdrop-filter: blur(7px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(9.0px) saturate(250%) brightness(1.2) contrast(1.1) hue-rotate(5deg);
-  border-radius: 6px !important;
-}
-
-.el-slider__bar {
-  background: linear-gradient(90deg, rgba(107, 163, 199, 0.9), rgba(127, 181, 214, 0.9)) !important;
-  border-radius: 6px !important;
-}
-
-.el-slider__button {
-  background: rgba(255, 255, 255, 0.9) !important;
-  backdrop-filter: blur(15px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(18.0px) saturate(250%) brightness(1.2) contrast(1.1) hue-rotate(5deg);
-  border: 2px solid rgba(107, 163, 199, 0.6) !important;
-  box-shadow: 0 2px 8px rgba(107, 163, 199, 0.3) !important;
-}
-
-/* ---- 评分 Rate（轻微玻璃） ---- */
-.el-rate__item {
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1)) !important;
-}
-
-/* ---- 颜色选择器 Color Picker（轻量玻璃） ---- */
-.el-color-picker__trigger {
-  background: rgba(255, 255, 255, 0.7) !important;
-  backdrop-filter: blur(15px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(18.0px) saturate(250%) brightness(1.2) contrast(1.1) hue-rotate(5deg);
-  border: 1px solid rgba(150, 160, 175, 0.25) !important;
-  border-radius: 10px !important;
-}
-
-/* ---- 上传 Upload（轻量玻璃） ---- */
-.el-upload-dragger {
-  background: rgba(255, 255, 255, 0.35) !important;
-  backdrop-filter: blur(23px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(27.0px) saturate(250%) brightness(1.2) contrast(1.1) hue-rotate(5deg);
-  border: 2px dashed rgba(150, 160, 175, 0.3) !important;
-  border-radius: 12px !important;
-  transition: all 0.2s ease !important;
-}
-
-.el-upload-dragger:hover {
-  background: rgba(255, 255, 255, 0.7) !important;
-  border-color: rgba(107, 163, 199, 0.5) !important;
-}
-
-/* ---- 树形控件 Tree（轻量玻璃） ---- */
-.el-tree {
-  background: rgba(255, 255, 255, 0.35) !important;
-  backdrop-filter: blur(23px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(27.0px) saturate(250%) brightness(1.2) contrast(1.1) hue-rotate(5deg);
-  border: 1px solid rgba(255, 255, 255, 0.4) !important;
-  border-radius: 12px !important;
-  padding: 8px !important;
-}
-
-.el-tree-node__content {
-  background: transparent !important;
-  border-radius: 8px !important;
-  transition: all 0.15s ease !important;
-}
-
-.el-tree-node__content:hover {
-  background: rgba(107, 163, 199, 0.1) !important;
-}
-
-.el-tree-node.is-current > .el-tree-node__content {
-  background: rgba(107, 163, 199, 0.15) !important;
-  color: #6ba3c7 !important;
-}
-
-/* ---- 穿梭框 Transfer（轻量玻璃） ---- */
-.el-transfer-panel {
-  background: rgba(255, 255, 255, 0.6) !important;
-  backdrop-filter: blur(23px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(27.0px) saturate(250%) brightness(1.2) contrast(1.1) hue-rotate(5deg);
-  border: 1px solid rgba(255, 255, 255, 0.60) !important;
-  border-radius: 12px !important;
-  overflow: hidden !important;
-}
-
-.el-transfer-panel__header {
-  background: rgba(245, 248, 252, 0.8) !important;
-  backdrop-filter: blur(15px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(18.0px) saturate(250%) brightness(1.2) contrast(1.1) hue-rotate(5deg);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
-}
-
-/* ---- 表单 Form（轻量玻璃容器） ---- */
-.el-form {
-  background: rgba(255, 255, 255, 0.45) !important;
-  backdrop-filter: blur(19px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(22.5px) saturate(250%) brightness(1.2) contrast(1.1) hue-rotate(5deg);
-  border: 1px solid rgba(255, 255, 255, 0.4) !important;
-  border-radius: 12px !important;
-  padding: 16px !important;
-}
-
-.el-form-item__label {
-  color: #3a4a5a !important;
-  font-weight: 600 !important;
-}
-
-/* ---- 描述列表 Descriptions（轻量玻璃） ---- */
-.el-descriptions {
-  background: rgba(255, 255, 255, 0.35) !important;
-  backdrop-filter: blur(23px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(27.0px) saturate(250%) brightness(1.2) contrast(1.1) hue-rotate(5deg);
-  border: 1px solid rgba(255, 255, 255, 0.60) !important;
-  border-radius: 12px !important;
-  overflow: hidden !important;
-}
-
-.el-descriptions__header {
-  background: rgba(245, 248, 252, 0.8) !important;
-  backdrop-filter: blur(15px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(18.0px) saturate(250%) brightness(1.2) contrast(1.1) hue-rotate(5deg);
-}
-
-/* ---- 空状态 Empty（轻量玻璃） ---- */
-.el-empty {
-  background: rgba(255, 255, 255, 0.4) !important;
-  backdrop-filter: blur(19px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(22.5px) saturate(250%) brightness(1.2) contrast(1.1) hue-rotate(5deg);
-  border: 1px solid rgba(255, 255, 255, 0.35) !important;
-  border-radius: 12px !important;
-  padding: 24px !important;
-}
-
-/* ---- 加载 Loading（轻量玻璃遮罩） ---- */
-.el-loading-mask {
-  background: rgba(255, 255, 255, 0.5) !important;
-  backdrop-filter: blur(15px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(18.0px) saturate(250%) brightness(1.2) contrast(1.1) hue-rotate(5deg);
-}
-
-/* ---- 通知 Notification（轻量玻璃） ---- */
-.el-notification {
-  background: rgba(255, 255, 255, 0.53) !important;
-  backdrop-filter: blur(35px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(50px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  border: 1px solid rgba(255, 255, 255, 0.6) !important;
-  border-radius: 12px !important;
-  box-shadow:
-    0 10px 30px rgba(0, 0, 0, 0.14),
-    inset 0 1px 1px rgba(255, 255, 255, 0.8) !important;
-}
-
-/* ---- 气泡 Popover（轻量玻璃） ---- */
-.el-popover {
-  background: rgba(255, 255, 255, 0.8) !important;
-  backdrop-filter: blur(35px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(50px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  border: 1px solid rgba(255, 255, 255, 0.6) !important;
-  border-radius: 12px !important;
-  box-shadow:
-    0 10px 30px rgba(0, 0, 0, 0.14),
-    inset 0 1px 1px rgba(255, 255, 255, 0.8) !important;
-}
-
-/* ---- 工具提示 Tooltip（轻量玻璃） ---- */
-.el-tooltip__popper {
-  background: rgba(30, 30, 35, 0.85) !important;
-  backdrop-filter: blur(23px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(27.0px) saturate(250%) brightness(1.2) contrast(1.1) hue-rotate(5deg);
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  border-radius: 8px !important;
-  color: #fff !important;
-}
-
-/* ---- 数字输入框 Input Number（轻微玻璃） ---- */
-.el-input-number {
-  background: rgba(255, 255, 255, 0.7) !important;
-  backdrop-filter: blur(15px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(18.0px) saturate(250%) brightness(1.2) contrast(1.1) hue-rotate(5deg);
-  border: 1px solid rgba(150, 160, 175, 0.25) !important;
-  border-radius: 10px !important;
-}
-
-/* ---- 日期/时间选择器面板（轻量玻璃） ---- */
-.el-picker-panel {
-  background: rgba(255, 255, 255, 0.37) !important;
-  backdrop-filter: blur(39px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(50px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  border: 1px solid rgba(255, 255, 255, 0.6) !important;
-  border-radius: 12px !important;
-  box-shadow:
-    0 12px 32px rgba(0, 0, 0, 0.14),
-    inset 0 1px 1px rgba(255, 255, 255, 0.8) !important;
-}
-
-/* ---- 级联选择器 Cascader（轻量玻璃） ---- */
-.el-cascader-panel {
-  background: rgba(255, 255, 255, 0.8) !important;
-  backdrop-filter: blur(35px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  -webkit-backdrop-filter: blur(50px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  border: 1px solid rgba(255, 255, 255, 0.35) !important;
-  border-radius: 12px !important;
-}
-
-/* ---- 全局滚动条（玻璃质感） ---- */
-::-webkit-scrollbar {
-  width: 10px !important;
-  height: 10px !important;
-}
-
-::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.3) !important;
-  backdrop-filter: blur(7px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  border-radius: 5px !important;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(150, 160, 175, 0.4) !important;
-  backdrop-filter: blur(15px) saturate(300%) brightness(1.25) contrast(1.15) hue-rotate(10deg);
-  border-radius: 5px !important;
-  border: 2px solid transparent !important;
-  background-clip: padding-box !important;
-  transition: all 0.2s ease !important;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(107, 163, 199, 0.5) !important;
-  background-clip: padding-box !important;
-}
-
-/* ---- 全局选中文本（玻璃质感） ---- */
-::selection {
-  background: rgba(107, 163, 199, 0.3) !important;
-  color: #1d1d1f !important;
-}
-
-/* ---- 减少透明度偏好：降级为更实的背景 ---- */
 @media (prefers-reduced-transparency: reduce) {
   .el-dialog, .el-message, .el-select-dropdown, .el-dropdown-menu,
   .ct-card, .el-card, .el-table, .el-input__wrapper,
   .ct-header, .app-header, .ct-sidebar, .app-sidebar,
-  .el-pagination, .el-tag {
-    background: rgba(255, 255, 255, 0.92) !important;
+  .el-pagination, .el-tag, .hw-student-row, .group-student-card {
+    background: rgba(255, 255, 255, 0.9) !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
@@ -888,762 +730,15 @@ body {
   }
 }
 
-
 /* ============================================================
- * 最强液态玻璃变形效果
+ * 减少动画偏好 - 简化动画
  * ============================================================ */
 
-/* 所有玻璃元素 hover 时强力变形 */
-.el-dialog:hover,
-.el-card:hover,
-.ct-card:hover,
-.el-message:hover,
-.el-select-dropdown:hover,
-.el-dropdown-menu:hover,
-.el-popover:hover,
-.el-notification:hover,
-.el-picker-panel:hover,
-.el-tabs:hover,
-.el-form:hover,
-.el-tree:hover,
-.el-transfer-panel:hover,
-.el-descriptions:hover {
-  transform: translateY(-8px) scale(1.04) !important;
-  box-shadow:
-    0 20px 50px rgba(90, 110, 140, 0.25),
-    0 8px 20px rgba(90, 110, 140, 0.15),
-    inset 0 2px 2px rgba(255, 255, 255, 0.9) !important;
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
-
-/* 所有玻璃元素 active 时强力压缩变形 */
-.el-dialog:active,
-.el-card:active,
-.ct-card:active,
-.el-message:active,
-.el-popover:active,
-.el-notification:active,
-.el-picker-panel:active {
-  transform: translateY(0) scale(0.985) !important;
-  transition: all 0.15s ease-out !important;
-}
-
-/* 学生行 hover 时强力变形 */
-.hw-student-row:hover {
-  transform: translateX(4px) scale(1.01) !important;
-  box-shadow:
-    0 8px 20px rgba(90, 110, 140, 0.18),
-    inset 0 1px 1px rgba(255, 255, 255, 0.8) !important;
-}
-
-/* 分组学生卡片 hover 时强力变形 */
-.group-student-card:hover,
-.student-item:hover,
-.draggable-student:hover {
-  transform: translateY(-4px) scale(1.05) rotate(-1deg) !important;
-  box-shadow:
-    0 12px 28px rgba(90, 110, 140, 0.22),
-    0 4px 10px rgba(90, 110, 140, 0.12),
-    inset 0 1px 1px rgba(255, 255, 255, 0.9) !important;
-}
-
-/* 拖拽中的学生卡片：最强变形 */
-.group-student-card.dragging,
-.student-item.dragging,
-.draggable-student.dragging {
-  transform: scale(1.15) rotate(5deg) skewX(-3deg) !important;
-  box-shadow:
-    0 20px 50px rgba(90, 110, 140, 0.35),
-    0 8px 20px rgba(90, 110, 140, 0.2),
-    inset 0 2px 2px rgba(255, 255, 255, 1) !important;
-}
-
-/* 标签页项 hover 变形 */
-.el-tabs__item:hover {
-  transform: translateY(-4px) scale(1.15) !important;
-}
-
-.el-tabs__item.is-active {
-  transform: scale(1.08) !important;
-}
-
-/* 表格行 hover 变形 */
-.el-table__body tr:hover > td.el-table__cell {
-  transform: scale(1.005) !important;
-  background: rgba(107, 163, 199, 0.12) !important;
-}
-
-/* 开关变形 */
-.el-switch__core {
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
-}
-
-.el-switch:hover .el-switch__core {
-  transform: scale(1.08) !important;
-}
-
-.el-switch:active .el-switch__core {
-  transform: scale(0.95) !important;
-}
-
-/* 滑块按钮变形 */
-.el-slider__button {
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
-}
-
-.el-slider:hover .el-slider__button {
-  transform: scale(1.3) !important;
-}
-
-.el-slider:active .el-slider__button {
-  transform: scale(1.1) !important;
-}
-
-/* 树形节点 hover 变形 */
-.el-tree-node__content:hover {
-  transform: translateX(4px) scale(1.01) !important;
-}
-
-/* 上传区域 hover 变形 */
-.el-upload-dragger:hover {
-  transform: scale(1.02) !important;
-}
-
-/* 分页按钮 hover 变形 */
-.el-pagination .btn-prev:hover,
-.el-pagination .btn-next:hover,
-.el-pagination .el-pager li:hover {
-  transform: scale(1.15) !important;
-}
-
-.el-pagination .el-pager li.is-active {
-  transform: scale(1.1) !important;
-}
-
-/* 数字输入框按钮变形 */
-.el-input-number__decrease:hover,
-.el-input-number__increase:hover {
-  transform: scale(1.2) !important;
-}
-
-/* 颜色选择器触发器变形 */
-.el-color-picker__trigger:hover {
-  transform: scale(1.1) !important;
-}
-
-
-
-/* ============================================================
- * 所有按钮药丸形（最大圆角）
- * ============================================================ */
-
-/* Element Plus 按钮 */
-.el-button {
-  border-radius: 999px !important;
-  padding-left: 20px !important;
-  padding-right: 20px !important;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
-}
-
-.el-button:hover {
-  transform: translateY(-4px) scale(1.15) !important;
-}
-
-.el-button:active {
-  transform: translateY(0) scale(0.88) !important;
-}
-
-/* 主要按钮 */
-.el-button--primary {
-  border-radius: 999px !important;
-}
-
-/* 默认按钮 */
-.el-button--default {
-  border-radius: 999px !important;
-}
-
-/* 自定义按钮通用药丸形 */
-.date-nav-btn,
-.btn-today,
-.btn-manage,
-.btn-reminder,
-.btn-add,
-.btn-save,
-.btn-edit,
-.btn-delete,
-.btn-export,
-.btn-import,
-.btn-refresh,
-.btn-search,
-.btn-clear,
-.btn-confirm,
-.btn-cancel,
-.tab-btn-donate,
-.action-btn {
-  border-radius: 999px !important;
-  padding-left: 16px !important;
-  padding-right: 16px !important;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
-}
-
-.date-nav-btn:hover,
-.btn-today:hover,
-.btn-manage:hover,
-.btn-reminder:hover,
-.btn-add:hover,
-.btn-save:hover,
-.btn-edit:hover,
-.btn-delete:hover,
-.btn-export:hover,
-.btn-import:hover,
-.btn-refresh:hover,
-.btn-search:hover,
-.btn-clear:hover,
-.btn-confirm:hover,
-.btn-cancel:hover,
-.tab-btn-donate:hover,
-.action-btn:hover {
-  transform: translateY(-4px) scale(1.18) !important;
-}
-
-.date-nav-btn:active,
-.btn-today:active,
-.btn-manage:active,
-.btn-reminder:active,
-.btn-add:active,
-.btn-save:active,
-.btn-edit:active,
-.btn-delete:active,
-.btn-export:active,
-.btn-import:active,
-.btn-refresh:active,
-.btn-search:active,
-.btn-clear:active,
-.btn-confirm:active,
-.btn-cancel:active,
-.tab-btn-donate:active,
-.action-btn:active {
-  transform: translateY(0) scale(0.85) !important;
-}
-
-/* 批量等级按钮药丸形 */
-.grade-batch-btn {
-  border-radius: 999px !important;
-  padding-left: 18px !important;
-  padding-right: 18px !important;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
-}
-
-.grade-batch-btn:hover {
-  transform: translateY(-4px) scale(1.18) !important;
-}
-
-.grade-batch-btn:active {
-  transform: translateY(0) scale(0.85) !important;
-}
-
-/* 子Tab按钮药丸形 */
-.hw-subtab-btn {
-  border-radius: 999px !important;
-  padding-left: 20px !important;
-  padding-right: 20px !important;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
-}
-
-.hw-subtab-btn:hover {
-  transform: translateY(-4px) scale(1.18) !important;
-}
-
-.hw-subtab-btn:active {
-  transform: translateY(0) scale(0.88) !important;
-}
-
-.hw-subtab-btn.active {
-  transform: scale(1.05) !important;
-}
-
-/* 标签页项药丸形 */
-.el-tabs__item {
-  border-radius: 999px !important;
-  padding-left: 18px !important;
-  padding-right: 18px !important;
-}
-
-/* 分页按钮药丸形 */
-.el-pagination .btn-prev,
-.el-pagination .btn-next,
-.el-pagination .el-pager li {
-  border-radius: 999px !important;
-  min-width: 36px !important;
-  height: 36px !important;
-  line-height: 34px !important;
-}
-
-/* 数字输入框按钮药丸形 */
-.el-input-number__decrease,
-.el-input-number__increase {
-  border-radius: 999px !important;
-}
-
-/* 开关药丸形（已经是圆形，增强） */
-.el-switch__core {
-  border-radius: 999px !important;
-}
-
-.el-switch__button {
-  border-radius: 999px !important;
-}
-
-/* 评分星星药丸形（保持原样） */
-
-/* 颜色选择器药丸形 */
-.el-color-picker__trigger {
-  border-radius: 999px !important;
-}
-
-/* 上传按钮药丸形 */
-.el-upload__input {
-  border-radius: 999px !important;
-}
-
-/* 下拉选择器药丸形 */
-.el-select__wrapper {
-  border-radius: 999px !important;
-}
-
-/* 输入框药丸形 */
-.el-input__wrapper {
-  border-radius: 999px !important;
-}
-
-.el-textarea__inner {
-  border-radius: 20px !important;
-}
-
-/* 日期选择器药丸形 */
-.el-date-editor {
-  border-radius: 999px !important;
-}
-
-/* 时间选择器药丸形 */
-.el-time-panel {
-  border-radius: 20px !important;
-}
-
-/* 级联选择器药丸形 */
-.el-cascader {
-  border-radius: 999px !important;
-}
-
-/* 穿梭框按钮药丸形 */
-.el-transfer-panel__item {
-  border-radius: 999px !important;
-}
-
-/* 树形节点药丸形 */
-.el-tree-node__content {
-  border-radius: 999px !important;
-  margin: 2px 8px !important;
-}
-
-/* 描述列表药丸形 */
-.el-descriptions__label,
-.el-descriptions__content {
-  border-radius: 999px !important;
-}
-
-/* 空状态药丸形 */
-.el-empty {
-  border-radius: 24px !important;
-}
-
-/* 加载遮罩药丸形（保持原样） */
-
-/* 通知药丸形 */
-.el-notification {
-  border-radius: 20px !important;
-}
-
-/* 气泡药丸形 */
-.el-popover {
-  border-radius: 20px !important;
-}
-
-/* 工具提示药丸形 */
-.el-tooltip__popper {
-  border-radius: 999px !important;
-}
-
-/* 下拉菜单药丸形 */
-.el-dropdown-menu {
-  border-radius: 16px !important;
-}
-
-.el-dropdown-menu__item {
-  border-radius: 999px !important;
-  margin: 2px 8px !important;
-}
-
-/* 选择器下拉药丸形 */
-.el-select-dropdown {
-  border-radius: 16px !important;
-}
-
-.el-select-dropdown__item {
-  border-radius: 999px !important;
-  margin: 2px 8px !important;
-}
-
-/* 日期面板药丸形 */
-.el-picker-panel {
-  border-radius: 20px !important;
-}
-
-.el-date-table td {
-  border-radius: 999px !important;
-}
-
-/* 级联面板药丸形 */
-.el-cascader-panel {
-  border-radius: 16px !important;
-}
-
-.el-cascader-node {
-  border-radius: 999px !important;
-  margin: 2px 8px !important;
-}
-
-/* 标签/徽章药丸形 */
-.el-tag {
-  border-radius: 999px !important;
-  padding-left: 12px !important;
-  padding-right: 12px !important;
-}
-
-/* 进度条药丸形 */
-.el-progress-bar__outer {
-  border-radius: 999px !important;
-}
-
-.el-progress-bar__inner {
-  border-radius: 999px !important;
-}
-
-/* 步骤条药丸形 */
-.el-step__head {
-  border-radius: 999px !important;
-}
-
-/* 时间线药丸形 */
-.el-timeline-item__node {
-  border-radius: 999px !important;
-}
-
-.el-timeline-item__content {
-  border-radius: 16px !important;
-}
-
-/* 面包屑药丸形 */
-.el-breadcrumb__inner {
-  border-radius: 999px !important;
-  padding: 4px 10px !important;
-}
-
-/* 表单药丸形 */
-.el-form-item {
-  border-radius: 16px !important;
-}
-
-/* 卡片药丸形 */
-.el-card {
-  border-radius: 24px !important;
-}
-
-.ct-card {
-  border-radius: 24px !important;
-}
-
-/* 对话框药丸形 */
-.el-dialog {
-  border-radius: 28px !important;
-}
-
-/* 消息提示药丸形 */
-.el-message {
-  border-radius: 999px !important;
-  padding-left: 24px !important;
-  padding-right: 24px !important;
-}
-
-/* 表格药丸形 */
-.el-table {
-  border-radius: 20px !important;
-}
-
-/* 学生行药丸形 */
-.hw-student-row {
-  border-radius: 999px !important;
-  padding-left: 16px !important;
-  padding-right: 16px !important;
-}
-
-/* 分组学生卡片药丸形 */
-.group-student-card,
-.student-item,
-.draggable-student {
-  border-radius: 999px !important;
-  padding-left: 16px !important;
-  padding-right: 16px !important;
-}
-
-/* 分组列容器药丸形 */
-.group-column,
-.drag-group {
-  border-radius: 24px !important;
-}
-
-/* 作业组容器药丸形 */
-.hw-group-column {
-  border-radius: 24px !important;
-}
-
-.hw-group-header {
-  border-radius: 999px !important;
-  padding-left: 16px !important;
-  padding-right: 16px !important;
-}
-
-/* 全局滚动条药丸形（已经是圆角） */
-
-
-
-/* ============================================================
- * 弹窗超强液态玻璃效果
- * ============================================================ */
-
-/* 弹窗主体：超强通透 + 超强折射 */
-.el-dialog {
-  background: rgba(255, 255, 255, 0.35) !important;
-  backdrop-filter: blur(50px) saturate(350%) brightness(1.35) contrast(1.2) hue-rotate(15deg) !important;
-  -webkit-backdrop-filter: blur(50px) saturate(350%) brightness(1.35) contrast(1.2) hue-rotate(15deg) !important;
-  border: 2px solid rgba(255, 255, 255, 0.85) !important;
-  border-radius: 32px !important;
-  box-shadow:
-    0 30px 80px rgba(0, 0, 0, 0.25),
-    0 10px 30px rgba(0, 0, 0, 0.15),
-    0 2px 8px rgba(0, 0, 0, 0.08),
-    inset 0 2px 2px rgba(255, 255, 255, 1),
-    inset 0 -2px 2px rgba(255, 255, 255, 0.5),
-    inset 2px 0 2px rgba(255, 255, 255, 0.6),
-    inset -2px 0 2px rgba(255, 255, 255, 0.6) !important;
-  overflow: hidden !important;
-  position: relative !important;
-}
-
-/* 弹窗顶部超强高光层 */
-.el-dialog::before {
-  content: '' !important;
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  height: 60% !important;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.5) 0%,
-    rgba(255, 255, 255, 0.25) 30%,
-    rgba(255, 255, 255, 0.1) 60%,
-    transparent 100%
-  ) !important;
-  border-radius: 32px 32px 0 0 !important;
-  pointer-events: none !important;
-  z-index: 1 !important;
-}
-
-/* 弹窗底部超强反光层 */
-.el-dialog::after {
-  content: '' !important;
-  position: absolute !important;
-  bottom: 0 !important;
-  left: 5% !important;
-  right: 5% !important;
-  height: 40% !important;
-  background: linear-gradient(
-    0deg,
-    rgba(255, 255, 255, 0.35) 0%,
-    rgba(255, 255, 255, 0.15) 40%,
-    transparent 100%
-  ) !important;
-  border-radius: 0 0 32px 32px !important;
-  pointer-events: none !important;
-  z-index: 1 !important;
-}
-
-/* 弹窗左侧色散高光（模拟光线折射） */
-.el-dialog > .dialog-left-refraction {
-  content: '';
-  position: absolute;
-  top: 10%;
-  left: 0;
-  width: 30%;
-  height: 80%;
-  background: linear-gradient(
-    90deg,
-    rgba(255, 200, 200, 0.15) 0%,
-    rgba(200, 220, 255, 0.1) 30%,
-    rgba(200, 255, 220, 0.08) 60%,
-    transparent 100%
-  );
-  border-radius: 32px 0 0 32px;
-  pointer-events: none;
-  z-index: 1;
-  filter: blur(10px);
-}
-
-/* 弹窗内容在高光层之上 */
-.el-dialog__header,
-.el-dialog__body,
-.el-dialog__footer {
-  position: relative !important;
-  z-index: 2 !important;
-  background: transparent !important;
-}
-
-/* 弹窗头部：透明 + 底部细线 */
-.el-dialog__header {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.4) !important;
-  padding: 24px 28px 16px !important;
-  margin-right: 0 !important;
-}
-
-/* 弹窗标题：增强对比度 */
-.el-dialog__title {
-  color: #1d1d1f !important;
-  font-weight: 800 !important;
-  font-size: 20px !important;
-  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8) !important;
-}
-
-/* 弹窗关闭按钮：玻璃质感 */
-.el-dialog__headerbtn {
-  background: rgba(255, 255, 255, 0.5) !important;
-  backdrop-filter: blur(10px) !important;
-  -webkit-backdrop-filter: blur(10px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.6) !important;
-  border-radius: 999px !important;
-  width: 36px !important;
-  height: 36px !important;
-  top: 18px !important;
-  right: 20px !important;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
-}
-
-.el-dialog__headerbtn:hover {
-  background: rgba(255, 100, 100, 0.3) !important;
-  transform: scale(1.2) rotate(90deg) !important;
-}
-
-.el-dialog__headerbtn:active {
-  transform: scale(0.9) rotate(90deg) !important;
-}
-
-.el-dialog__close {
-  color: #1d1d1f !important;
-  font-size: 18px !important;
-  font-weight: 800 !important;
-}
-
-/* 弹窗主体：透明背景 */
-.el-dialog__body {
-  padding: 20px 28px !important;
-  color: #2c3440 !important;
-  font-size: 15px !important;
-  line-height: 1.6 !important;
-}
-
-/* 弹窗底部：透明 + 顶部细线 */
-.el-dialog__footer {
-  border-top: 1px solid rgba(255, 255, 255, 0.4) !important;
-  padding: 16px 28px 24px !important;
-  gap: 12px !important;
-}
-
-/* 弹窗遮罩：超强模糊 */
-.el-overlay {
-  background: rgba(0, 0, 0, 0.25) !important;
-  backdrop-filter: blur(8px) !important;
-  -webkit-backdrop-filter: blur(8px) !important;
-}
-
-/* 弹窗进入动画：玻璃材质化 */
-.el-dialog-fade-enter-active {
-  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
-}
-
-.el-dialog-fade-leave-active {
-  transition: all 0.3s ease-in !important;
-}
-
-.el-dialog-fade-enter-from {
-  opacity: 0 !important;
-  transform: scale(0.85) translateY(30px) !important;
-  backdrop-filter: blur(0px) !important;
-  -webkit-backdrop-filter: blur(0px) !important;
-}
-
-.el-dialog-fade-leave-to {
-  opacity: 0 !important;
-  transform: scale(0.9) translateY(-20px) !important;
-  backdrop-filter: blur(0px) !important;
-  -webkit-backdrop-filter: blur(0px) !important;
-}
-
-/* 弹窗内的表单元素：适配玻璃背景 */
-.el-dialog .el-form-item__label {
-  color: #1d1d1f !important;
-  font-weight: 700 !important;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6) !important;
-}
-
-.el-dialog .el-input__wrapper,
-.el-dialog .el-textarea__inner,
-.el-dialog .el-select__wrapper {
-  background: rgba(255, 255, 255, 0.5) !important;
-  backdrop-filter: blur(15px) saturate(200%) !important;
-  -webkit-backdrop-filter: blur(15px) saturate(200%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.7) !important;
-  box-shadow:
-    inset 0 1px 2px rgba(255, 255, 255, 0.8),
-    0 2px 6px rgba(0, 0, 0, 0.06) !important;
-}
-
-.el-dialog .el-input__wrapper:hover,
-.el-dialog .el-textarea__inner:hover,
-.el-dialog .el-select__wrapper:hover {
-  background: rgba(255, 255, 255, 0.65) !important;
-  border-color: rgba(107, 163, 199, 0.5) !important;
-  box-shadow:
-    0 0 0 3px rgba(107, 163, 199, 0.15),
-    inset 0 1px 2px rgba(255, 255, 255, 0.8) !important;
-}
-
-/* 弹窗内的按钮：超强玻璃 */
-.el-dialog .el-button {
-  background: rgba(255, 255, 255, 0.5) !important;
-  backdrop-filter: blur(15px) saturate(200%) !important;
-  -webkit-backdrop-filter: blur(15px) saturate(200%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.7) !important;
-  box-shadow:
-    0 4px 12px rgba(0, 0, 0, 0.1),
-    inset 0 1px 1px rgba(255, 255, 255, 0.8) !important;
-}
-
-.el-dialog .el-button--primary {
-  background: linear-gradient(135deg, rgba(107, 163, 199, 0.85), rgba(127, 181, 214, 0.85)) !important;
-  border: 1px solid rgba(255, 255, 255, 0.5) !important;
-  box-shadow:
-    0 6px 16px rgba(107, 163, 199, 0.4),
-    inset 0 1px 1px rgba(255, 255, 255, 0.5) !important;
-}
-
