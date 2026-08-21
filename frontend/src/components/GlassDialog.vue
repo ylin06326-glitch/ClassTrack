@@ -7,21 +7,21 @@
             <LiquidGlassPanel
               :width="560"
               :border-radius="32"
-              :bezel-width="12"
-              :glass-thickness="80"
-              :refractive-index="glassStore.effectiveRefractiveIndex"
-              :blur="glassStore.effectiveBlur"
-              :scale-ratio="glassStore.effectiveScaleRatio"
-              :specular-opacity="glassStore.effectiveSpecularOpacity"
+              :bezel-width="40"
+              :glass-thickness="120"
+              :refractive-index="1.5"
+              :blur="1"
+              :scale-ratio="0.4"
+              :specular-opacity="0.4"
               :specular-saturation="8"
-              :background-color="glassStore.backgroundColor"
-              :background-opacity="0.5"
+              :background-color="'rgba(255, 255, 255, 0.15)'"
+              :background-opacity="1"
               :shadow="'0 30px 80px rgba(90, 110, 140, 0.4), 0 12px 32px rgba(90, 110, 140, 0.25)'"
               :border-width="2"
               :border-color="'rgba(255, 255, 255, 0.9)'"
               :content-padding="'0'"
-              :center-blur-amount="20"
-              :gradient-blur-size="50"
+              :center-blur-amount="3"
+              :gradient-blur-size="60"
               :hover-light="true"
               class="glass-dialog-panel"
             >
@@ -58,9 +58,7 @@
 <script setup lang="ts">
 import { computed, nextTick } from 'vue'
 import { LiquidGlassPanel } from '@sapryniukt/vue-liquid-glass'
-import { useGlassStore } from '@/stores/glass'
 
-const glassStore = useGlassStore()
 
 interface Props {
   modelValue: boolean
