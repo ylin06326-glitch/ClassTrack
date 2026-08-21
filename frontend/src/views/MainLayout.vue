@@ -421,22 +421,17 @@ function exportStudentReport(): void {
 .main-layout { min-height: 100vh; display: flex; flex-direction: column; }
 .app-header {
   position: sticky; top: 0; z-index: 100;
-  background: transparent !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  border-bottom: none !important;
-  box-shadow: none !important;
+  background: transparent;
+  border-bottom: none;
+  box-shadow: none;
   padding: 12px 20px;
+  isolation: isolate;
 }
 .header-inner {
   display: flex; align-items: center; gap: 8px;
   max-width: 100%; margin: 0 auto; padding: 10px 18px;
   flex-wrap: nowrap;
-  overflow-x: hidden;
-  overflow-y: visible;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
+  overflow: visible;
 }
 .header-inner::-webkit-scrollbar { height: 4px; }
 .header-inner::-webkit-scrollbar-thumb { background: rgba(150,160,175,0.3); border-radius: 2px; }
@@ -477,13 +472,16 @@ function exportStudentReport(): void {
 }
 .logo-area {
   display: flex; align-items: center; gap: 8px;
-  background: rgba(255, 255, 255, 0.35);
-  backdrop-filter: blur(40px) saturate(180%) contrast(110%);
-  -webkit-backdrop-filter: blur(40px) saturate(180%) contrast(110%);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  position: relative;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(32px) saturate(180%) contrast(110%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%) contrast(110%);
+  border: 1px solid rgba(255, 255, 255, 0.45);
   border-radius: 20px;
   padding: 6px 14px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  will-change: backdrop-filter;
+  transform: translateZ(0);
 }
 .logo-icon { font-size: 26px; }
 .app-title { font-size: 20px; margin: 0; color: #3a4a5a; }
@@ -494,13 +492,16 @@ function exportStudentReport(): void {
 }
 .class-selector {
   display: flex; align-items: center; gap: 4px;
-  background: rgba(255, 255, 255, 0.35);
-  backdrop-filter: blur(40px) saturate(180%) contrast(110%);
-  -webkit-backdrop-filter: blur(40px) saturate(180%) contrast(110%);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  position: relative;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(32px) saturate(180%) contrast(110%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%) contrast(110%);
+  border: 1px solid rgba(255, 255, 255, 0.45);
   border-radius: 20px;
   padding: 6px 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  will-change: backdrop-filter;
+  transform: translateZ(0);
 }
 .class-select { width: 130px; }
 .btn-class-manage {
@@ -511,13 +512,16 @@ function exportStudentReport(): void {
 .tab-nav-wrapper {
   display: flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(48px) saturate(180%) contrast(110%);
-  -webkit-backdrop-filter: blur(48px) saturate(180%) contrast(110%);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  position: relative;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(40px) saturate(180%) contrast(110%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%) contrast(110%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 28px;
   padding: 5px 10px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  will-change: backdrop-filter;
+  transform: translateZ(0);
   /* 覆盖液态玻璃导航栏的默认白色文字，适配浅色背景 */
   --lg-nav-text: rgba(60, 70, 85, 0.7);
   --lg-nav-active: #1d1d1f;
@@ -580,17 +584,20 @@ function exportStudentReport(): void {
 .btn-print-qr {
   display: inline-flex; align-items: center; justify-content: center;
   width: 40px; height: 40px;
-  background: rgba(255, 255, 255, 0.35);
-  backdrop-filter: blur(40px) saturate(180%) contrast(110%);
-  -webkit-backdrop-filter: blur(40px) saturate(180%) contrast(110%);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  position: relative;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(32px) saturate(180%) contrast(110%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%) contrast(110%);
+  border: 1px solid rgba(255, 255, 255, 0.45);
   border-radius: 50%;
   font-size: 18px;
   text-decoration: none;
   color: inherit;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.6);
   transition: all 0.2s ease;
   flex-shrink: 0;
+  will-change: backdrop-filter;
+  transform: translateZ(0);
 }
 .btn-print-qr:hover {
   background: rgba(255, 255, 255, 0.5);
