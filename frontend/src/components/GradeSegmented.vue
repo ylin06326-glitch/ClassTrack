@@ -53,6 +53,10 @@ function onChange(value: string) {
 .grade-segmented {
   display: inline-flex;
   align-items: center;
+  /* 强制覆盖库的 CSS 变量，适配浅色背景 */
+  --lg-nav-text: #3c4655 !important;
+  --lg-nav-active: #1d1d1f !important;
+  --lg-nav-text-hover: #2c3440 !important;
 }
 
 .grade-segmented--compact {
@@ -75,13 +79,25 @@ function onChange(value: string) {
   padding: 3px !important;
 }
 
-/* 文字颜色适配浅色背景 */
-.grade-segmented :deep(.lg-nav-item) {
-  color: rgba(60, 70, 85, 0.65) !important;
+/* 强制覆盖文字颜色 - 用多层选择器提高优先级 */
+.grade-segmented :deep(.lg-bottom-nav .lg-nav-item),
+.grade-segmented :deep(.lg-nav-item),
+.grade-segmented :deep(.lg-nav-item span),
+.grade-segmented :deep(.lg-nav-item .lg-nav-label) {
+  color: #3c4655 !important;
+  opacity: 1 !important;
 }
 
-.grade-segmented :deep(.lg-nav-item.active) {
+.grade-segmented :deep(.lg-nav-item.active),
+.grade-segmented :deep(.lg-nav-item.active span),
+.grade-segmented :deep(.lg-nav-item.active .lg-nav-label) {
   color: #1d1d1f !important;
   font-weight: 600 !important;
+  opacity: 1 !important;
+}
+
+.grade-segmented :deep(.lg-nav-item:hover),
+.grade-segmented :deep(.lg-nav-item:hover span) {
+  color: #2c3440 !important;
 }
 </style>
