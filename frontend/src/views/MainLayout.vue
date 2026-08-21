@@ -20,7 +20,7 @@
           >
             <el-option v-for="c in store.classes" :key="c.id" :label="c.name" :value="c.id" />
           </el-select>
-          <GlassButton title="管理班级" class="header-icon-btn" @click="classVisible = true">⚙️</GlassButton>
+          <GlassButton title="管理班级" class="header-icon-btn" :width="40" @click="classVisible = true">⚙️</GlassButton>
         </div>
 
         <!-- Tab 导航（液态玻璃） -->
@@ -32,11 +32,11 @@
             active-color="#6ba3c7"
           />
         </div>
-        <GlassButton title="支持作者" class="header-icon-btn" @click="donateVisible = true">❤️</GlassButton>
+        <GlassButton title="支持作者" class="header-icon-btn" :width="40" @click="donateVisible = true">❤️</GlassButton>
 
         <!-- 姓名显示模式 -->
         <el-dropdown trigger="click" @command="onDisplayMode">
-          <GlassButton title="切换姓名显示模式" class="header-icon-btn">
+          <GlassButton title="切换姓名显示模式" class="header-icon-btn" :width="40">
             {{ DM_CONFIG[store.displayMode].icon }}
           </GlassButton>
           <template #dropdown>
@@ -50,7 +50,7 @@
         </el-dropdown>
 
         <a class="btn-print-qr" href="#/print" target="_blank" title="打印学生二维码">🖨️</a>
-        <GlassButton title="退出程序" class="header-icon-btn" @click="onExit">⏻</GlassButton>
+        <GlassButton title="退出程序" class="header-icon-btn" :width="40" @click="onExit">⏻</GlassButton>
       </div>
     </header>
 
@@ -393,15 +393,35 @@ function exportStudentReport(): void {
 .header-icon-btn {
   min-width: 40px !important;
   width: 40px !important;
+  max-width: 40px !important;
   height: 40px !important;
   padding: 0 !important;
   font-size: 18px !important;
+  flex-shrink: 0 !important;
+  display: inline-flex !important;
+}
+.header-icon-btn :deep(*) {
+  min-width: 40px !important;
+  width: 40px !important;
+  max-width: 40px !important;
+  height: 40px !important;
+  padding: 0 !important;
 }
 .header-icon-btn :deep(.lg-button) {
   min-width: 40px !important;
   width: 40px !important;
+  max-width: 40px !important;
   height: 40px !important;
   padding: 0 !important;
+}
+.header-icon-btn :deep(.lg-button-content),
+.header-icon-btn :deep(.glass-button-content) {
+  min-width: 40px !important;
+  width: 40px !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 .logo-area { display: flex; align-items: center; gap: 8px; }
 .logo-icon { font-size: 26px; }
