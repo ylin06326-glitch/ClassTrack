@@ -420,7 +420,7 @@ function exportStudentReport(): void {
 <style scoped>
 .main-layout { min-height: 100vh; display: flex; flex-direction: column; }
 .app-header {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  position: sticky; top: 0; z-index: 100;
   background: transparent;
   border-bottom: none;
   box-shadow: none;
@@ -432,6 +432,7 @@ function exportStudentReport(): void {
   -webkit-perspective: none !important;
   backface-visibility: visible !important;
   -webkit-backface-visibility: visible !important;
+  contain: layout style;
 }
 /* 覆盖所有子元素的全局 transform 和 perspective */
 .app-header * {
@@ -441,6 +442,13 @@ function exportStudentReport(): void {
   -webkit-perspective: none !important;
   backface-visibility: visible !important;
   -webkit-backface-visibility: visible !important;
+}
+/* 主布局也需要移除 transform，否则会影响 sticky 和 backdrop-filter */
+.main-layout {
+  transform: none !important;
+  -webkit-transform: none !important;
+  perspective: none !important;
+  -webkit-perspective: none !important;
 }
 .header-inner {
   display: flex; align-items: center; gap: 8px;
@@ -625,7 +633,7 @@ function exportStudentReport(): void {
   cursor: pointer; color: #b0566a; padding: 4px 8px;
 }
 .btn-exit:hover { color: #8a4a5a; }
-.app-main { flex: 1; max-width: 1560px; width: 100%; margin: 0 auto; padding: 96px 18px 40px; }
+.app-main { flex: 1; max-width: 1560px; width: 100%; margin: 0 auto; padding: 16px 18px 40px; }
 
 /* 班级管理 */
 .class-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
