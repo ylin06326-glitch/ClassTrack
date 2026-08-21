@@ -12,7 +12,12 @@
 
 /* ---- 全局背景：丰富的渐变，让玻璃效果更明显 ---- */
 body {
-  background: linear-gradient(135deg, #e8ecf2 0%, #dde3ec 25%, #e2e8f0 50%, #dce4ed 75%, #e5ebf3 100%) !important;
+  background: 
+    radial-gradient(ellipse at 20% 20%, rgba(147, 197, 253, 0.4) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 30%, rgba(196, 181, 253, 0.35) 0%, transparent 50%),
+    radial-gradient(ellipse at 40% 80%, rgba(167, 243, 208, 0.3) 0%, transparent 50%),
+    radial-gradient(ellipse at 90% 90%, rgba(253, 186, 116, 0.25) 0%, transparent 50%),
+    linear-gradient(135deg, #eef2f7 0%, #e6ecf3 30%, #edf0f6 60%, #e8edf4 100%) !important;
   background-attachment: fixed !important;
   min-height: 100vh;
   color: #1d1d1f !important;

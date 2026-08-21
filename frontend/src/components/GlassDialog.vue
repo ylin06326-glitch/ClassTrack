@@ -68,10 +68,10 @@ const props = withDefaults(defineProps<Props>(), {
   center: false,
   alignCenter: false,
   destroyOnClose: false,
-  intensity: 0.8,
-  blur: 40,
-  saturation: 200,
-  brightness: 1.15,
+  intensity: 1.0,
+  blur: 60,
+  saturation: 250,
+  brightness: 1.2,
 })
 
 const emit = defineEmits<{
