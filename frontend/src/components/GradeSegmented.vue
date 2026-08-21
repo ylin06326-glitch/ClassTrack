@@ -1,5 +1,5 @@
 <template>
-  <div class="grade-segmented" :class="{ 'grade-segmented--compact': compact }">
+  <div class="grade-segmented" :class="{ 'grade-segmented--compact': compact }" :style="thumbStyle">
     <LiquidGlassBottomNavBar
       :model-value="modelValue"
       :items="gradeItems"
@@ -35,17 +35,32 @@ const gradeItems = [
   { id: 'X', label: '未交' },
 ]
 
-// 根据选中的等级动态改变滑块颜色
-const activeColor = computed(() => {
-  switch (props.modelValue) {
-    case 'A': return '#6fae83'  // 绿色
-    case 'B': return '#6aa2c4'  // 蓝色
-    case 'C': return '#e0b45c'  // 黄色
-    case 'L': return '#9f8cc9'  // 紫色
-    case 'X': return '#d889a8'  // 粉色
-    default: return '#6ba3c7'
+// 等级颜色配置
+const GRADE_COLORS = {
+  A: { hex: '#6fae83', rgb: '111,174,131' },  // 绿色
+  B: { hex: '#6aa2c4', rgb: '106,162,196' },  // 蓝色
+  C: { hex: '#e0b45c', rgb: '224,180,92' },   // 黄色
+  L: { hex: '#9f8cc9', rgb: '159,140,201' },  // 紫色
+  X: { hex: '#d889a8', rgb: '216,137,168' },  // 粉色
+}
+
+// 根据选中的等级动态改变滑块颜色（通过 CSS 变量）
+const currentGradeColor = computed(() => {
+  return GRADE_COLORS[props.modelValue as keyof typeof GRADE_COLORS] || GRADE_COLORS.A
+})
+
+// 滑块样式：设置 CSS 变量让滑块变成对应等级的颜色
+const thumbStyle = computed(() => {
+  const color = currentGradeColor.value
+  return {
+    '--lg-nav-thumb-rgb': color.rgb,
+    '--lg-nav-thumb-bg': `rgba(${color.rgb}, 0.85)`,
+    '--lg-nav-active': color.hex,
   }
 })
+
+// 选中文字颜色（保持深色，确保可读性）
+const activeColor = computed(() => '#1d1d1f')
 
 function onChange(value: string) {
   emit('update:modelValue', value)
@@ -84,10 +99,11 @@ function onChange(value: string) {
   font-weight: 700 !important;
 }
 
-/* 确保滑块颜色根据等级明显变化 */
+/* 滑块颜色通过 CSS 变量动态控制，添加平滑过渡 */
 .grade-segmented :deep(.lg-nav-thumb),
 .grade-segmented :deep(.lg-bottom-nav-thumb),
 .grade-segmented :deep(.lg-thumb) {
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+  transition: background-color 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+              transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
 }
 </style>
