@@ -421,12 +421,11 @@ img, video, canvas, svg {
   z-index: -1;
   background: linear-gradient(
     120deg,
-    rgba(173, 216, 230, 0.35) 0%,
-    rgba(221, 160, 221, 0.3) 20%,
-    rgba(255, 218, 185, 0.35) 40%,
-    rgba(152, 251, 152, 0.25) 60%,
-    rgba(176, 224, 230, 0.35) 80%,
-    rgba(255, 192, 203, 0.3) 100%
+    rgba(180, 195, 210, 0.28) 0%,       /* 雾霾蓝灰 */
+    rgba(190, 180, 200, 0.25) 25%,       /* 薰衣草灰紫 */
+    rgba(205, 195, 185, 0.28) 50%,       /* 香槟暖灰 */
+    rgba(175, 190, 185, 0.25) 75%,       /* 鼠尾草灰绿 */
+    rgba(195, 185, 195, 0.26) 100%       /* 灰粉紫 */
   );
   background-size: 400% 400%;
   animation: flowing-bg 20s ease infinite;
@@ -451,7 +450,7 @@ img, video, canvas, svg {
   width: 50%;
   height: 50%;
   background: radial-gradient(ellipse at center,
-    rgba(135, 206, 250, 0.4) 0%,
+    rgba(160, 180, 200, 0.35) 0%,
     transparent 70%);
   border-radius: 50%;
   filter: blur(60px);
@@ -466,7 +465,7 @@ img, video, canvas, svg {
   width: 45%;
   height: 45%;
   background: radial-gradient(ellipse at center,
-    rgba(221, 160, 221, 0.35) 0%,
+    rgba(180, 170, 195, 0.32) 0%,
     transparent 70%);
   border-radius: 50%;
   filter: blur(70px);
@@ -483,7 +482,7 @@ img, video, canvas, svg {
   z-index: -1;
   pointer-events: none;
   background: radial-gradient(ellipse at center,
-    rgba(255, 218, 185, 0.4) 0%,
+    rgba(200, 190, 175, 0.35) 0%,
     transparent 70%);
   border-radius: 50%;
   filter: blur(80px);
