@@ -52,6 +52,7 @@ const props = withDefaults(defineProps<Props>(), {
   plain: false,
   round: false,
   circle: false,
+  width: 120,  // 紧凑默认宽度（比库默认180px更贴文字）
 })
 
 const emit = defineEmits<{
