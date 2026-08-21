@@ -473,13 +473,13 @@ function exportStudentReport(): void {
 .logo-area {
   display: flex; align-items: center; gap: 8px;
   position: relative;
-  background: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(32px) saturate(180%) contrast(110%);
-  -webkit-backdrop-filter: blur(32px) saturate(180%) contrast(110%);
-  border: 1px solid rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(48px) saturate(180%) brightness(1.15);
+  -webkit-backdrop-filter: blur(48px) saturate(180%) brightness(1.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 20px;
   padding: 6px 14px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.4);
   will-change: backdrop-filter;
   transform: translateZ(0);
 }
@@ -493,13 +493,13 @@ function exportStudentReport(): void {
 .class-selector {
   display: flex; align-items: center; gap: 4px;
   position: relative;
-  background: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(32px) saturate(180%) contrast(110%);
-  -webkit-backdrop-filter: blur(32px) saturate(180%) contrast(110%);
-  border: 1px solid rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(48px) saturate(180%) brightness(1.15);
+  -webkit-backdrop-filter: blur(48px) saturate(180%) brightness(1.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 20px;
   padding: 6px 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.4);
   will-change: backdrop-filter;
   transform: translateZ(0);
 }
@@ -513,13 +513,13 @@ function exportStudentReport(): void {
   display: flex;
   align-items: center;
   position: relative;
-  background: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(40px) saturate(180%) contrast(110%);
-  -webkit-backdrop-filter: blur(40px) saturate(180%) contrast(110%);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(56px) saturate(180%) brightness(1.15);
+  -webkit-backdrop-filter: blur(56px) saturate(180%) brightness(1.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 28px;
   padding: 5px 10px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  box-shadow: 0 4px 28px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.35);
   will-change: backdrop-filter;
   transform: translateZ(0);
   /* 覆盖液态玻璃导航栏的默认白色文字，适配浅色背景 */
@@ -585,24 +585,24 @@ function exportStudentReport(): void {
   display: inline-flex; align-items: center; justify-content: center;
   width: 40px; height: 40px;
   position: relative;
-  background: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(32px) saturate(180%) contrast(110%);
-  -webkit-backdrop-filter: blur(32px) saturate(180%) contrast(110%);
-  border: 1px solid rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(48px) saturate(180%) brightness(1.15);
+  -webkit-backdrop-filter: blur(48px) saturate(180%) brightness(1.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 50%;
   font-size: 18px;
   text-decoration: none;
   color: inherit;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.4);
   transition: all 0.2s ease;
   flex-shrink: 0;
   will-change: backdrop-filter;
   transform: translateZ(0);
 }
 .btn-print-qr:hover {
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.15);
   transform: translateY(-1px);
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  box-shadow: 0 6px 28px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 .btn-print-qr:hover { background: #f0f6fa; }
 .btn-exit {
