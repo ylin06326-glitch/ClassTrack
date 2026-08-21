@@ -71,13 +71,13 @@ function onChange(value: string) {
   left: auto !important;
   right: auto !important;
   width: 100% !important;
-  min-width: 340px !important;
+  min-width: 290px !important;
   background: rgba(0, 0, 0, 0.03) !important;
   backdrop-filter: none !important;
   border: 1px solid rgba(0, 0, 0, 0.06) !important;
   border-radius: 14px !important;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.04) !important;
-  padding: 8px !important;
+  padding: 6px !important;
 }
 
 /* 强制覆盖文字颜色 - 用多层选择器提高优先级 */
@@ -89,9 +89,9 @@ function onChange(value: string) {
 .grade-segmented :deep(.lg-bottom-nav *) {
   color: #3c4655 !important;
   opacity: 1 !important;
-  font-size: 20px !important;
+  font-size: 18px !important;
   font-weight: 700 !important;
-  padding: 10px 14px !important;
+  padding: 7px 11px !important;
   line-height: 1.2 !important;
 }
 
@@ -103,7 +103,7 @@ function onChange(value: string) {
   color: #1d1d1f !important;
   font-weight: 900 !important;
   opacity: 1 !important;
-  font-size: 20px !important;
+  font-size: 18px !important;
   line-height: 1.2 !important;
 }
 

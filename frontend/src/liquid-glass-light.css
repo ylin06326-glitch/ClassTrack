@@ -462,6 +462,338 @@ body {
     0 4px 14px rgba(90, 110, 140, 0.08) !important;
 }
 
+
+/* ============================================================
+ * 系统性全局液态玻璃 - 覆盖所有 Element Plus 组件
+ * 遵循苹果 HIG：不同层级用不同重量的玻璃
+ * ============================================================ */
+
+/* ---- 标签页 Tabs（轻量玻璃） ---- */
+.el-tabs {
+  background: rgba(255, 255, 255, 0.5) !important;
+  backdrop-filter: blur(14px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(150%) !important;
+  border-radius: 12px !important;
+  padding: 8px 12px !important;
+}
+
+.el-tabs__header {
+  background: transparent !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
+  margin-bottom: 12px !important;
+}
+
+.el-tabs__item {
+  background: rgba(255, 255, 255, 0.5) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(150, 160, 175, 0.2) !important;
+  border-radius: 8px !important;
+  margin-right: 6px !important;
+  padding: 6px 14px !important;
+  transition: all 0.2s ease !important;
+}
+
+.el-tabs__item:hover {
+  background: rgba(255, 255, 255, 0.75) !important;
+  border-color: rgba(107, 163, 199, 0.35) !important;
+}
+
+.el-tabs__item.is-active {
+  background: linear-gradient(135deg, rgba(107, 163, 199, 0.9), rgba(127, 181, 214, 0.9)) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+  box-shadow: 0 3px 10px rgba(107, 163, 199, 0.3) !important;
+}
+
+/* ---- 面包屑 Breadcrumb（轻量玻璃） ---- */
+.el-breadcrumb {
+  background: rgba(255, 255, 255, 0.5) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  border-radius: 10px !important;
+  padding: 8px 14px !important;
+}
+
+/* ---- 步骤条 Steps（轻量玻璃） ---- */
+.el-steps {
+  background: rgba(255, 255, 255, 0.45) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  border-radius: 12px !important;
+  padding: 16px !important;
+}
+
+/* ---- 时间线 Timeline（轻量玻璃） ---- */
+.el-timeline {
+  background: rgba(255, 255, 255, 0.45) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  border-radius: 12px !important;
+  padding: 16px !important;
+}
+
+.el-timeline-item__content {
+  background: rgba(255, 255, 255, 0.6) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  border-radius: 10px !important;
+  padding: 10px 14px !important;
+}
+
+/* ---- 开关 Switch（轻微玻璃） ---- */
+.el-switch__core {
+  background: rgba(150, 160, 175, 0.3) !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+}
+
+.el-switch.is-checked .el-switch__core {
+  background: linear-gradient(135deg, rgba(107, 163, 199, 0.9), rgba(127, 181, 214, 0.9)) !important;
+  border-color: transparent !important;
+}
+
+/* ---- 滑块 Slider（轻微玻璃） ---- */
+.el-slider__runway {
+  background: rgba(150, 160, 175, 0.2) !important;
+  backdrop-filter: blur(4px) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+  border-radius: 6px !important;
+}
+
+.el-slider__bar {
+  background: linear-gradient(90deg, rgba(107, 163, 199, 0.9), rgba(127, 181, 214, 0.9)) !important;
+  border-radius: 6px !important;
+}
+
+.el-slider__button {
+  background: rgba(255, 255, 255, 0.9) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  border: 2px solid rgba(107, 163, 199, 0.6) !important;
+  box-shadow: 0 2px 8px rgba(107, 163, 199, 0.3) !important;
+}
+
+/* ---- 评分 Rate（轻微玻璃） ---- */
+.el-rate__item {
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1)) !important;
+}
+
+/* ---- 颜色选择器 Color Picker（轻量玻璃） ---- */
+.el-color-picker__trigger {
+  background: rgba(255, 255, 255, 0.7) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(150, 160, 175, 0.25) !important;
+  border-radius: 10px !important;
+}
+
+/* ---- 上传 Upload（轻量玻璃） ---- */
+.el-upload-dragger {
+  background: rgba(255, 255, 255, 0.55) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 2px dashed rgba(150, 160, 175, 0.3) !important;
+  border-radius: 12px !important;
+  transition: all 0.2s ease !important;
+}
+
+.el-upload-dragger:hover {
+  background: rgba(255, 255, 255, 0.7) !important;
+  border-color: rgba(107, 163, 199, 0.5) !important;
+}
+
+/* ---- 树形控件 Tree（轻量玻璃） ---- */
+.el-tree {
+  background: rgba(255, 255, 255, 0.55) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  border-radius: 12px !important;
+  padding: 8px !important;
+}
+
+.el-tree-node__content {
+  background: transparent !important;
+  border-radius: 8px !important;
+  transition: all 0.15s ease !important;
+}
+
+.el-tree-node__content:hover {
+  background: rgba(107, 163, 199, 0.1) !important;
+}
+
+.el-tree-node.is-current > .el-tree-node__content {
+  background: rgba(107, 163, 199, 0.15) !important;
+  color: #6ba3c7 !important;
+}
+
+/* ---- 穿梭框 Transfer（轻量玻璃） ---- */
+.el-transfer-panel {
+  background: rgba(255, 255, 255, 0.6) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}
+
+.el-transfer-panel__header {
+  background: rgba(245, 248, 252, 0.8) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
+}
+
+/* ---- 表单 Form（轻量玻璃容器） ---- */
+.el-form {
+  background: rgba(255, 255, 255, 0.45) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  border-radius: 12px !important;
+  padding: 16px !important;
+}
+
+.el-form-item__label {
+  color: #3a4a5a !important;
+  font-weight: 600 !important;
+}
+
+/* ---- 描述列表 Descriptions（轻量玻璃） ---- */
+.el-descriptions {
+  background: rgba(255, 255, 255, 0.55) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}
+
+.el-descriptions__header {
+  background: rgba(245, 248, 252, 0.8) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+
+/* ---- 空状态 Empty（轻量玻璃） ---- */
+.el-empty {
+  background: rgba(255, 255, 255, 0.4) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  border-radius: 12px !important;
+  padding: 24px !important;
+}
+
+/* ---- 加载 Loading（轻量玻璃遮罩） ---- */
+.el-loading-mask {
+  background: rgba(255, 255, 255, 0.5) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+
+/* ---- 通知 Notification（轻量玻璃） ---- */
+.el-notification {
+  background: rgba(255, 255, 255, 0.78) !important;
+  backdrop-filter: blur(18px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(160%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  border-radius: 12px !important;
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.14),
+    inset 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+}
+
+/* ---- 气泡 Popover（轻量玻璃） ---- */
+.el-popover {
+  background: rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(18px) saturate(170%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(170%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  border-radius: 12px !important;
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.14),
+    inset 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+}
+
+/* ---- 工具提示 Tooltip（轻量玻璃） ---- */
+.el-tooltip__popper {
+  background: rgba(30, 30, 35, 0.85) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 8px !important;
+  color: #fff !important;
+}
+
+/* ---- 数字输入框 Input Number（轻微玻璃） ---- */
+.el-input-number {
+  background: rgba(255, 255, 255, 0.7) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(150, 160, 175, 0.25) !important;
+  border-radius: 10px !important;
+}
+
+/* ---- 日期/时间选择器面板（轻量玻璃） ---- */
+.el-picker-panel {
+  background: rgba(255, 255, 255, 0.82) !important;
+  backdrop-filter: blur(20px) saturate(170%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(170%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  border-radius: 12px !important;
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.14),
+    inset 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+}
+
+/* ---- 级联选择器 Cascader（轻量玻璃） ---- */
+.el-cascader-panel {
+  background: rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(18px) !important;
+  -webkit-backdrop-filter: blur(18px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.55) !important;
+  border-radius: 12px !important;
+}
+
+/* ---- 全局滚动条（玻璃质感） ---- */
+::-webkit-scrollbar {
+  width: 10px !important;
+  height: 10px !important;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.3) !important;
+  backdrop-filter: blur(4px) !important;
+  border-radius: 5px !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(150, 160, 175, 0.4) !important;
+  backdrop-filter: blur(8px) !important;
+  border-radius: 5px !important;
+  border: 2px solid transparent !important;
+  background-clip: padding-box !important;
+  transition: all 0.2s ease !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(107, 163, 199, 0.5) !important;
+  background-clip: padding-box !important;
+}
+
+/* ---- 全局选中文本（玻璃质感） ---- */
+::selection {
+  background: rgba(107, 163, 199, 0.3) !important;
+  color: #1d1d1f !important;
+}
+
 /* ---- 减少透明度偏好：降级为更实的背景 ---- */
 @media (prefers-reduced-transparency: reduce) {
   .el-dialog, .el-message, .el-select-dropdown, .el-dropdown-menu,
