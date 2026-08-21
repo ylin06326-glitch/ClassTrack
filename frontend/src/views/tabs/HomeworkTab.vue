@@ -194,7 +194,8 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import dayjs from 'dayjs'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage } from 'element-plus'
+import { glassMessageBox } from '@/components/glassMessageBox'
 import { Html5Qrcode } from 'html5-qrcode'
 import QRCode from 'qrcode'
 import { useAppStore } from '@/stores/app'
@@ -454,7 +455,8 @@ function scheduleStatsRefresh(): void {
 }
 
 // ---- 组头点击:已交/未交名单 ----
-function detailLabelOf(s: Student, grade: string): { label: string; sub: string } {
+function detailLabelOf(s: Student, grade: string): { label: string;
+sub: string } {
   const submitted = isSubmitted(grade)
   if (store.displayMode === 'code') return { label: s.student_code || s.name, sub: '' }
   if (store.displayMode === 'auto') {
@@ -615,16 +617,14 @@ async function handlePcCode(code: string): Promise<void> {
 async function promptSingleGrade(s: ScanStudent, displayName: string, code: string): Promise<void> {
   const suffix = store.displayMode !== 'code' && s.student_code ? ` (${s.student_code})` : ''
   try {
-    const { value } = await ElMessageBox.prompt(
+    const value = await glassMessageBox.prompt(
       `学生：${displayName}${suffix}\n请输入等级 (A/B/C/X)：`,
       '单点扫码登记',
       {
         inputValue: 'A',
         confirmButtonText: '确认',
         cancelButtonText: '取消',
-        inputPattern: /^[ABCX]$/i,
-        inputErrorMessage: '请输入 A/B/C/X',
-      },
+        },
     )
     const chosen = value.trim().toUpperCase()
     if (!/^[ABCX]$/.test(chosen)) return

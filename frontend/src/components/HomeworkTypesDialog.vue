@@ -28,7 +28,8 @@
 <script setup lang="ts">
 import GlassDialog from '@/components/GlassDialog.vue'
 import { ref } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage } from 'element-plus'
+import { glassMessageBox } from '@/components/glassMessageBox'
 import { useAppStore } from '@/stores/app'
 import {
   createHomeworkType, renameHomeworkType, deleteHomeworkType,
@@ -58,7 +59,7 @@ async function onAdd(): Promise<void> {
 
 async function onRename(t: HomeworkType): Promise<void> {
   try {
-    const { value } = await ElMessageBox.prompt('输入新的种类名称', `重命名「${t.name}」`, {
+    const value = await glassMessageBox.prompt('输入新的种类名称', `重命名「${t.name}」`, {
       inputValue: t.name,
       confirmButtonText: '保存',
       cancelButtonText: '取消',
@@ -87,7 +88,8 @@ async function onDelete(t: HomeworkType): Promise<void> {
 </script>
 
 <style scoped>
-.types-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+.types-list { display: flex;
+flex-direction: column; gap: 8px; margin-bottom: 14px; }
 .type-row {
   display: flex; align-items: center; justify-content: space-between;
   padding: 8px 12px; border-radius: 10px; background: #f6f8fa;

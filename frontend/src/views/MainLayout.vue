@@ -173,7 +173,7 @@ import GlassDialog from '@/components/GlassDialog.vue'
 import GlassButton from '@/components/GlassButton.vue'
 import GlassInput from '@/components/GlassInput.vue'
 import { ref, onMounted, provide } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import { useAppStore } from '@/stores/app'
 import { DIALOG_KEY, type DialogApi, type DetailItem } from '@/composables/dialogs'
 import {
@@ -188,6 +188,7 @@ import ExportTab from './tabs/ExportTab.vue'
 import AIChatTab from './tabs/AIChatTab.vue'
 import SettingsTab from './tabs/SettingsTab.vue'
 import { LiquidGlassBottomNavBar } from '@sapryniukt/vue-liquid-glass'
+import { glassMessageBox } from '@/components/glassMessageBox'
 
 const store = useAppStore()
 
@@ -246,8 +247,8 @@ onMounted(() => {
 const dialogs: DialogApi = {
   async confirm(msg: string, title?: string): Promise<boolean> {
     try {
-      await ElMessageBox.confirm(msg, title || '⚠️ 确认操作', {
-        type: 'warning', confirmButtonText: '确认', cancelButtonText: '取消',
+      await glassMessageBox.confirm(msg, title || '⚠️ 确认操作', {
+        confirmButtonText: '确认', cancelButtonText: '取消',
       })
       return true
     } catch {
@@ -313,7 +314,7 @@ async function onAddClass(): Promise<void> {
 
 async function onRenameClass(c: ClassInfo): Promise<void> {
   try {
-    const { value } = await ElMessageBox.prompt('输入新的班级名称', `重命名「${c.name}」`, {
+    const value = await glassMessageBox.prompt('输入新的班级名称', `重命名「${c.name}」`, {
       inputValue: c.name,
       confirmButtonText: '保存',
       cancelButtonText: '取消',

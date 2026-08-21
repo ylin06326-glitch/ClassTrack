@@ -142,7 +142,8 @@
  * 对应旧版 app.js setupExamManagement(2772-3066)与 templates/index.html tabExams(505-564)。
  */
 import { ref, computed, watch, onMounted } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage } from 'element-plus'
+import { glassMessageBox } from '@/components/glassMessageBox'
 import { useAppStore } from '@/stores/app'
 import { useDialogs } from '@/composables/dialogs'
 import {
@@ -263,7 +264,8 @@ function isActiveExam(e: ExamInfo): boolean {
 async function loadExamList(): Promise<void> {
   try {
     const res = await loadExams(store.currentClassId)
-    if (res.code !== 0) { if (res.msg) ElMessage.error(res.msg); return }
+    if (res.code !== 0) { if (res.msg) ElMessage.error(res.msg);
+return }
     examList.value = res.data || []
   } catch { /* 拦截器已提示 */ }
 }
@@ -355,7 +357,7 @@ async function onBatch(score: number): Promise<void> {
 async function onCustomBatch(): Promise<void> {
   if (!contextName.value) { ElMessage.error('请先输入考试名称'); return }
   try {
-    const { value } = await ElMessageBox.prompt('请输入要批量设置的分数：', '批量设置分数', {
+    const value = await glassMessageBox.prompt('请输入要批量设置的分数：', '批量设置分数', {
       inputValue: '80',
       confirmButtonText: '确定',
       cancelButtonText: '取消',
