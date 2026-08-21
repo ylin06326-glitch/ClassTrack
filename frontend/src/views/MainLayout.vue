@@ -477,13 +477,12 @@ function exportStudentReport(): void {
 }
 .logo-area {
   display: flex; align-items: center; gap: 8px;
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(12px) saturate(180%);
   -webkit-backdrop-filter: blur(12px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  border-radius: 12px;
-  padding: 6px 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border-radius: 20px;
+  padding: 6px 14px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 .logo-icon { font-size: 26px; }
 .app-title { font-size: 20px; margin: 0; color: #3a4a5a; }
@@ -494,13 +493,12 @@ function exportStudentReport(): void {
 }
 .class-selector {
   display: flex; align-items: center; gap: 4px;
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(12px) saturate(180%);
   -webkit-backdrop-filter: blur(12px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  border-radius: 12px;
-  padding: 6px 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border-radius: 20px;
+  padding: 6px 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 .class-select { width: 130px; }
 .btn-class-manage {
@@ -511,13 +509,12 @@ function exportStudentReport(): void {
 .tab-nav-wrapper {
   display: flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.45);
   backdrop-filter: blur(12px) saturate(180%);
   -webkit-backdrop-filter: blur(12px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  border-radius: 14px;
-  padding: 4px 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border-radius: 28px;
+  padding: 5px 10px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
   /* 覆盖液态玻璃导航栏的默认白色文字，适配浅色背景 */
   --lg-nav-text: rgba(60, 70, 85, 0.7);
   --lg-nav-active: #1d1d1f;
@@ -580,15 +577,14 @@ function exportStudentReport(): void {
 .btn-print-qr {
   display: inline-flex; align-items: center; justify-content: center;
   width: 40px; height: 40px;
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(12px) saturate(180%);
   -webkit-backdrop-filter: blur(12px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  border-radius: 12px;
+  border-radius: 50%;
   font-size: 18px;
   text-decoration: none;
   color: inherit;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   transition: all 0.2s ease;
   flex-shrink: 0;
 }
