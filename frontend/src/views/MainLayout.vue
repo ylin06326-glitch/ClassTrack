@@ -1,5 +1,7 @@
 <template>
   <div class="main-layout">
+    <div class="breathing-background"></div>
+    <div class="breathing-glow-layer"></div>
     <!-- ========== 顶部导航栏 ========== -->
     <header class="app-header">
       <div class="header-inner">

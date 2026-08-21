@@ -360,3 +360,90 @@ img, video, canvas, svg {
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
 }
+
+/* ========== 呼吸灯背景动画 ========== */
+@keyframes breathing-bg {
+  0% {
+    background: linear-gradient(135deg, 
+      rgba(173, 216, 230, 0.4) 0%, 
+      rgba(221, 160, 221, 0.3) 50%, 
+      rgba(255, 218, 185, 0.4) 100%);
+  }
+  25% {
+    background: linear-gradient(135deg, 
+      rgba(176, 224, 230, 0.45) 0%, 
+      rgba(221, 160, 221, 0.35) 50%, 
+      rgba(255, 228, 196, 0.45) 100%);
+  }
+  50% {
+    background: linear-gradient(135deg, 
+      rgba(152, 251, 152, 0.35) 0%, 
+      rgba(173, 216, 230, 0.4) 50%, 
+      rgba(221, 160, 221, 0.35) 100%);
+  }
+  75% {
+    background: linear-gradient(135deg, 
+      rgba(255, 218, 185, 0.4) 0%, 
+      rgba(255, 192, 203, 0.35) 50%, 
+      rgba(221, 160, 221, 0.4) 100%);
+  }
+  100% {
+    background: linear-gradient(135deg, 
+      rgba(173, 216, 230, 0.4) 0%, 
+      rgba(221, 160, 221, 0.3) 50%, 
+      rgba(255, 218, 185, 0.4) 100%);
+  }
+}
+
+/* 呼吸光晕动画 */
+@keyframes breathing-glow {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+/* 应用呼吸灯背景到页面 */
+.breathing-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  animation: breathing-bg 8s ease-in-out infinite;
+  transition: background 2s ease-in-out;
+}
+
+/* 呼吸光晕层 */
+.breathing-glow-layer {
+  position: fixed;
+  top: -20%;
+  left: -20%;
+  width: 140%;
+  height: 140%;
+  z-index: -1;
+  background: radial-gradient(ellipse at 30% 40%, 
+    rgba(135, 206, 250, 0.3) 0%, 
+    transparent 50%),
+    radial-gradient(ellipse at 70% 60%, 
+    rgba(221, 160, 221, 0.25) 0%, 
+    transparent 50%),
+    radial-gradient(ellipse at 50% 80%, 
+    rgba(255, 218, 185, 0.2) 0%, 
+    transparent 50%);
+  animation: breathing-glow 6s ease-in-out infinite;
+  filter: blur(40px);
+}
+
+/* 减少动画偏好 */
+@media (prefers-reduced-motion: reduce) {
+  .breathing-background,
+  .breathing-glow-layer {
+    animation: none;
+  }
+}
