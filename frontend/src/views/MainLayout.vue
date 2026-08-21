@@ -46,6 +46,13 @@
             :items="tabItems"
             size="small"
             active-color="#6ba3c7"
+            :press-lerp="0.5"
+            :release-delay-ms="60"
+            :drag-overflow-damping="1.5"
+            :morph-lerp="0.6"
+            :morph-max-stretch="20"
+            :morph-skew-factor="0.4"
+            :morph-max-skew-deg="6"
           />
         </div>
         <GlassButton title="支持作者" class="header-icon-btn" :width="40" @click="donateVisible = true">❤️</GlassButton>

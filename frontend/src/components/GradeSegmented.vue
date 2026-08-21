@@ -8,13 +8,13 @@
       :label-inactive-opacity="1"
       :label-active-scale="1.05"
       :hover-light="true"
-      :press-lerp="0.2"
-      :release-delay-ms="300"
-      :drag-overflow-damping="2.5"
-      :morph-lerp="0.3"
-      :morph-max-stretch="28"
-      :morph-skew-factor="0.6"
-      :morph-max-skew-deg="10"
+      :press-lerp="0.5"
+      :release-delay-ms="60"
+      :drag-overflow-damping="1.5"
+      :morph-lerp="0.6"
+      :morph-max-stretch="20"
+      :morph-skew-factor="0.4"
+      :morph-max-skew-deg="6"
       :track-filter-blur="glassStore.effectiveBlur"
       :track-filter-refractive-index="glassStore.effectiveRefractiveIndex"
       :track-filter-specular-opacity="glassStore.effectiveSpecularOpacity"
@@ -123,8 +123,8 @@ function onChange(value: string) {
 .grade-segmented :deep(.lg-nav-thumb),
 .grade-segmented :deep(.lg-bottom-nav-thumb),
 .grade-segmented :deep(.lg-thumb) {
-  transition: background-color 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
-              transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+  transition: background-color 0.18s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              transform 0.18s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
 }
 
 /* 减少动画偏好 */
