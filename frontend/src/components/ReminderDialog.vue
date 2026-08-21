@@ -140,7 +140,7 @@ function exportReminder(): void {
   max-height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;
   font-size: 13px; color: #3a4a5a; line-height: 1.7;
 }
-.reminder-group { background: #f6f8fa; border-radius: 8px; padding: 8px 12px; }
+.reminder-group { background: rgba(246, 248, 250, 0.6); backdrop-filter: blur(8px); border-radius: 8px; padding: 8px 12px; }
 .reminder-list.privacy .reminder-group {
   font-family: 'SF Mono', Consolas, monospace; letter-spacing: 1px;
 }

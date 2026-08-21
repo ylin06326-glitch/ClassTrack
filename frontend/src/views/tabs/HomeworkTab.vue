@@ -753,7 +753,7 @@ onBeforeUnmount(() => {
 .control-label { font-size: 14px; color: #5a6775; white-space: nowrap; }
 .label-gap { margin-left: 12px; }
 .date-nav-btn {
-  border: 1px solid rgba(150, 160, 175, 0.3); background: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.5); background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(10px);
   border-radius: 8px; width: 30px; height: 30px; cursor: pointer;
   color: #5a6775; font-size: 12px; line-height: 1;
 }
@@ -767,7 +767,7 @@ onBeforeUnmount(() => {
 .btn-today:hover { background: #e0edf4; }
 .type-select { width: 120px; }
 .btn-manage {
-  border: 1px solid rgba(150, 160, 175, 0.3); background: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.5); background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(10px);
   border-radius: 8px; width: 30px; height: 30px; cursor: pointer; font-size: 13px;
 }
 .btn-manage:hover { background: #f0f6fa; }
@@ -856,7 +856,7 @@ onBeforeUnmount(() => {
 .hw-student-row.privacy-row .hw-student-name { font-family: 'SF Mono', Consolas, monospace; letter-spacing: 1px; }
 .grade-quick-select { display: flex; gap: 6px; }
 .grade-qbtn {
-  border: 1px solid rgba(150, 160, 175, 0.25); background: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.5); background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(10px);
   border-radius: 12px; min-width: 40px; height: 26px;
   cursor: pointer; font-size: 12px; font-weight: 600; font-family: inherit;
   transition: all 0.15s ease;
@@ -881,7 +881,7 @@ onBeforeUnmount(() => {
 .panel-icon { font-size: 18px; }
 .scan-mode-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .scan-type-btn {
-  border: 1px solid rgba(150, 160, 175, 0.3); background: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.5); background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(10px);
   border-radius: 10px; padding: 6px 14px; cursor: pointer;
   font-size: 14px; color: #5a6775; font-family: inherit; transition: all 0.18s;
 }
@@ -893,7 +893,7 @@ onBeforeUnmount(() => {
 }
 .grade-buttons-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .grade-preset-btn {
-  border: 1px solid rgba(150, 160, 175, 0.3); background: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.5); background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(10px);
   border-radius: 12px; padding: 6px 14px; cursor: pointer;
   font-size: 13px; font-weight: 600; font-family: inherit; transition: all 0.15s ease;
 }
@@ -968,7 +968,7 @@ onBeforeUnmount(() => {
 .mobile-grade-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .mobile-actions { display: flex; align-items: center; gap: 8px; }
 .btn-refresh, .btn-clear {
-  border: 1px solid rgba(150, 160, 175, 0.3); background: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.5); background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(10px);
   border-radius: 8px; padding: 6px 12px; cursor: pointer;
   font-size: 13px; color: #5a6775; font-family: inherit;
 }
@@ -986,7 +986,7 @@ onBeforeUnmount(() => {
 .pending-empty { text-align: center; color: #8a97a8; padding: 20px; font-size: 13px; }
 .pending-item {
   display: flex; align-items: center; gap: 10px;
-  padding: 7px 12px; border-radius: 10px; background: #f6f8fa; font-size: 13px;
+  padding: 7px 12px; border-radius: 10px; background: rgba(246, 248, 250, 0.5); backdrop-filter: blur(8px); font-size: 13px;
 }
 .pending-item.external { background: #fdf6f0; }
 .pi-code { font-family: 'SF Mono', Consolas, monospace; color: #55636f; font-size: 12px; }

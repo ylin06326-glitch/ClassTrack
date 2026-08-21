@@ -92,7 +92,7 @@ async function onDelete(t: HomeworkType): Promise<void> {
 flex-direction: column; gap: 8px; margin-bottom: 14px; }
 .type-row {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 8px 12px; border-radius: 10px; background: #f6f8fa;
+  padding: 8px 12px; border-radius: 10px; background: rgba(246, 248, 250, 0.6); backdrop-filter: blur(8px);
 }
 .type-name { display: flex; align-items: center; gap: 6px; font-size: 14px; color: #3a4a5a; }
 .type-add-row { display: flex; gap: 8px; }

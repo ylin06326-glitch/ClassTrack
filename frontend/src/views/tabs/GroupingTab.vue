@@ -1227,7 +1227,7 @@ watch(
 .smart-sub { font-size: 0.78rem; }
 .smart-group-item {
   display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
-  padding: 8px 12px; border-radius: 8px; background: #f6f8fa;
+  padding: 8px 12px; border-radius: 8px; background: rgba(246, 248, 250, 0.5); backdrop-filter: blur(8px);
 }
 .smart-group-color { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
 .smart-group-name { font-weight: 700; font-size: 0.85rem; color: #3a4a5a; }

@@ -510,13 +510,13 @@ function exportStudentReport(): void {
 .detail-list { max-height: 380px; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; }
 .detail-item {
   display: flex; align-items: center; gap: 8px;
-  padding: 6px 10px; border-radius: 8px; background: #f6f8fa; font-size: 13px;
+  padding: 6px 10px; border-radius: 8px; background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(8px); font-size: 13px;
 }
 .detail-item.clickable { cursor: pointer; }
-.detail-item.clickable:hover { background: #eef6fb; }
+.detail-item.clickable:hover { background: rgba(238, 246, 251, 0.7); }
 .detail-name { color: #3a4a5a; }
 .detail-group {
-  background: #e3ebf2; color: #55636f; padding: 1px 8px; border-radius: 10px; font-size: 11px;
+  background: rgba(227, 235, 242, 0.6); color: #55636f; padding: 1px 8px; border-radius: 10px; font-size: 11px;
 }
 
 /* 学生报表 */
