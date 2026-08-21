@@ -52,14 +52,23 @@
                 />
               </div>
 
-              <!-- 按钮区 -->
+              <!-- 按钮区 - 使用 GlassButton（开源库 LiquidGlassButton） -->
               <div class="gm-btns">
-                <button v-if="mode !== 'alert'" class="gm-btn gm-btn-cancel" @click="onCancel">
+                <GlassButton
+                  v-if="mode !== 'alert'"
+                  type="default"
+                  size="default"
+                  @click="onCancel"
+                >
                   {{ cancelButtonText }}
-                </button>
-                <button class="gm-btn gm-btn-confirm" @click="onConfirm">
+                </GlassButton>
+                <GlassButton
+                  type="primary"
+                  size="default"
+                  @click="onConfirm"
+                >
                   {{ confirmButtonText }}
-                </button>
+                </GlassButton>
               </div>
             </div>
           </LiquidGlassPanel>
@@ -72,6 +81,7 @@
 <script setup lang="ts">
 import { ref, computed, nextTick, watch } from 'vue'
 import { LiquidGlassPanel } from '@sapryniukt/vue-liquid-glass'
+import GlassButton from './GlassButton.vue'
 
 export type MessageBoxMode = 'confirm' | 'prompt' | 'alert'
 
@@ -137,6 +147,7 @@ function onCancel() {
 </script>
 
 <style scoped>
+/* 只保留布局相关的 CSS，样式完全依赖开源库 */
 .glass-message-box-overlay {
   position: fixed;
   top: 0;
@@ -263,45 +274,8 @@ function onCancel() {
   border-top: 1px solid rgba(0, 0, 0, 0.06);
 }
 
-.gm-btn {
+.gm-btns :deep(.glass-button-wrapper) {
   flex: 1;
-  padding: 12px 24px;
-  font-size: 15px;
-  font-weight: 700;
-  border-radius: 999px;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  border: 2px solid transparent;
-}
-
-.gm-btn-cancel {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-color: rgba(255, 255, 255, 0.9);
-  color: #1a1a1a;
-  box-shadow: 0 4px 12px rgba(90, 110, 140, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.9);
-}
-
-.gm-btn-cancel:hover {
-  background: rgba(255, 255, 255, 0.95);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(90, 110, 140, 0.2);
-}
-
-.gm-btn-confirm {
-  background: linear-gradient(135deg, rgba(80, 140, 180, 0.95), rgba(106, 162, 196, 0.95));
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-color: rgba(255, 255, 255, 0.6);
-  color: #ffffff;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-  box-shadow: 0 6px 20px rgba(80, 140, 180, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.4);
-}
-
-.gm-btn-confirm:hover {
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 10px 28px rgba(80, 140, 180, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 /* 动画 */
