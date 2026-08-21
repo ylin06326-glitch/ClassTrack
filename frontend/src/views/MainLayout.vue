@@ -425,6 +425,22 @@ function exportStudentReport(): void {
   border-bottom: none;
   box-shadow: none;
   padding: 12px 20px;
+  /* 覆盖全局 * { transform: translateZ(0); perspective: 1000px; } */
+  transform: none !important;
+  -webkit-transform: none !important;
+  perspective: none !important;
+  -webkit-perspective: none !important;
+  backface-visibility: visible !important;
+  -webkit-backface-visibility: visible !important;
+}
+/* 覆盖所有子元素的全局 transform 和 perspective */
+.app-header * {
+  transform: none !important;
+  -webkit-transform: none !important;
+  perspective: none !important;
+  -webkit-perspective: none !important;
+  backface-visibility: visible !important;
+  -webkit-backface-visibility: visible !important;
 }
 .header-inner {
   display: flex; align-items: center; gap: 8px;
