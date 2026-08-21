@@ -85,8 +85,8 @@
         </div>
       </div>
       <div class="class-add-row">
-        <el-input v-model="newClassName" placeholder="输入新班级名称" maxlength="20" @keyup.enter="onAddClass" />
-        <el-button type="success" @click="onAddClass">+ 新建班级</el-button>
+        <GlassInput v-model="newClassName" placeholder="输入新班级名称" @keyup.enter="onAddClass" />
+        <GlassButton type="primary" @click="onAddClass">+ 新建班级</GlassButton>
       </div>
     </GlassDialog>
 
@@ -160,7 +160,7 @@
           </el-table>
         </div>
         <div class="report-actions">
-          <el-button type="success" size="small" @click="exportStudentReport">📥 导出Excel</el-button>
+          <GlassButton type="primary" size="small" @click="exportStudentReport">📥 导出Excel</GlassButton>
           <span class="report-total">共 {{ reportData?.total || 0 }} 条记录</span>
         </div>
       </template>
@@ -170,6 +170,8 @@
 
 <script setup lang="ts">
 import GlassDialog from '@/components/GlassDialog.vue'
+import GlassButton from '@/components/GlassButton.vue'
+import GlassInput from '@/components/GlassInput.vue'
 import { ref, onMounted, provide } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useAppStore } from '@/stores/app'
