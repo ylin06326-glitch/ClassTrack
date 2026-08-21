@@ -101,6 +101,7 @@ import { ElMessage } from 'element-plus'
 import axios from 'axios'
 import { loadAIConfig, saveAIConfig, testAIConfig } from '@/api'
 import { useGlassStore } from '@/stores/glass'
+import WallpaperSelector from '@/components/WallpaperSelector.vue'
 
 /** 各服务商默认 Base URL 与模型（与旧版 ai.js defaults 一致） */
 const PROVIDER_DEFAULTS: Record<string, { url: string; model: string }> = {
