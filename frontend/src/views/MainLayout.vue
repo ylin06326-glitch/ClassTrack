@@ -28,7 +28,7 @@
           <LiquidGlassBottomNavBar
             v-model="activeTab"
             :items="tabItems"
-            size="medium"
+            size="small"
             active-color="#6ba3c7"
           />
         </div>
@@ -382,8 +382,8 @@ function exportStudentReport(): void {
   padding: 12px 20px;
 }
 .header-inner {
-  display: flex; align-items: center; gap: 10px;
-  max-width: 100%; margin: 0 auto; padding: 10px 18px;
+  display: flex; align-items: center; gap: 6px;
+  max-width: 100%; margin: 0 auto; padding: 6px 12px;
   flex-wrap: nowrap;
   overflow-x: hidden;
   overflow-y: visible;
