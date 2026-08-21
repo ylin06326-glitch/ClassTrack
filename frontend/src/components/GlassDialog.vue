@@ -19,10 +19,23 @@
     class="glass-dialog-wrapper"
   >
     <LiquidGlassPanel
-      :intensity="intensity"
-      :blur="blur"
-      :saturation="saturation"
-      :brightness="brightness"
+      :border-radius="28"
+      :bezel-width="4"
+      :glass-thickness="8"
+      :refractive-index="1.8"
+      :blur="15"
+      :scale-ratio="1.2"
+      :specular-opacity="0.9"
+      :specular-saturation="2.5"
+      :background-color="'rgba(255, 255, 255, 0.55)'"
+      :background-opacity="1"
+      :shadow="'0 30px 80px rgba(90, 110, 140, 0.35), 0 12px 32px rgba(90, 110, 140, 0.2)'"
+      :border-width="2"
+      :border-color="'rgba(255, 255, 255, 0.85)'"
+      :content-padding="'0'"
+      :center-blur-amount="12"
+      :gradient-blur-size="50"
+      :hover-light="true"
       class="glass-dialog-panel"
     >
       <div class="glass-dialog-content">
@@ -51,10 +64,6 @@ interface Props {
   center?: boolean
   alignCenter?: boolean
   destroyOnClose?: boolean
-  intensity?: number
-  blur?: number
-  saturation?: number
-  brightness?: number
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -68,10 +77,6 @@ const props = withDefaults(defineProps<Props>(), {
   center: false,
   alignCenter: false,
   destroyOnClose: false,
-  intensity: 1.0,
-  blur: 60,
-  saturation: 250,
-  brightness: 1.2,
 })
 
 const emit = defineEmits<{
@@ -103,17 +108,17 @@ const emit = defineEmits<{
 }
 
 .glass-dialog-wrapper :deep(.el-dialog__title) {
-  color: #1d1d1f !important;
-  font-weight: 800 !important;
+  color: #000000 !important;
+  font-weight: 900 !important;
   font-size: 20px !important;
   text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8) !important;
 }
 
 .glass-dialog-wrapper :deep(.el-dialog__headerbtn) {
-  background: rgba(255, 255, 255, 0.5) !important;
+  background: rgba(255, 255, 255, 0.6) !important;
   backdrop-filter: blur(12px) !important;
   -webkit-backdrop-filter: blur(12px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  border: 1px solid rgba(255, 255, 255, 0.7) !important;
   border-radius: 999px !important;
   width: 36px !important;
   height: 36px !important;
@@ -123,7 +128,7 @@ const emit = defineEmits<{
 }
 
 .glass-dialog-wrapper :deep(.el-dialog__headerbtn:hover) {
-  background: rgba(255, 100, 100, 0.3) !important;
+  background: rgba(255, 100, 100, 0.35) !important;
   transform: scale(1.15) rotate(90deg) !important;
 }
 
@@ -136,7 +141,7 @@ const emit = defineEmits<{
 .glass-dialog-wrapper :deep(.el-dialog__body) {
   background: transparent !important;
   padding: 0 !important;
-  color: #2c3440 !important;
+  color: #1a1a1a !important;
   font-size: 15px !important;
   line-height: 1.6 !important;
 }
@@ -150,13 +155,12 @@ const emit = defineEmits<{
 
 /* LiquidGlassPanel 容器 */
 .glass-dialog-panel {
-  border-radius: 32px !important;
-  padding: 28px !important;
   overflow: hidden !important;
 }
 
 .glass-dialog-content {
   position: relative !important;
   z-index: 2 !important;
+  padding: 28px !important;
 }
 </style>
