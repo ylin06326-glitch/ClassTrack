@@ -5,6 +5,9 @@
       :items="gradeItems"
       :size="'medium'"
       :active-color="activeColor"
+      :label-inactive-opacity="1"
+      :label-active-scale="1.05"
+      :hover-light="true"
       @update:model-value="onChange"
     />
   </div>
@@ -54,9 +57,10 @@ function onChange(value: string) {
   display: inline-flex;
   align-items: center;
   /* 强制覆盖库的 CSS 变量，适配浅色背景 */
-  --lg-nav-text: #3c4655 !important;
-  --lg-nav-active: #1d1d1f !important;
+  --lg-nav-text: #1d1d1f !important;
+  --lg-nav-active: #000000 !important;
   --lg-nav-text-hover: #2c3440 !important;
+  color: #1d1d1f !important;
 }
 
 .grade-segmented--compact {
@@ -65,51 +69,19 @@ function onChange(value: string) {
 }
 
 /* 覆盖液态玻璃导航栏的默认样式，适配浅色背景 */
-.grade-segmented :deep(.lg-bottom-nav) {
-  position: relative !important;
-  bottom: auto !important;
-  left: auto !important;
-  right: auto !important;
-  width: 100% !important;
-  min-width: 310px !important;
-  background: rgba(0, 0, 0, 0.03) !important;
-  backdrop-filter: none !important;
-  border: 1px solid rgba(0, 0, 0, 0.06) !important;
-  border-radius: 14px !important;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.04) !important;
-  padding: 6px !important;
-}
-
-/* 强制覆盖文字颜色 - 用多层选择器提高优先级 */
-.grade-segmented :deep(.lg-bottom-nav .lg-nav-item),
-.grade-segmented :deep(.lg-nav-item),
-.grade-segmented :deep(.lg-nav-item span),
-.grade-segmented :deep(.lg-nav-item .lg-nav-label),
-.grade-segmented :deep(.lg-nav-item *),
-.grade-segmented :deep(.lg-bottom-nav *) {
-  color: #3c4655 !important;
-  opacity: 1 !important;
-  font-size: 18px !important;
-  font-weight: 700 !important;
-  padding: 7px 11px !important;
-  line-height: 1.2 !important;
-}
-
-.grade-segmented :deep(.lg-nav-item.active),
-.grade-segmented :deep(.lg-nav-item.active span),
-.grade-segmented :deep(.lg-nav-item.active .lg-nav-label),
-.grade-segmented :deep(.lg-nav-item.active *),
-.grade-segmented :deep(.lg-bottom-nav .lg-nav-item.active *) {
+.grade-segmented :deep(*) {
   color: #1d1d1f !important;
-  font-weight: 900 !important;
-  opacity: 1 !important;
-  font-size: 18px !important;
-  line-height: 1.2 !important;
 }
 
-.grade-segmented :deep(.lg-nav-item:hover),
-.grade-segmented :deep(.lg-nav-item:hover span) {
-  color: #2c3440 !important;
+/* 强制所有文字为深色，确保可读性 */
+.grade-segmented :deep(span),
+.grade-segmented :deep(div),
+.grade-segmented :deep(p),
+.grade-segmented :deep(label),
+.grade-segmented :deep(a) {
+  color: #1d1d1f !important;
+  opacity: 1 !important;
+  font-weight: 700 !important;
 }
 
 /* 确保滑块颜色根据等级明显变化 */
