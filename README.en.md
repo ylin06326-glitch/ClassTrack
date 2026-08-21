@@ -61,15 +61,15 @@
 |----------|-------------------|
 | ![Grouping](docs/images/01-grouping.png) | ![Assignment](docs/images/02-assignment.png) |
 
-| AI Assistant | Mobile QR Check-in |
+| AI Assistant | QR Scanner |
 |-------------|-------------------|
-| ![AI Assistant](docs/images/05-ai-assistant.png) | ![Mobile QR](docs/images/04-mobile-qr.png) |
+| ![AI Assistant](docs/images/05-ai-assistant.png) | ![QR Scanner](docs/images/03-qr-scanner.png) |
 
 ### More Features
 
-| Webcam QR Scanner | Reminder Notification | AI Comment Generation |
-|-------------------|----------------------|----------------------|
-| ![QR Scanner](docs/images/03-qr-scanner.png) | ![Reminder](docs/images/06-reminder.png) | ![AI Comment](docs/images/07-ai-comment.png) |
+| Analytics | Exam Management | Settings |
+|-----------|-----------------|----------|
+| ![Analytics](docs/images/08-analytics.png) | ![Exams](docs/images/10-exams.png) | ![Settings](docs/images/09-settings.png) |
 
 > 💡 Screenshots show the latest Liquid Glass UI. If you see the old version, please refresh your cache.
 
@@ -78,8 +78,9 @@
 ## Table of Contents
 
 - [Features](#features)
-- [Tech Stack](#tech-stack)
 - [Quick Start](#quick-start)
+- [Tech Stack](#tech-stack)
+- [Development Guide](#development-guide)
 - [Project Structure](#project-structure)
 - [License](#license)
 - [Contact](#contact)
@@ -133,21 +134,6 @@
 
 ---
 
-## Tech Stack
-
-| Layer | Technology |
-|-------|-----------|
-| Backend | Python 3.10+ / FastAPI / Uvicorn |
-| Frontend | Vue 3.5 + TypeScript + Vite + Pinia + Element Plus |
-| Liquid Glass | `@sapryniukt/vue-liquid-glass` (GPL-3.0) |
-| Charts | ECharts 5 |
-| Database | SQLite (local file database) |
-| Packaging | PyInstaller (Windows single-file exe) |
-| AI | OpenAI-compatible API (DeepSeek / OpenAI / Tongyi Qianwen) |
-| Others | qrcode / pandas / openpyxl / html5-qrcode |
-
----
-
 ## Quick Start
 
 ### Requirements
@@ -166,12 +152,7 @@ cd ClassTrack
 # 2. Install backend dependencies
 pip install -r backend/requirements.txt
 
-# 3. Install frontend dependencies (optional, for modifying frontend)
-cd frontend
-npm install
-cd ..
-
-# 4. Start (default HTTPS 5088)
+# 3. Start (default HTTPS 5088)
 python backend/run.py
 
 # Or HTTP debug mode
@@ -182,12 +163,49 @@ The browser will automatically open `https://localhost:5088` after startup.
 
 > **Mobile QR Check-in**: Ensure your phone and computer are on the same LAN, then visit `https://<computer-ip>:5088/mobile`
 
+### Usage Workflow
+
+1. **Create a class**: Create a class on first use
+2. **Import students**: Import student roster via Excel or plain text
+3. **Manage groups**: Drag students to different groups, supports auto-grouping
+4. **Grade assignments**: Click the corresponding grade (A/B/C/Leave/Missing) for each student, or use QR check-in
+5. **View data**: View statistical charts and trends on the analytics page
+6. **Export reports**: Export individual student ledgers or class summary Excel
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Backend | Python 3.10+ / FastAPI / Uvicorn |
+| Frontend | Vue 3.5 + TypeScript + Vite + Pinia + Element Plus |
+| Liquid Glass | `@sapryniukt/vue-liquid-glass` (GPL-3.0) |
+| Charts | ECharts 5 |
+| Database | SQLite (local file database) |
+| Packaging | PyInstaller (Windows single-file exe) |
+| AI | OpenAI-compatible API (DeepSeek / OpenAI / Tongyi Qianwen) |
+| Others | qrcode / pandas / openpyxl / html5-qrcode |
+
+---
+
+## Development Guide
+
 ### Frontend Development
 
 ```bash
 cd frontend
+npm install      # Install dependencies
 npm run dev      # Development mode
 npm run build    # Build production version to dist/
+```
+
+### Backend Development
+
+```bash
+cd backend
+pip install -r requirements.txt
+python run.py --http --port 5099 --no-browser
 ```
 
 ### Package as exe

@@ -61,15 +61,15 @@
 |---------|---------|
 | ![班级分组](docs/images/01-grouping.png) | ![作业登记](docs/images/02-assignment.png) |
 
-| AI 智能助手 | 手机扫码登记 |
+| AI 智能助手 | 电脑扫码 |
 |------------|-------------|
-| ![AI助手](docs/images/05-ai-assistant.png) | ![手机扫码](docs/images/04-mobile-qr.png) |
+| ![AI助手](docs/images/05-ai-assistant.png) | ![电脑扫码](docs/images/03-qr-scanner.png) |
 
 ### 更多功能
 
-| 电脑扫码 | 催交通知 | AI 评语生成 |
-|---------|---------|------------|
-| ![电脑扫码](docs/images/03-qr-scanner.png) | ![催交通知](docs/images/06-reminder.png) | ![AI评语](docs/images/07-ai-comment.png) |
+| 数据总览 | 成绩管理 | 设置页面 |
+|---------|---------|---------|
+| ![数据总览](docs/images/08-analytics.png) | ![成绩管理](docs/images/10-exams.png) | ![设置页面](docs/images/09-settings.png) |
 
 > 💡 截图为最新液态玻璃 UI，如显示旧版请刷新缓存
 
@@ -78,8 +78,9 @@
 ## 目录
 
 - [功能特性](#功能特性)
-- [技术栈](#技术栈)
 - [快速开始](#快速开始)
+- [技术栈](#技术栈)
+- [开发指南](#开发指南)
 - [项目结构](#项目结构)
 - [许可协议](#许可协议)
 - [联系方式](#联系方式)
@@ -133,21 +134,6 @@
 
 ---
 
-## 技术栈
-
-| 层级 | 技术 |
-|------|------|
-| 后端 | Python 3.10+ / FastAPI / Uvicorn |
-| 前端 | Vue 3.5 + TypeScript + Vite + Pinia + Element Plus |
-| 液态玻璃 | `@sapryniukt/vue-liquid-glass` (GPL-3.0) |
-| 图表 | ECharts 5 |
-| 数据 | SQLite (本地文件数据库) |
-| 打包 | PyInstaller (Windows 单文件 exe) |
-| AI | OpenAI 兼容 API (DeepSeek / OpenAI / 通义千问) |
-| 其他 | qrcode / pandas / openpyxl / html5-qrcode |
-
----
-
 ## 快速开始
 
 ### 环境要求
@@ -166,12 +152,7 @@ cd ClassTrack
 # 2. 安装后端依赖
 pip install -r backend/requirements.txt
 
-# 3. 安装前端依赖（可选，如需修改前端）
-cd frontend
-npm install
-cd ..
-
-# 4. 启动（默认 HTTPS 5088）
+# 3. 启动（默认 HTTPS 5088）
 python backend/run.py
 
 # 或 HTTP 调试模式
@@ -182,12 +163,49 @@ python backend/run.py --http --port 5099
 
 > **手机扫码登记**：确保手机和电脑在同一局域网，访问 `https://<电脑IP>:5088/mobile`
 
+### 使用流程
+
+1. **创建班级**：首次使用时创建班级
+2. **导入学生**：通过 Excel 或文字导入学生名单
+3. **分组管理**：拖拽学生到不同小组，支持自动分组
+4. **作业登记**：点击学生对应的等级（A/B/C/请假/未交），或使用扫码登记
+5. **查看数据**：在数据总览页面查看统计图表和趋势
+6. **导出报表**：导出单学生台账或全班汇总 Excel
+
+---
+
+## 技术栈
+
+| 层级 | 技术 |
+|------|------|
+| 后端 | Python 3.10+ / FastAPI / Uvicorn |
+| 前端 | Vue 3.5 + TypeScript + Vite + Pinia + Element Plus |
+| 液态玻璃 | `@sapryniukt/vue-liquid-glass` (GPL-3.0) |
+| 图表 | ECharts 5 |
+| 数据 | SQLite (本地文件数据库) |
+| 打包 | PyInstaller (Windows 单文件 exe) |
+| AI | OpenAI 兼容 API (DeepSeek / OpenAI / 通义千问) |
+| 其他 | qrcode / pandas / openpyxl / html5-qrcode |
+
+---
+
+## 开发指南
+
 ### 前端开发
 
 ```bash
 cd frontend
+npm install      # 安装依赖
 npm run dev      # 开发模式
 npm run build    # 构建生产版本到 dist/
+```
+
+### 后端开发
+
+```bash
+cd backend
+pip install -r requirements.txt
+python run.py --http --port 5099 --no-browser
 ```
 
 ### 打包为 exe
