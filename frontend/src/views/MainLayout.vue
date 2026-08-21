@@ -382,10 +382,16 @@ function exportStudentReport(): void {
   padding: 12px 20px;
 }
 .header-inner {
-  display: flex; align-items: center; gap: 14px;
-  max-width: 1560px; margin: 0 auto; padding: 10px 18px;
-  flex-wrap: wrap;
+  display: flex; align-items: center; gap: 10px;
+  max-width: 100%; margin: 0 auto; padding: 10px 18px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: visible;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
 }
+.header-inner::-webkit-scrollbar { height: 4px; }
+.header-inner::-webkit-scrollbar-thumb { background: rgba(150,160,175,0.3); border-radius: 2px; }
 .logo-area { display: flex; align-items: center; gap: 8px; }
 .logo-icon { font-size: 26px; }
 .app-title { font-size: 20px; margin: 0; color: #3a4a5a; }
