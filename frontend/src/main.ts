@@ -12,6 +12,7 @@ import GlassSwitch from './components/GlassSwitch.vue'
 import GlassSlider from './components/GlassSlider.vue'
 import GlassPanel from './components/GlassPanel.vue'
 import GlassDialog from './components/GlassDialog.vue'
+import GlassSegmented from './components/GlassSegmented.vue'
 import router from './router'
 import './liquid-glass-core.css'
 import './liquid-glass-light.css'
@@ -31,6 +32,7 @@ app.component('GlassSwitch', GlassSwitch)
 app.component('GlassSlider', GlassSlider)
 app.component('GlassPanel', GlassPanel)
 app.component('GlassDialog', GlassDialog)
+app.component('GlassSegmented', GlassSegmented)
 
 app.use(createPinia())
 app.use(router)

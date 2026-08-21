@@ -36,15 +36,11 @@
 
     <!-- ============ 登记方式子Tab ============ -->
     <div class="hw-subtab-nav">
-      <GlassButton :type="activeSubtab === 'manual' ? 'primary' : 'default'"
- @click="activeSubtab = 'manual'"
->✏️ 手动登记</GlassButton>
-      <GlassButton :type="activeSubtab === 'pcscan' ? 'primary' : 'default'"
- @click="activeSubtab = 'pcscan'"
->📷 电脑扫码</GlassButton>
-      <GlassButton :type="activeSubtab === 'mobile' ? 'primary' : 'default'"
- @click="activeSubtab = 'mobile'"
->📱 手机扫码</GlassButton>
+      <GlassSegmented
+        v-model="activeSubtab"
+        :items="subtabItems"
+        size="medium"
+      />
     </div>
 
     <!-- ============ 手动登记面板 ============ -->
@@ -297,6 +293,11 @@ const PC_GRADE_LABELS: Record<Grade, string> = {
   X: '🩷 未交',
 }
 const activeSubtab = ref<'manual' | 'pcscan' | 'mobile'>('manual')
+const subtabItems = [
+  { id: 'manual', label: '✏️ 手动登记' },
+  { id: 'pcscan', label: '📷 电脑扫码' },
+  { id: 'mobile', label: '📱 手机扫码' },
+]
 const hwDate = ref(dayjs().format('YYYY-MM-DD'))
 const typesDialogVisible = ref(false)
 const reminderVisible = ref(false)
