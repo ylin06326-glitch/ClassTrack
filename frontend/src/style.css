@@ -676,6 +676,40 @@ img, video, canvas, svg {
   animation: flowing-glow-3 22s ease-in-out infinite;
 }
 
+
+
+/* 视频壁纸样式 */
+.wallpaper-video {
+  background: #000 !important;
+}
+
+.video-wallpaper-element {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+  opacity: 0.7;
+}
+
+/* 视频壁纸遮罩层，增加文字可读性 */
+.video-wallpaper-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.2) 0%,
+    rgba(0, 0, 0, 0.1) 50%,
+    rgba(0, 0, 0, 0.2) 100%
+  );
+}
+
 /* 减少动画偏好 */
 @media (prefers-reduced-motion: reduce) {
   .wallpaper-morandi,

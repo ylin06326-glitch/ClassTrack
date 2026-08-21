@@ -2,6 +2,17 @@
   <div class="main-layout">
     <!-- 壁纸层 -->
     <div class="wallpaper-layer" :class="wallpaperStore.currentCssClass" :style="customWallpaperStyle"></div>
+    <!-- 视频壁纸 -->
+    <video
+      v-if="wallpaperStore.isVideoWallpaper && wallpaperStore.currentVideoUrl"
+      class="video-wallpaper-element"
+      :src="wallpaperStore.currentVideoUrl"
+      :muted="wallpaperStore.videoMuted"
+      :loop="wallpaperStore.videoLoop"
+      autoplay
+      playsinline
+    ></video>
+    <div v-if="wallpaperStore.isVideoWallpaper" class="video-wallpaper-overlay"></div>
     <!-- 莫兰迪壁纸的光晕层 -->
     <div v-if="wallpaperStore.currentWallpaperId === 'morandi-breathing'" class="wallpaper-glow-layer"></div>
     <div v-if="wallpaperStore.currentWallpaperId === 'morandi-breathing'" class="wallpaper-glow-3"></div>
