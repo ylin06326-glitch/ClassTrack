@@ -420,7 +420,7 @@ function exportStudentReport(): void {
 <style scoped>
 .main-layout { min-height: 100vh; display: flex; flex-direction: column; }
 .app-header {
-  position: sticky; top: 0; z-index: 100;
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
   background: transparent;
   border-bottom: none;
   box-shadow: none;
@@ -472,6 +472,7 @@ function exportStudentReport(): void {
 .logo-area {
   display: flex; align-items: center; gap: 8px;
   position: relative;
+  z-index: 1;
   background: rgba(255, 255, 255, 0.12);
   backdrop-filter: blur(64px) saturate(200%) brightness(1.2) contrast(110%);
   -webkit-backdrop-filter: blur(64px) saturate(200%) brightness(1.2) contrast(110%);
@@ -491,6 +492,7 @@ function exportStudentReport(): void {
 .class-selector {
   display: flex; align-items: center; gap: 4px;
   position: relative;
+  z-index: 1;
   background: rgba(255, 255, 255, 0.12);
   backdrop-filter: blur(64px) saturate(200%) brightness(1.2) contrast(110%);
   -webkit-backdrop-filter: blur(64px) saturate(200%) brightness(1.2) contrast(110%);
@@ -510,6 +512,7 @@ function exportStudentReport(): void {
   display: flex;
   align-items: center;
   position: relative;
+  z-index: 1;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(72px) saturate(200%) brightness(1.2) contrast(110%);
   -webkit-backdrop-filter: blur(72px) saturate(200%) brightness(1.2) contrast(110%);
@@ -581,6 +584,7 @@ function exportStudentReport(): void {
   display: inline-flex; align-items: center; justify-content: center;
   width: 40px; height: 40px;
   position: relative;
+  z-index: 1;
   background: rgba(255, 255, 255, 0.12);
   backdrop-filter: blur(64px) saturate(200%) brightness(1.2) contrast(110%);
   -webkit-backdrop-filter: blur(64px) saturate(200%) brightness(1.2) contrast(110%);
@@ -605,7 +609,7 @@ function exportStudentReport(): void {
   cursor: pointer; color: #b0566a; padding: 4px 8px;
 }
 .btn-exit:hover { color: #8a4a5a; }
-.app-main { flex: 1; max-width: 1560px; width: 100%; margin: 0 auto; padding: 16px 18px 40px; }
+.app-main { flex: 1; max-width: 1560px; width: 100%; margin: 0 auto; padding: 96px 18px 40px; }
 
 /* 班级管理 */
 .class-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
