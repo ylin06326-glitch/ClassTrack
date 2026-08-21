@@ -499,3 +499,194 @@ img, video, canvas, svg {
     animation: none;
   }
 }
+
+
+/* ========== 壁纸预设样式 ========== */
+
+/* 通用壁纸层 */
+.wallpaper-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  transition: opacity 0.8s ease;
+}
+
+/* 1. 莫兰迪呼吸灯（默认） */
+.wallpaper-morandi {
+  background: linear-gradient(
+    120deg,
+    rgba(180, 195, 210, 0.28) 0%,
+    rgba(190, 180, 200, 0.25) 25%,
+    rgba(205, 195, 185, 0.28) 50%,
+    rgba(175, 190, 185, 0.25) 75%,
+    rgba(195, 185, 195, 0.26) 100%
+  );
+  background-size: 400% 400%;
+  animation: flowing-bg 20s ease infinite;
+}
+
+/* 2. 苹果日落 */
+@keyframes sunset-flow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.wallpaper-sunset {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 107, 107, 0.3) 0%,
+    rgba(255, 165, 0, 0.25) 30%,
+    rgba(255, 217, 61, 0.2) 60%,
+    rgba(255, 140, 66, 0.25) 100%
+  );
+  background-size: 300% 300%;
+  animation: sunset-flow 15s ease infinite;
+}
+
+/* 3. 苹果极光 */
+@keyframes aurora-flow {
+  0% { background-position: 0% 50%; transform: scale(1); }
+  50% { background-position: 100% 50%; transform: scale(1.05); }
+  100% { background-position: 0% 50%; transform: scale(1); }
+}
+
+.wallpaper-aurora {
+  background: linear-gradient(
+    120deg,
+    rgba(0, 212, 255, 0.2) 0%,
+    rgba(0, 255, 136, 0.18) 30%,
+    rgba(123, 47, 247, 0.22) 60%,
+    rgba(0, 212, 255, 0.2) 100%
+  );
+  background-size: 400% 400%;
+  animation: aurora-flow 18s ease infinite;
+}
+
+/* 4. 苹果海洋 */
+@keyframes ocean-wave {
+  0%, 100% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+}
+
+.wallpaper-ocean {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 119, 182, 0.25) 0%,
+    rgba(0, 180, 216, 0.2) 40%,
+    rgba(144, 224, 239, 0.18) 70%,
+    rgba(0, 119, 182, 0.25) 100%
+  );
+  background-size: 200% 200%;
+  animation: ocean-wave 12s ease-in-out infinite;
+}
+
+/* 5. 苹果山脉 */
+@keyframes mountain-drift {
+  0%, 100% { background-position: 0% 100%; }
+  50% { background-position: 100% 0%; }
+}
+
+.wallpaper-mountain {
+  background: linear-gradient(
+    160deg,
+    rgba(45, 27, 105, 0.3) 0%,
+    rgba(91, 58, 140, 0.25) 40%,
+    rgba(142, 124, 195, 0.2) 70%,
+    rgba(45, 27, 105, 0.3) 100%
+  );
+  background-size: 250% 250%;
+  animation: mountain-drift 20s ease-in-out infinite;
+}
+
+/* 6. 纯黑极简 */
+.wallpaper-black {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(20, 20, 20, 1) 50%,
+    rgba(0, 0, 0, 1) 100%
+  );
+}
+
+/* 7. 自定义图片 */
+.wallpaper-custom {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* 壁纸光晕层（莫兰迪专用） */
+.wallpaper-glow-layer {
+  position: fixed;
+  top: -20%;
+  left: -20%;
+  width: 140%;
+  height: 140%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.wallpaper-glow-layer::before {
+  content: '';
+  position: absolute;
+  top: 10%;
+  left: 15%;
+  width: 50%;
+  height: 50%;
+  background: radial-gradient(ellipse at center,
+    rgba(160, 180, 200, 0.35) 0%,
+    transparent 70%);
+  border-radius: 50%;
+  filter: blur(60px);
+  animation: flowing-glow-1 15s ease-in-out infinite;
+}
+
+.wallpaper-glow-layer::after {
+  content: '';
+  position: absolute;
+  top: 40%;
+  right: 10%;
+  width: 45%;
+  height: 45%;
+  background: radial-gradient(ellipse at center,
+    rgba(180, 170, 195, 0.32) 0%,
+    transparent 70%);
+  border-radius: 50%;
+  filter: blur(70px);
+  animation: flowing-glow-2 18s ease-in-out infinite;
+}
+
+.wallpaper-glow-3 {
+  position: fixed;
+  bottom: -10%;
+  left: 30%;
+  width: 50%;
+  height: 50%;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center,
+    rgba(200, 190, 175, 0.35) 0%,
+    transparent 70%);
+  border-radius: 50%;
+  filter: blur(80px);
+  animation: flowing-glow-3 22s ease-in-out infinite;
+}
+
+/* 减少动画偏好 */
+@media (prefers-reduced-motion: reduce) {
+  .wallpaper-morandi,
+  .wallpaper-sunset,
+  .wallpaper-aurora,
+  .wallpaper-ocean,
+  .wallpaper-mountain,
+  .wallpaper-glow-layer,
+  .wallpaper-glow-3,
+  .wallpaper-glow-layer::before,
+  .wallpaper-glow-layer::after {
+    animation: none;
+  }
+}

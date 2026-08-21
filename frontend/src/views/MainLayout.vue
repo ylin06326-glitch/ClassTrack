@@ -1,8 +1,10 @@
 <template>
   <div class="main-layout">
-    <div class="breathing-background"></div>
-    <div class="breathing-glow-layer"></div>
-    <div class="breathing-glow-3"></div>
+    <!-- 壁纸层 -->
+    <div class="wallpaper-layer" :class="wallpaperStore.currentCssClass" :style="customWallpaperStyle"></div>
+    <!-- 莫兰迪壁纸的光晕层 -->
+    <div v-if="wallpaperStore.currentWallpaperId === 'morandi-breathing'" class="wallpaper-glow-layer"></div>
+    <div v-if="wallpaperStore.currentWallpaperId === 'morandi-breathing'" class="wallpaper-glow-3"></div>
     <!-- ========== 顶部导航栏 ========== -->
     <header class="app-header">
       <div class="header-inner">
@@ -171,7 +173,7 @@
 import GlassDialog from '@/components/GlassDialog.vue'
 import GlassButton from '@/components/GlassButton.vue'
 import GlassInput from '@/components/GlassInput.vue'
-import { ref, onMounted, provide } from 'vue'
+import { ref, onMounted, provide, computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useAppStore } from '@/stores/app'
 import { DIALOG_KEY, type DialogApi, type DetailItem } from '@/composables/dialogs'
@@ -188,8 +190,18 @@ import AIChatTab from './tabs/AIChatTab.vue'
 import SettingsTab from './tabs/SettingsTab.vue'
 import { LiquidGlassBottomNavBar } from '@sapryniukt/vue-liquid-glass'
 import { glassMessageBox } from '@/components/glassMessageBox'
+import { useWallpaperStore } from '@/stores/wallpaper'
 
 const store = useAppStore()
+const wallpaperStore = useWallpaperStore()
+
+// 自定义壁纸样式
+const customWallpaperStyle = computed(() => {
+  if (wallpaperStore.currentWallpaperId === 'custom' && wallpaperStore.customImage) {
+    return { backgroundImage: `url(${wallpaperStore.customImage})` }
+  }
+  return {}
+})
 
 const TABS = [
   { id: 'grouping', icon: '👥', label: '班级分组' },
