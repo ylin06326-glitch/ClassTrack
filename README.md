@@ -2,7 +2,43 @@
 
 > [English](./README.en.md) | 中文
 
-> 一款面向中小学教师的轻量级班级管理工具，支持学生导入、拖拽分组、作业等级登记、报表导出，以及 AI 智能助手。
+> 一款面向中小学教师的轻量级班级管理工具，支持学生导入、拖拽分组、作业等级登记、报表导出，以及 AI 智能助手。采用 Apple 风格液态玻璃设计，流畅交互体验。
+
+---
+
+## ✨ 最新特性 v2.2
+
+### 🍎 Apple 风格液态玻璃 UI
+- 使用 `@sapryniukt/vue-liquid-glass` 开源库实现真实液态玻璃效果
+- 按钮、Tab 栏、分段控制器全部采用液态玻璃材质
+- 光线折射、色散、高光、弹簧形变效果
+- 设置页可自由调节玻璃强度、模糊、折射率、高光
+
+### 🎨 动态壁纸系统
+- 7 种预设壁纸：莫兰迪呼吸灯、苹果日落、苹果极光、苹果海洋、苹果山脉、纯黑极简
+- 3 种预设动态视频壁纸：海洋、日落、极光
+- 支持自定义图片壁纸上传
+- 支持自定义视频壁纸上传
+- 壁纸设置自动保存，刷新不丢失
+
+### 🔊 音效与触觉反馈
+- 基于 Web Audio API 生成的 8 种音效（无需音频文件）
+- 按钮点击、Tab 切换、滑块移动、弹窗开关均有音效
+- 移动端触觉振动反馈
+- 音效开关可配置
+
+### 🎯 流体交互动画
+- 基于 Apple WWDC《Designing Fluid Interfaces》设计原则
+- 弹簧动画工具函数（可中断、速度传递、动量投影）
+- 滑块拖拽物理感优化（形变、拉伸、橡皮筋边界）
+- 弹窗动画生命周期管理
+
+### ♿ 完整可访问性支持
+- `prefers-reduced-motion`：减少动画偏好
+- `prefers-reduced-transparency`：减少透明度偏好
+- `prefers-contrast`：高对比度偏好
+- 键盘导航焦点可见性
+- 屏幕阅读器友好
 
 ---
 
@@ -34,6 +70,8 @@
 | 电脑扫码 | 催交通知 | AI 评语生成 |
 |---------|---------|------------|
 | ![电脑扫码](docs/images/03-qr-scanner.png) | ![催交通知](docs/images/06-reminder.png) | ![AI评语](docs/images/07-ai-comment.png) |
+
+> 💡 截图为最新液态玻璃 UI，如显示旧版请刷新缓存
 
 ---
 
@@ -83,6 +121,16 @@
 - ⚡ **性能优化**：同步路由替代异步阻塞，解决卡顿问题
 - ♿ **无障碍支持**：Reduced Motion / Reduced Transparency / 高对比度
 
+### v2.2 新特性
+
+- 🔮 **液态玻璃 UI**：全站按钮、Tab、分段控制器采用液态玻璃材质，支持光线折射与色散
+- 🎨 **动态壁纸系统**：7 种渐变壁纸 + 3 种视频壁纸 + 自定义图片/视频上传
+- 🔊 **音效反馈系统**：8 种 Web Audio 生成音效 + 移动端触觉反馈
+- 🎯 **弹簧动画工具**：可中断弹簧物理、速度传递、动量投影、橡皮筋边界
+- ♿ **完整可访问性**：reduced-motion / reduced-transparency / prefers-contrast 全支持
+- ✍️ **排版优化**：Apple 风格字体光学间距（大标题负间距、正文松行高）
+- ⚡ **GPU 性能优化**：动画元素硬件加速合成，减少重绘
+
 ---
 
 ## 技术栈
@@ -90,7 +138,9 @@
 | 层级 | 技术 |
 |------|------|
 | 后端 | Python 3.10+ / FastAPI / Uvicorn |
-| 前端 | Vue 3 + TypeScript / HTML5 / CSS3 / JavaScript / ECharts |
+| 前端 | Vue 3.5 + TypeScript + Vite + Pinia + Element Plus |
+| 液态玻璃 | `@sapryniukt/vue-liquid-glass` (GPL-3.0) |
+| 图表 | ECharts 5 |
 | 数据 | SQLite (本地文件数据库) |
 | 打包 | PyInstaller (Windows 单文件 exe) |
 | AI | OpenAI 兼容 API (DeepSeek / OpenAI / 通义千问) |
@@ -104,7 +154,7 @@
 
 - Windows 10/11
 - Python 3.8 或以上
-- Chrome / Edge / Firefox 浏览器
+- Chrome / Edge / Firefox 浏览器（支持 backdrop-filter）
 
 ### 安装与运行
 
@@ -113,10 +163,15 @@
 git clone https://github.com/ylin06326-glitch/ClassTrack.git
 cd ClassTrack
 
-# 2. 安装依赖
+# 2. 安装后端依赖
 pip install -r backend/requirements.txt
 
-# 3. 启动（默认 HTTPS 5088）
+# 3. 安装前端依赖（可选，如需修改前端）
+cd frontend
+npm install
+cd ..
+
+# 4. 启动（默认 HTTPS 5088）
 python backend/run.py
 
 # 或 HTTP 调试模式
@@ -126,6 +181,14 @@ python backend/run.py --http --port 5099
 启动后浏览器将自动打开 `https://localhost:5088`。
 
 > **手机扫码登记**：确保手机和电脑在同一局域网，访问 `https://<电脑IP>:5088/mobile`
+
+### 前端开发
+
+```bash
+cd frontend
+npm run dev      # 开发模式
+npm run build    # 构建生产版本到 dist/
+```
 
 ### 打包为 exe
 
@@ -153,7 +216,13 @@ ClassTrack/
 │       ├── services/        # 业务服务 (AI/报表/TLS)
 │       └── activation/      # 激活与授权
 ├── frontend/                 # Vue 3 + TypeScript 前端
-│   ├── src/                 # 源代码
+│   ├── src/
+│   │   ├── components/      # 组件 (GlassButton/GlassDialog/GlassSegmented等)
+│   │   ├── composables/     # 组合式函数 (useSpringAnimation/useSound)
+│   │   ├── stores/          # Pinia 状态管理 (app/glass/wallpaper)
+│   │   ├── views/           # 页面视图 (MainLayout + 7个Tab)
+│   │   ├── liquid-glass-core.css  # 液态玻璃核心样式
+│   │   └── style.css        # 全局样式
 │   └── dist/                # 构建产物 (后端托管)
 ├── launcher.py               # 打包版启动入口
 ├── launcher_nolock.py        # 无锁版启动入口
@@ -187,7 +256,7 @@ ClassTrack/
 
 详见 [LICENSE](./LICENSE) 文件。
 
----
+> ⚠️ 液态玻璃库 `@sapryniukt/vue-liquid-glass` 采用 GPL-3.0 协议，使用本项目需遵守其协议条款。
 
 ---
 
