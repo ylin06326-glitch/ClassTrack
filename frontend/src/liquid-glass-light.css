@@ -1,0 +1,105 @@
+/* ============================================================
+ * ClassTrack 轻量液态玻璃全局样式
+ * 只给按钮和弹窗加液态玻璃效果，不过度使用
+ * ============================================================ */
+
+/* ---- 弹窗 / 对话框（较重重量玻璃） ---- */
+.el-dialog {
+  background: rgba(255, 255, 255, 0.72) !important;
+  backdrop-filter: blur(24px) saturate(180%) brightness(1.05) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) brightness(1.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  border-radius: 16px !important;
+  box-shadow:
+    0 20px 56px rgba(0, 0, 0, 0.16),
+    0 6px 20px rgba(0, 0, 0, 0.1),
+    inset 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+}
+
+.el-dialog__header {
+  background: transparent !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
+}
+
+.el-dialog__footer {
+  background: transparent !important;
+  border-top: 1px solid rgba(0, 0, 0, 0.06) !important;
+}
+
+/* 弹窗遮罩：轻微模糊 */
+.el-overlay {
+  background: rgba(0, 0, 0, 0.2) !important;
+  backdrop-filter: blur(3px) !important;
+  -webkit-backdrop-filter: blur(3px) !important;
+}
+
+/* ---- 消息提示（轻量玻璃） ---- */
+.el-message {
+  background: rgba(255, 255, 255, 0.78) !important;
+  backdrop-filter: blur(16px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(160%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  border-radius: 12px !important;
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.12),
+    inset 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+}
+
+/* ---- 下拉菜单（轻量玻璃） ---- */
+.el-select-dropdown,
+.el-dropdown-menu {
+  background: rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  border-radius: 12px !important;
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.14),
+    0 4px 12px rgba(0, 0, 0, 0.08),
+    inset 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+}
+
+/* ---- 主要按钮（轻微玻璃效果，保持纯色为主） ---- */
+.el-button--primary {
+  background: linear-gradient(135deg, rgba(107, 163, 199, 0.9), rgba(127, 181, 214, 0.9)) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  box-shadow:
+    0 3px 10px rgba(107, 163, 199, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.3) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  transition: all 0.2s ease !important;
+}
+
+.el-button--primary:hover {
+  transform: translateY(-1px) !important;
+  box-shadow:
+    0 5px 14px rgba(107, 163, 199, 0.35),
+    inset 0 1px 1px rgba(255, 255, 255, 0.4) !important;
+}
+
+.el-button--primary:active {
+  transform: translateY(0) scale(0.98) !important;
+}
+
+/* ---- 卡片（轻量玻璃） ---- */
+.ct-card {
+  background: rgba(255, 255, 255, 0.6) !important;
+  backdrop-filter: blur(16px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(160%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  border-radius: 14px !important;
+  box-shadow:
+    0 6px 20px rgba(90, 110, 140, 0.1),
+    0 2px 6px rgba(90, 110, 140, 0.06),
+    inset 0 1px 1px rgba(255, 255, 255, 0.7) !important;
+}
+
+/* ---- 减少透明度偏好：降级为更实的背景 ---- */
+@media (prefers-reduced-transparency: reduce) {
+  .el-dialog, .el-message, .el-select-dropdown, .el-dropdown-menu, .ct-card {
+    background: rgba(255, 255, 255, 0.92) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}

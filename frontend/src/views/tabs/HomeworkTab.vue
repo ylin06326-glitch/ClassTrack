@@ -84,16 +84,11 @@
               <span class="hw-student-name">
                 <span v-if="showCodePrefix(gradeOf(s.id)) && s.student_code" class="student-code-label">{{ s.student_code }}</span>{{ displayNameOf(s, gradeOf(s.id)) }}
               </span>
-              <div class="grade-quick-select">
-                <button
-                  v-for="gv in GRADE_OPTIONS"
-                  :key="gv"
-                  class="grade-qbtn"
-                  :class="[`grade-${gv.toLowerCase()}`, { active: gradeOf(s.id) === gv }]"
-                  :title="gradeDisplayLabel(gv)"
-                  @click="setGrade(s, gv)"
-                >{{ gradeDisplayLabel(gv) }}</button>
-              </div>
+              <GradeSegmented
+                :model-value="gradeOf(s.id)"
+                compact
+                @update:model-value="(g: string) => setGrade(s, g as Grade)"
+              />
             </div>
           </div>
         </div>
@@ -234,6 +229,7 @@ import {
   VALID_GRADES, gradeDisplayLabel, gradeLabel, isSubmitted, animalAvatar, type Grade,
 } from '@/utils/grade'
 import HomeworkTypesDialog from '@/components/HomeworkTypesDialog.vue'
+import GradeSegmented from '@/components/GradeSegmented.vue'
 import ReminderDialog from '@/components/ReminderDialog.vue'
 
 const store = useAppStore()

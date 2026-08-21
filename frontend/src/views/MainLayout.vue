@@ -400,6 +400,25 @@ function exportStudentReport(): void {
 .tab-nav-wrapper {
   display: flex;
   align-items: center;
+  /* 覆盖液态玻璃导航栏的默认白色文字，适配浅色背景 */
+  --lg-nav-text: rgba(60, 70, 85, 0.7);
+  --lg-nav-active: #1d1d1f;
+  --lg-nav-track-bg: rgba(0, 0, 0, 0.03);
+  --lg-nav-track-border: rgba(0, 0, 0, 0.06);
+  --lg-nav-thumb-rgb: 255, 255, 255;
+  --lg-nav-thumb-border: rgba(255, 255, 255, 0.7);
+  --lg-nav-thumb-border-active: rgba(255, 255, 255, 0.55);
+  --lg-nav-thumb-shadow: 0 4px 16px rgba(0, 0, 0, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.85);
+  --lg-nav-thumb-shadow-active: 0 6px 20px rgba(0, 0, 0, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.75);
+  --lg-nav-track-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.04), 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+/* 确保未选中标签文字清晰 */
+.tab-nav-wrapper :deep(.lg-nav-item) {
+  color: var(--lg-nav-text) !important;
+}
+.tab-nav-wrapper :deep(.lg-nav-item.active) {
+  color: var(--lg-nav-active) !important;
+  font-weight: 600 !important;
 }
 .tab-nav-wrapper :deep(.lg-bottom-nav) {
   position: relative !important;
