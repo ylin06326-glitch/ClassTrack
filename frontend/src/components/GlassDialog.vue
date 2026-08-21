@@ -2,9 +2,10 @@
   <Teleport to="body">
     <Transition name="glass-dialog-fade">
       <div v-if="modelValue" class="glass-dialog-overlay" @click.self="onOverlayClick">
-        <Transition name="glass-dialog-zoom" appear>
+        <Transition name="glass-dialog-zoom" appear @enter="onEnter">
           <div v-if="modelValue" class="glass-dialog-container interactive-glass" :style="containerStyle">
             <LiquidGlassPanel
+              :width="560"
               :border-radius="32"
               :bezel-width="12"
               :glass-thickness="80"
@@ -55,7 +56,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, nextTick } from 'vue'
 import { LiquidGlassPanel } from '@sapryniukt/vue-liquid-glass'
 import { useGlassStore } from '@/stores/glass'
 
@@ -106,6 +107,17 @@ function close() {
   emit('close')
 }
 
+function onEnter(el: Element) {
+  // 强制刷新 LiquidGlassPanel 的尺寸检测
+  nextTick(() => {
+    const panel = el.querySelector('.glass-dialog-panel') as HTMLElement | null
+    if (panel) {
+      // 触发 reflow，确保 offsetWidth > 0
+      void panel.offsetWidth
+    }
+  })
+}
+
 function onOverlayClick() {
   if (props.closeOnClickModal) {
     close()
@@ -132,8 +144,21 @@ function onOverlayClick() {
 
 .glass-dialog-container {
   position: relative;
+  width: 560px;
   max-width: calc(100vw - 40px);
   max-height: calc(100vh - 40px);
+}
+
+/* 确保 LiquidGlassPanel 有明确尺寸，不会被尺寸检测隐藏 */
+.glass-dialog-panel {
+  width: 100% !important;
+  min-height: 200px !important;
+  display: block !important;
+  visibility: visible !important;
+}
+
+.glass-dialog-panel :deep(*) {
+  visibility: visible !important;
 }
 
 .glass-dialog-inner {
