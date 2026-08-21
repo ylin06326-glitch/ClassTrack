@@ -4,6 +4,11 @@
  * ============================================================ */
 
 :root {
+  /* 文字颜色变量（适配浅色液态玻璃背景） */
+  --text: #1d1d1f;
+  --text-light: #3a4250;
+  --text-lighter: #6b7280;
+  --text-white: #ffffff;
   /* ---- Element-Plus 主题定制(卡通童趣风,柔和色) ---- */
   --el-color-primary: #6ba3c7;
   --el-color-primary-light-3: #8dbbd8;

@@ -74,15 +74,15 @@
             <el-tag v-if="c.id === store.currentClassId" size="medium" type="success">当前</el-tag>
           </span>
           <span class="class-actions">
-            <GlassButton v-if="c.id !== store.currentClassId" size="small" type="primary" plain @click="onActivateClass(c.id)">切换</GlassButton>
-            <GlassButton size="small" @click="onRenameClass(c)">重命名</GlassButton>
-            <GlassButton size="small" type="danger" plain @click="onDeleteClass(c)">删除</GlassButton>
+            <GlassButton v-if="c.id !== store.currentClassId" size="small" type="primary" plain :width="56" @click="onActivateClass(c.id)">切换</GlassButton>
+            <GlassButton size="small" :width="56" @click="onRenameClass(c)">重命名</GlassButton>
+            <GlassButton size="small" type="danger" plain :width="56" @click="onDeleteClass(c)">删除</GlassButton>
           </span>
         </div>
       </div>
       <div class="class-add-row">
         <GlassInput v-model="newClassName" placeholder="输入新班级名称" @keyup.enter="onAddClass" />
-        <GlassButton type="primary" @click="onAddClass">+ 新建班级</GlassButton>
+        <GlassButton type="primary" :width="100" @click="onAddClass">+ 新建班级</GlassButton>
       </div>
     </GlassDialog>
 
