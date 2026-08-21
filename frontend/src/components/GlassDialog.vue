@@ -120,11 +120,11 @@ function onOverlayClick() {
   width: 100%;
   min-height: 200px;
   border-radius: 24px;
-  background: rgba(255, 255, 255, 0.72);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  box-shadow: 0 30px 80px rgba(90, 110, 140, 0.35), 0 12px 32px rgba(90, 110, 140, 0.2);
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(40px) saturate(220%);
+  -webkit-backdrop-filter: blur(40px) saturate(220%);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 40px 100px rgba(90, 110, 140, 0.45), 0 16px 40px rgba(90, 110, 140, 0.3);
   overflow: hidden;
 }
 
@@ -234,4 +234,5 @@ function onOverlayClick() {
   transform: scale(0.9) translateY(20px);
 }
 </style>
+
 
