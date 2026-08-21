@@ -1,15 +1,15 @@
-﻿<template>
+<template>
   <Teleport to="body">
     <Transition name="glass-dialog-fade">
       <div v-if="modelValue" class="glass-dialog-overlay" @click.self="onOverlayClick">
-        <Transition name="glass-dialog-zoom" appear>
+        <Transition name="glass-dialog-zoom" appear @enter="onEnter" @after-enter="onAfterEnter" @leave="onLeave" @after-leave="onAfterLeave">
           <div v-if="modelValue" class="glass-dialog-container" :style="containerStyle">
             <div class="glass-dialog-panel">
               <div class="glass-dialog-inner">
-                <!-- 鏍囬鏍?-->
+                <!-- 标题栏 -->
                 <div class="glass-dialog-header" v-if="title || showClose">
                   <h3 class="glass-dialog-title">{{ title }}</h3>
-                  <button v-if="showClose" class="glass-dialog-close" @click="close">
+                  <button v-if="showClose" class="glass-dialog-close" @click="close" aria-label="关闭">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
                       <line x1="18" y1="6" x2="6" y2="18"></line>
                       <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -17,12 +17,12 @@
                   </button>
                 </div>
 
-                <!-- 鍐呭鍖?-->
+                <!-- 内容区 -->
                 <div class="glass-dialog-body">
                   <slot></slot>
                 </div>
 
-                <!-- 搴曢儴鎸夐挳鍖?-->
+                <!-- 底部按钮区 -->
                 <div v-if="$slots.footer" class="glass-dialog-footer">
                   <slot name="footer"></slot>
                 </div>
@@ -36,8 +36,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-
+import { computed, onMounted, onUnmounted } from 'vue'
+import { playSound } from '../composables/useSound'
 
 interface Props {
   modelValue: boolean
@@ -89,6 +89,39 @@ function onOverlayClick() {
     close()
   }
 }
+
+// 动画生命周期钩子（确保可中断性和音效同步）
+function onEnter() {
+  playSound('popup')
+  emit('open')
+}
+
+function onAfterEnter() {
+  emit('opened')
+}
+
+function onLeave() {
+  playSound('dismiss')
+}
+
+function onAfterLeave() {
+  emit('closed')
+}
+
+// 键盘 Escape 关闭
+function handleKeydown(e: KeyboardEvent) {
+  if (e.key === 'Escape' && props.closeOnPressEscape && props.modelValue) {
+    close()
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('keydown', handleKeydown)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKeydown)
+})
 </script>
 
 <style scoped>
@@ -115,7 +148,6 @@ function onOverlayClick() {
   max-height: calc(100vh - 40px);
 }
 
-/* 纭繚 LiquidGlassPanel 鏈夋槑纭昂瀵革紝涓嶄細琚昂瀵告娴嬮殣钘?*/
 .glass-dialog-panel {
   width: 100%;
   min-height: 200px;
@@ -126,6 +158,7 @@ function onOverlayClick() {
   border: 1px solid rgba(255, 255, 255, 0.9);
   box-shadow: 0 40px 100px rgba(90, 110, 140, 0.45), 0 16px 40px rgba(90, 110, 140, 0.3);
   overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
 }
 
 .glass-dialog-inner {
@@ -134,7 +167,6 @@ function onOverlayClick() {
   display: flex;
   flex-direction: column;
   width: 100%;
-
 }
 
 .glass-dialog-header {
@@ -143,7 +175,6 @@ function onOverlayClick() {
   justify-content: space-between;
   padding: 20px 24px 16px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-
 }
 
 .glass-dialog-title {
@@ -182,7 +213,6 @@ function onOverlayClick() {
   font-size: 15px;
   line-height: 1.6;
   overflow-y: auto;
-
   max-height: calc(100vh - 200px);
 }
 
@@ -194,25 +224,18 @@ function onOverlayClick() {
   border-top: 1px solid rgba(0, 0, 0, 0.06);
 }
 
-.glass-dialog-panel {
-  width: 100%;
-  min-height: 200px;
-  overflow: hidden !important;
-  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
-}
-
-/* 浜や簰鍙樺舰锛氭偓鍋滄椂杞诲井涓婃诞鏀惧ぇ */
+/* 交互变形：悬停时轻微上浮放大 */
 .interactive-glass:hover .glass-dialog-panel {
   transform: translateY(-4px) scale(1.01);
 }
 
-/* 浜や簰鍙樺舰锛氱偣鍑?鎸変笅鏃舵尋鍘嬪彉褰?*/
+/* 交互变形：点击按下时挤压变形 */
 .interactive-glass:active .glass-dialog-panel {
   transform: scale(0.98) translateY(2px);
   transition: transform 0.1s ease-out;
 }
 
-/* 鍔ㄧ敾 */
+/* 动画 */
 .glass-dialog-fade-enter-active,
 .glass-dialog-fade-leave-active {
   transition: opacity 0.3s ease;
@@ -233,6 +256,38 @@ function onOverlayClick() {
   opacity: 0;
   transform: scale(0.9) translateY(20px);
 }
+
+/* 减少动画偏好 */
+@media (prefers-reduced-motion: reduce) {
+  .glass-dialog-fade-enter-active,
+  .glass-dialog-fade-leave-active,
+  .glass-dialog-zoom-enter-active,
+  .glass-dialog-zoom-leave-active {
+    transition: opacity 0.2s ease !important;
+    transform: none !important;
+  }
+
+  .glass-dialog-close {
+    transition: background 0.2s ease !important;
+  }
+
+  .glass-dialog-close:hover {
+    transform: none !important;
+  }
+}
+
+/* 减少透明度偏好 */
+@media (prefers-reduced-transparency: reduce) {
+  .glass-dialog-panel {
+    background: rgba(255, 255, 255, 0.98) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  .glass-dialog-overlay {
+    background: rgba(0, 0, 0, 0.6) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}
 </style>
-
-

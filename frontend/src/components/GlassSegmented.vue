@@ -8,6 +8,13 @@
       :label-inactive-opacity="1"
       :label-active-scale="1.05"
       :hover-light="true"
+      :press-lerp="0.2"
+      :release-delay-ms="300"
+      :drag-overflow-damping="2.5"
+      :morph-lerp="0.3"
+      :morph-max-stretch="28"
+      :morph-skew-factor="0.6"
+      :morph-max-skew-deg="10"
       :track-filter-blur="glassStore.effectiveBlur"
       :track-filter-refractive-index="glassStore.effectiveRefractiveIndex"
       :track-filter-specular-opacity="glassStore.effectiveSpecularOpacity"
@@ -23,6 +30,7 @@
 import { computed } from 'vue'
 import { LiquidGlassBottomNavBar } from '@sapryniukt/vue-liquid-glass'
 import { useGlassStore } from '../stores/glass'
+import { playSound } from '../composables/useSound'
 
 interface SegmentedItem {
   id: string
@@ -39,8 +47,6 @@ interface Props {
   compact?: boolean
 }
 
-const glassStore = useGlassStore()
-
 const props = withDefaults(defineProps<Props>(), {
   size: 'medium',
   activeColor: '#6ba3c7',
@@ -51,12 +57,17 @@ const emit = defineEmits<{
   (e: 'update:modelValue', value: string): void
 }>()
 
+const glassStore = useGlassStore()
+
 const currentColor = computed(() => {
   const item = props.items.find(i => i.id === props.modelValue)
   return item?.color || props.activeColor
 })
 
 function onChange(value: string) {
+  if (value !== props.modelValue) {
+    playSound('tab')
+  }
   emit('update:modelValue', value)
 }
 </script>
@@ -89,5 +100,13 @@ function onChange(value: string) {
   color: #1d1d1f !important;
   opacity: 1 !important;
   font-weight: 700 !important;
+}
+
+/* 减少动画偏好 */
+@media (prefers-reduced-motion: reduce) {
+  .glass-segmented :deep(*) {
+    transition: none !important;
+    animation: none !important;
+  }
 }
 </style>

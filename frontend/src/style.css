@@ -724,3 +724,172 @@ img, video, canvas, svg {
     animation: none;
   }
 }
+
+
+/* ========== 全局排版优化（Apple 设计原则） ========== */
+:root {
+  /* 字体光学间距 */
+  --font-display: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+  /* 排版比例 */
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-base: 15px;
+  --text-lg: 18px;
+  --text-xl: 22px;
+  --text-2xl: 28px;
+  --text-3xl: 36px;
+
+  /* 行高（大标题紧，正文松） */
+  --leading-tight: 1.1;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.7;
+}
+
+/* 全局字体设置 */
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 大标题：负字间距，紧行高 */
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: var(--leading-tight);
+  letter-spacing: -0.02em;
+}
+
+h1 { font-size: var(--text-3xl); }
+h2 { font-size: var(--text-2xl); }
+h3 { font-size: var(--text-xl); }
+
+/* 正文：正常字间距，松行高 */
+p, span, div, label {
+  letter-spacing: 0;
+  line-height: var(--leading-normal);
+}
+
+/* 小字：正字间距，提升可读性 */
+small, .text-xs {
+  font-size: var(--text-xs);
+  letter-spacing: 0.01em;
+}
+
+/* ========== 全局可访问性支持（Apple 设计原则） ========== */
+
+/* 1. 减少动画偏好 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* 禁用视频壁纸自动播放 */
+  .video-wallpaper-element {
+    display: none !important;
+  }
+
+  /* 禁用呼吸灯背景动画 */
+  .wallpaper-morandi,
+  .wallpaper-sunset,
+  .wallpaper-aurora,
+  .wallpaper-ocean,
+  .wallpaper-mountain,
+  .wallpaper-glow-layer,
+  .wallpaper-glow-3 {
+    animation: none !important;
+  }
+}
+
+/* 2. 减少透明度偏好 */
+@media (prefers-reduced-transparency: reduce) {
+  /* 所有半透明元素改为更不透明 */
+  .glass-dialog-panel,
+  .glass-button-wrapper,
+  .app-header,
+  .ct-card {
+    background: rgba(255, 255, 255, 0.98) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* 壁纸改为纯色 */
+  .wallpaper-layer {
+    background: #f5f5f7 !important;
+    animation: none !important;
+  }
+
+  /* 禁用视频壁纸 */
+  .video-wallpaper-element {
+    display: none !important;
+  }
+}
+
+/* 3. 高对比度偏好 */
+@media (prefers-contrast: more) {
+  /* 提高文字对比度 */
+  body {
+    color: #000000 !important;
+  }
+
+  /* 边框更明显 */
+  .glass-dialog-panel,
+  .ct-card,
+  .glass-button-wrapper {
+    border: 2px solid #000000 !important;
+  }
+
+  /* 按钮文字更粗 */
+  button {
+    font-weight: 700 !important;
+  }
+}
+
+/* 4. 焦点可见性（键盘导航） */
+*:focus-visible {
+  outline: 3px solid #007aff !important;
+  outline-offset: 2px !important;
+  border-radius: 4px;
+}
+
+/* 5. 选中文字颜色 */
+::selection {
+  background: rgba(0, 122, 255, 0.3);
+  color: inherit;
+}
+
+/* ========== 全局性能优化（Apple 帧级流畅度） ========== */
+
+/* 动画元素使用 GPU 合成 */
+.glass-dialog-panel,
+.glass-button-wrapper,
+.lg-nav-thumb,
+.lg-bottom-nav-thumb {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* 减少重绘区域 */
+.app-header {
+  contain: layout style;
+}
+
+/* 平滑滚动 */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

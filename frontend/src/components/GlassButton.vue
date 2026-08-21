@@ -30,6 +30,7 @@
 import { computed } from 'vue'
 import { LiquidGlassButton } from '@sapryniukt/vue-liquid-glass'
 import { useGlassStore } from '../stores/glass'
+import { playSound } from '../composables/useSound'
 
 interface Props {
   label?: string
@@ -113,6 +114,7 @@ const bgColor = computed(() => {
 
 function handleClick(event: MouseEvent) {
   if (!props.disabled && !props.loading) {
+    playSound('click')
     emit('click', event)
   }
 }

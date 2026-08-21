@@ -42,7 +42,7 @@
         <!-- Tab 导航（液态玻璃） -->
         <div class="tab-nav-wrapper">
           <LiquidGlassBottomNavBar
-            v-model="activeTab"
+            :model-value="activeTab" @update:model-value="onTabChange"
             :items="tabItems"
             size="small"
             active-color="#6ba3c7"
@@ -202,6 +202,7 @@ import SettingsTab from './tabs/SettingsTab.vue'
 import { LiquidGlassBottomNavBar } from '@sapryniukt/vue-liquid-glass'
 import { glassMessageBox } from '@/components/glassMessageBox'
 import { useWallpaperStore } from '@/stores/wallpaper'
+import { initSound, playSound } from '@/composables/useSound'
 
 const store = useAppStore()
 const wallpaperStore = useWallpaperStore()
@@ -237,6 +238,14 @@ const DM_CONFIG: Record<'name' | 'code' | 'auto', { icon: string; label: string 
 
 const activeTab = ref('grouping')
 
+// Tab 切换时播放音效
+function onTabChange(tab: string) {
+  if (tab !== activeTab.value) {
+    playSound('tab')
+  }
+  activeTab.value = tab
+}
+
 // ---- 班级管理 ----
 const classVisible = ref(false)
 const aboutVisible = ref(false)
@@ -263,6 +272,14 @@ const STAT_LABELS: Record<string, string> = { A: 'A', B: 'B', C: 'C', L: '请假
 onMounted(() => {
   store.initDisplayMode()
   store.loadAllData().catch(() => { /* 拦截器已提示 */ })
+  // 初始化音效系统（在用户首次交互后解锁 AudioContext）
+  const unlockAudio = () => {
+    initSound()
+    window.removeEventListener('pointerdown', unlockAudio)
+    window.removeEventListener('keydown', unlockAudio)
+  }
+  window.addEventListener('pointerdown', unlockAudio)
+  window.addEventListener('keydown', unlockAudio)
 })
 
 // ========== 全局弹窗服务 ==========
