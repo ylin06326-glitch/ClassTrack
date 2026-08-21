@@ -374,12 +374,12 @@ function exportStudentReport(): void {
 .main-layout { min-height: 100vh; display: flex; flex-direction: column; }
 .app-header {
   position: sticky; top: 0; z-index: 100;
-  /* 液态玻璃效果的顶部栏 */
-  background: rgba(255, 255, 255, 0.55);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow: 0 4px 20px rgba(90, 110, 140, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.6);
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+  padding: 12px 20px;
 }
 .header-inner {
   display: flex; align-items: center; gap: 14px;
