@@ -385,7 +385,7 @@ function exportStudentReport(): void {
   display: flex; align-items: center; gap: 10px;
   max-width: 100%; margin: 0 auto; padding: 10px 18px;
   flex-wrap: nowrap;
-  overflow-x: auto;
+  overflow-x: hidden;
   overflow-y: visible;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
