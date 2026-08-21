@@ -5,13 +5,13 @@
     :variant="lgVariant"
     :disabled="disabled"
     :width="width"
-    :refraction-level="1.2"
-    :blur="30"
-    :specular-opacity="1.0"
+    :refraction-level="glassStore.effectiveRefractiveIndex"
+    :blur="glassStore.effectiveBlur"
+    :specular-opacity="glassStore.effectiveSpecularOpacity"
     :specular-saturation="6.0"
     :bezel-width="14"
     :glass-thickness="90"
-    :refractive-index-base="1.8"
+    :refractive-index-base="glassStore.effectiveRefractiveIndex"
     :hover-light="true"
     :text-color="textColor"
     :background-color="bgColor"
@@ -29,6 +29,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { LiquidGlassButton } from '@sapryniukt/vue-liquid-glass'
+import { useGlassStore } from '../stores/glass'
 
 interface Props {
   label?: string
@@ -42,6 +43,8 @@ interface Props {
   round?: boolean
   circle?: boolean
 }
+
+const glassStore = useGlassStore()
 
 const props = withDefaults(defineProps<Props>(), {
   label: '',

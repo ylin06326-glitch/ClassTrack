@@ -8,6 +8,12 @@
       :label-inactive-opacity="1"
       :label-active-scale="1.05"
       :hover-light="true"
+      :track-filter-blur="glassStore.effectiveBlur"
+      :track-filter-refractive-index="glassStore.effectiveRefractiveIndex"
+      :track-filter-specular-opacity="glassStore.effectiveSpecularOpacity"
+      :thumb-filter-blur="Math.max(0.1, glassStore.effectiveBlur * 0.1)"
+      :thumb-filter-refractive-index="glassStore.effectiveRefractiveIndex"
+      :thumb-filter-specular-opacity="glassStore.effectiveSpecularOpacity"
       @update:model-value="onChange"
     />
   </div>
@@ -16,6 +22,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { LiquidGlassBottomNavBar } from '@sapryniukt/vue-liquid-glass'
+import { useGlassStore } from '../stores/glass'
 
 interface SegmentedItem {
   id: string
@@ -31,6 +38,8 @@ interface Props {
   activeColor?: string
   compact?: boolean
 }
+
+const glassStore = useGlassStore()
 
 const props = withDefaults(defineProps<Props>(), {
   size: 'medium',
