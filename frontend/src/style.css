@@ -215,3 +215,90 @@ body {
     -webkit-backdrop-filter: none !important;
   }
 }
+
+
+/* ========== GPU 优化：液态玻璃元素提升到 GPU 合成层 ========== */
+/* SVG 滤镜默认是 CPU 渲染，通过这些 CSS 属性提示浏览器使用 GPU 加速 */
+
+/* 所有液态玻璃面板/弹窗 */
+.lg-panel,
+.lg-glass-panel,
+.glass-dialog-content,
+.glass-dialog-body {
+  will-change: transform, filter, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+  -webkit-transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+}
+
+/* 液态玻璃按钮 */
+.lg-button,
+.glass-button-wrapper {
+  will-change: transform, filter;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
+}
+
+/* 液态玻璃底部导航/Tab 栏 */
+.lg-bottom-nav,
+.lg-nav,
+.tab-nav-wrapper {
+  will-change: transform, filter;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* 液态玻璃滑块指示器 */
+.lg-nav-thumb,
+.lg-bottom-nav-thumb,
+.lg-thumb {
+  will-change: transform, background-color, filter;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* SVG 滤镜元素：提示浏览器使用 GPU 加速 */
+.lg-panel svg,
+.lg-glass-panel svg,
+.lg-button svg,
+.lg-bottom-nav svg {
+  will-change: filter;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+/* 弹窗动画优化：动画过程中降低重绘区域 */
+.glass-dialog-enter-active,
+.glass-dialog-leave-active {
+  will-change: transform, opacity;
+}
+
+/* 减少弹窗打开时的重绘区域 */
+.glass-dialog-overlay {
+  will-change: opacity;
+  transform: translateZ(0);
+}
+
+/* 高性能动画：只使用 transform 和 opacity（GPU 加速属性） */
+.glass-dialog-enter-from,
+.glass-dialog-leave-to {
+  transform: scale(0.92) translateZ(0);
+  opacity: 0;
+}
+
+.glass-dialog-enter-to,
+.glass-dialog-leave-from {
+  transform: scale(1) translateZ(0);
+  opacity: 1;
+}
+
+/* 减少 layout thrashing：避免动画过程中触发重排 */
+.lg-panel *,
+.lg-glass-panel *,
+.lg-button *,
+.lg-bottom-nav * {
+  backface-visibility: hidden;
+}
