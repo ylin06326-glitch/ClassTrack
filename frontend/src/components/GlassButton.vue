@@ -5,13 +5,13 @@
     :variant="lgVariant"
     :disabled="disabled"
     :width="width"
-    :refraction-level="0.8"
-    :blur="20"
-    :specular-opacity="0.8"
-    :specular-saturation="3.0"
-    :bezel-width="10"
-    :glass-thickness="60"
-    :refractive-index-base="1.6"
+    :refraction-level="1.2"
+    :blur="30"
+    :specular-opacity="1.0"
+    :specular-saturation="6.0"
+    :bezel-width="14"
+    :glass-thickness="90"
+    :refractive-index-base="1.8"
     :hover-light="true"
     :text-color="textColor"
     :background-color="bgColor"
@@ -91,19 +91,19 @@ const textColor = computed(() => {
 const bgColor = computed(() => {
   switch (props.type) {
     case 'primary':
-      return 'rgba(106, 162, 196, 0.25)'
+      return 'rgba(106, 162, 196, 0.15)'
     case 'success':
-      return 'rgba(111, 174, 131, 0.25)'
+      return 'rgba(111, 174, 131, 0.15)'
     case 'danger':
-      return 'rgba(216, 137, 168, 0.25)'
+      return 'rgba(216, 137, 168, 0.15)'
     case 'warning':
-      return 'rgba(224, 180, 92, 0.25)'
+      return 'rgba(224, 180, 92, 0.15)'
     case 'info':
-      return 'rgba(159, 140, 201, 0.25)'
+      return 'rgba(159, 140, 201, 0.15)'
     case 'default':
     case 'text':
     default:
-      return 'rgba(255, 255, 255, 0.15)'
+      return 'rgba(255, 255, 255, 0.08)'
   }
 })
 

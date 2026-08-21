@@ -28,7 +28,7 @@
           <LiquidGlassBottomNavBar
             v-model="activeTab"
             :items="tabItems"
-            size="medium"
+            size="small"
             active-color="#6ba3c7"
           />
         </div>
