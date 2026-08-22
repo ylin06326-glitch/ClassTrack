@@ -286,7 +286,7 @@ ClassTrack/
 |:---:|
 | ![微信支付](./docs/images/wechat-donate.png) |
 
-> 💡 想留下名字？欢迎在 [GitHub Issues](https://github.com/ylin06326-glitch/ClassTrack/issues) 留言，或通过邮箱告诉我！
+> 💡 想留下名字？欢迎在 [GitHub Issues](https://github.com/ylin06326-glitch/ClassTrack/issues) 留言，或通过邮箱(ylin06326@gmail.com)告诉我！
 
 ---
 
